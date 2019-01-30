@@ -1,11 +1,13 @@
 var http = require('http');
 var sql = require('./demo_db_connection');
 
-var server = http.createServer(function(request, response) {
+var server = http.createServer(function (request, response) {
 
-   /* response.writeHead(200, {"Content-Type": "text/plain"});
-    response.end("Hello World!");*/
-    sql.a();
+
+    response.writeHead(200, {
+        "Content-Type": "text/plain"
+    });
+    response.end("Hello World!");
 
 });
 
