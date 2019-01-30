@@ -17,7 +17,7 @@ var server = http.createServer(function (request, response) {
         console.log("Connected!");
         con.query("SELECT * FROM sys_config", function (err, result, fields) {
             if (err) throw err;
-            console.log(result);
+            response.end(result);
         });
     });
     
