@@ -12,7 +12,7 @@ var mysql = require('mysql');
         console.log("Connected!");
         con.query("SELECT * FROM sys_config", function (err, result, fields) {
             if (err) throw err;
-            response.end(result);
+            console.log(result);
         });
     });
     
