@@ -1,5 +1,4 @@
 var http = require('http');
-var db = require('demo_db_connection');
 
 
 var server = http.createServer(function(request, response) {
