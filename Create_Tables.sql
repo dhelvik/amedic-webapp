@@ -4,22 +4,22 @@ CREATE TABLE AMEDUser(
 	password VARCHAR(255),
 	role VARCHAR(255),
 	lastLogin timestamp
-)
+);
 
 CREATE TABLE Treatment(
 	ID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-	description VARVARCHAR(255),
-	treatmentScheme VARVARCHAR(255),
-	drug VARVARCHAR(255),
-	drugAdministration VARVARCHAR(255)
-)
+	description VARCHAR(255),
+	treatmentScheme VARCHAR(255),
+	drug VARCHAR(255),
+	drugAdministration VARCHAR(255)
+);
 
 CREATE TABLE Diagnosis(
 	ID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 	name VARCHAR(255), 
 	description VARCHAR(255),
 	`class` VARCHAR(255)
-)
+);
 
 CREATE TABLE Treatment_Diagnosis(
 	treatmentID INT,
@@ -27,23 +27,23 @@ CREATE TABLE Treatment_Diagnosis(
 	CONSTRAINT Treatment_Diagnosis_PK PRIMARY KEY (treatmentID, diagnosisID),
 	CONSTRAINT  TreatmentID_FK FOREIGN KEY (treatmentID) REFERENCES Treatment(ID),
 	CONSTRAINT DiagnosisID_FK FOREIGN KEY (diagnosisID) REFERENCES Diagnosis(ID)
-)
+);
 
 CREATE TABLE District(
 	name VARCHAR(255) PRIMARY KEY
-)
+);
 
 CREATE TABLE Village(
 	name VARCHAR(255) PRIMARY KEY,
 	districtName VARCHAR(255),
 	CONSTRAINT District_Name_FK FOREIGN KEY (districtName) REFERENCES District(name)
-)
+);
 
 CREATE TABLE HealthFacility(
 	name VARCHAR(255) PRIMARY KEY,
-	villageName,
+	villageName VARCHAR(255),
 	CONSTRAINT Villager_Name_FK FOREIGN KEY (villageName) REFERENCES Village(name)
-)
+);
 
 CREATE TABLE Patient(
 	ID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -54,14 +54,14 @@ CREATE TABLE Patient(
 	villageName VARCHAR(255),
 	dateOfBirth DATE,
 	CONSTRAINT Village_Name_FK FOREIGN KEY (villageName) REFERENCES Village(name)
-)
+);
 
 CREATE TABLE CareGiver(
 	ID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 	name VARCHAR(255),
 	nationalID INT UNIQUE,
-	relationToPatient VARCHAR(255),
-)
+	relationToPatient VARCHAR(255)
+);
 
 CREATE TABLE CareGiver_Patient(
 	patientID INT,
@@ -69,7 +69,7 @@ CREATE TABLE CareGiver_Patient(
 	CONSTRAINT CareGiver_Patient_PK PRIMARY KEY (patientID, careGiverID),
 	CONSTRAINT PatientID_FK FOREIGN KEY (patientID) REFERENCES Patient(ID),
 	CONSTRAINT CareGiverID_FK FOREIGN KEY (careGiverID) REFERENCES CareGiver(ID)
-)
+);
 
 CREATE TABLE HSA(
 	ID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -81,7 +81,7 @@ CREATE TABLE HSA(
 	facility VARCHAR(255),
 	lastLogin timestamp,
 	CONSTRAINT Facility_FK FOREIGN KEY (facility) REFERENCES HealthFacility(name)
-)
+);
 
 CREATE TABLE HealthExpert(
 	ID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -101,7 +101,7 @@ CREATE TABLE HE_visit(
 	CONSTRAINT Patient_FK FOREIGN KEY (patientID) REFERENCES Patient(ID),
 	CONSTRAINT Diagnosis_FK FOREIGN KEY (diagnosisID) REFERENCES Diagnosis(ID),
 	CONSTRAINT Health_Expert_FK FOREIGN KEY (expertID) REFERENCES HealthExpert(ID)
-)
+);
 
 CREATE TABLE SymptomsSheet(
 	ID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -129,17 +129,17 @@ CREATE TABLE SymptomsSheet(
 	palmarPalor VARCHAR(255),
 	muac VARCHAR(255),
 	swollenFeet VARCHAR(255)
-)
+);
 
 CREATE TABLE HSA_visit(
 	patientID INT,
 	diagnosisID INT,
 	HSAID INT,
-	symptomID,
+	symptomID INT,
 	`timestamp` timestamp,
 	CONSTRAINT HSA_Visit_PK PRIMARY KEY (patientID, diagnosisID, HSAID, symptomID),
 	CONSTRAINT Patient_FK FOREIGN KEY (patientID) REFERENCES Patient(ID),
 	CONSTRAINT Diagnosis_FK FOREIGN KEY (diagnosisID) REFERENCES Diagnosis(ID),
 	CONSTRAINT SymptomsSheet_FK FOREIGN KEY (HSAID) REFERENCES HSA(ID),
 	CONSTRAINT HSA_FK FOREIGN KEY (expertID) REFERENCES SymptomsSheet(ID)
-)
+);
