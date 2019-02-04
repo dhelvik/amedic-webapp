@@ -9,13 +9,13 @@ var server = http.createServer(function (request, response) {
         host: "amedic-mysqldbserver.mysql.database.azure.com",
         user: "mysqldbuser@amedic-mysqldbserver",
         password: "Grupp2122",
-        database: "sys"
+        database: "amedicdb"
     });
 
     con.connect(function (err) {
         if (err) throw err;
         console.log("Connected!");
-        con.query("SELECT * FROM sys_config", function (err, result, fields) {
+        con.query("SELECT table_name FROM information_schema.tables where table_schema = 'amedicdb'", function (err, result, fields) {
             if (err) throw err;
             console.log(result);
         });
