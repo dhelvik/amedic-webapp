@@ -1,1 +1,0 @@
-# amedic-webapp
