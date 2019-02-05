@@ -38,12 +38,8 @@ app.get('/users', function(req, res){
 });
 
 app.get('/', function(req, res){
-        res.render('index');
-
-
+    res.render('index');
 });
-
-
 
 app.post('/add', function(req, res){
     var newItem = req.body.newItem;
@@ -53,10 +49,6 @@ app.post('/add', function(req, res){
     });
     res.redirect('/');
 });
-
-
-
-
 
 app.listen(process.env.PORT || 3000, function(){
 
