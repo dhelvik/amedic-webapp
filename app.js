@@ -27,7 +27,14 @@ app.use(jsonParser);
     console.log("Connected!");
 
 });*/
+app.get('/patients', function(req, res){
+    con.query("select * from Patient", function(err, result){
+        res.render('showPatient', {
+            result: result
+        });
 
+    })
+});
 app.get('/users', function(req, res){
     con.query("select * from AMEDUser", function(err, result){
         res.render('showUsers', {
