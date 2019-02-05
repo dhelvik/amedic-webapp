@@ -27,7 +27,14 @@ app.use(jsonParser);
     console.log("Connected!");
 
 });*/
+app.get('/patients', function(req, res){
+    con.query("select * from Patient", function(err, result){
+        res.render('showPatient', {
+            result: result
+        });
 
+    })
+});
 app.get('/users', function(req, res){
     con.query("select * from AMEDUser", function(err, result){
         res.render('showUsers', {
@@ -39,6 +46,16 @@ app.get('/users', function(req, res){
 
 app.get('/', function(req, res){
     res.render('index');
+});
+
+app.get('/registerUser', function(req, res){
+    res.render('registerUser');
+});
+app.get('/registerPatient', function(req, res){
+    res.render('registerPatient');
+});
+app.get('/registerHealthFacility', function(req, res){
+    res.render('registerHealthFacility');
 });
 
 app.post('/add', function(req, res){
