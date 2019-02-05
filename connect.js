@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-/*
+
 var mysql = require('mysql');
 var con = mysql.createConnection({
         host: "amedic-mysqldbserver.mysql.database.azure.com",
@@ -7,7 +7,7 @@ var con = mysql.createConnection({
         password: "Grupp2122",
         database: "amedicdb"
     });
-*/
+
 const db = new Sequelize('amedicdb', 'mysqldbuser@amedic-mysqldbserver', 'Grupp2122', {
     host: "amedic-mysqldbserver.mysql.database.azure.com",
     dialect: "mysql",
@@ -20,5 +20,5 @@ const db = new Sequelize('amedicdb', 'mysqldbuser@amedic-mysqldbserver', 'Grupp2
 });
 
 
-//module.exports = con;
+module.exports = con;
 module.exports = db;
