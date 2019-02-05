@@ -44,6 +44,15 @@ app.get('/', function(req, res){
 
 });
 
+app.get('/registerUser', function(req, res){
+    res.render('registerUser');
+});
+app.get('/registerPatient', function(req, res){
+    res.render('registerPatient');
+});
+app.get('/registerHealthFacility', function(req, res){
+    res.render('registerHealthFacility');
+});
 
 
 app.post('/add', function(req, res){
