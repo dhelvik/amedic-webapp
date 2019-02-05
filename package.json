@@ -1,11 +1,20 @@
 {
-  "name": "AmedicGUI",
+  "name": "Amedic",
   "version": "1.0.0",
   "dependencies": {
     "bcrypt": "^3.0.3",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
+<<<<<<< HEAD
     "mysql": "^2.16.0",
     "sequelize": "^4.42.0"
+=======
+    "ejs": "^2.6.1"
+
+  },
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+>>>>>>> 3866fa5e431bd4f50867e7ec85fecd14c76d8d91
   }
 }

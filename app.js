@@ -65,7 +65,7 @@ app.post('/add', function(req, res){
 
 
 
-app.listen(1337, function(){
+app.listen(process.env.PORT || 3000, function(){
 
     console.log('ready on port 1337');
 });
