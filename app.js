@@ -3,6 +3,7 @@ var app = express();
 var path = require('path');
 var bodyParser = require('body-parser');
 var mysql = require('mysql');
+var con = require('connect');
 
 //configure app
 app.set('view engine', 'ejs');
@@ -19,15 +20,7 @@ app.use(urlencodedParser);
 app.use(jsonParser);
 //define routes
 
-function getConnection(){
 
-return mysql.createConnection({
-    host: "amedic-mysqldbserver.mysql.database.azure.com",
-    user: "mysqldbuser@amedic-mysqldbserver",
-    password: "Grupp2122",
-    database: "amedicdb"
-});
-}
 
 /*con.connect(function (err) {
     if (err) throw err;
@@ -36,7 +29,7 @@ return mysql.createConnection({
 });*/
 
 app.get('/users', function(req, res){
-    getConnection().query("select * from AMEDUser", function(err, result){
+    con.query("select * from AMEDUser", function(err, result){
         res.render('showUsers', {
             result: result
         });
