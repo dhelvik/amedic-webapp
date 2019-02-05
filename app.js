@@ -29,7 +29,6 @@ app.use(jsonParser);
 });*/
 
 app.get('/users', function(req, res){
-
     con.query("select * from AMEDUser", function(err, result){
         res.render('showUsers', {
             result: result
@@ -39,9 +38,7 @@ app.get('/users', function(req, res){
 });
 
 app.get('/', function(req, res){
-        res.render('index');
-
-
+    res.render('index');
 });
 
 app.get('/registerUser', function(req, res){
@@ -54,7 +51,6 @@ app.get('/registerHealthFacility', function(req, res){
     res.render('registerHealthFacility');
 });
 
-
 app.post('/add', function(req, res){
     var newItem = req.body.newItem;
     todoItems.push({
@@ -64,11 +60,7 @@ app.post('/add', function(req, res){
     res.redirect('/');
 });
 
-
-
-
-
 app.listen(process.env.PORT || 3000, function(){
 
-    console.log(process.env.PORT);
+    console.log('ready on port 1337');
 });
