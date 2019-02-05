@@ -1,35 +1,43 @@
 /* jshint indent: 2 */
 
-module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('AMEDUser', {
-    ID: {
-      type: DataTypes.INTEGER(10).UNSIGNED,
-      allowNull: false,
-      primaryKey: true,
-      autoIncrement: true
+const bcrypt = require('bcrypt');
+const DataTypes = require('sequelize/lib/data-types');
+const db = require('../connect.js');
+
+var AMEDUser = db.define('AMEDUser', {
+        ID: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            primaryKey: true,
+            autoIncrement: true
+        },
+        name: {
+            type: DataTypes.STRING,
+            allowNull: true
+        },
+        password: {
+            type: DataTypes.STRING,
+            allowNull: true
+        },
+        role: {
+            type: DataTypes.STRING,
+            allowNull: true
+        },
+        lastLogin: {
+            type: DataTypes.DATE,
+            allowNull: true
+        },
+        loginID: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            unique: true
+
+        }
     },
-    name: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    password: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    role: {
-      type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    lastLogin: {
-      type: DataTypes.DATE,
-      allowNull: true
-    },
-    loginID: {
-      type: DataTypes.STRING(255),
-      allowNull: false,
-      unique: true
-    }
-  }, {
-    tableName: 'AMEDUser'
-  });
-};
+    {
+        tableName: 'AMEDUser',
+        timestamps: false
+
+    });
+module.exports = AMEDUser;
+

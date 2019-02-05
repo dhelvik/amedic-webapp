@@ -48,6 +48,11 @@ app.get('/', function(req, res){
     res.render('index');
 });
 
+app.get('/folke', function (req, res) {
+    var AMEDUser = require('./models/AMEDUser');
+    AMEDUser.findAll().then(asd => {res.send(asd)});
+})
+
 app.get('/registerUser', function(req, res){
     res.render('registerUser');
 });
