@@ -3,7 +3,7 @@ var app = express();
 var path = require('path');
 var bodyParser = require('body-parser');
 var mysql = require('mysql');
-var con = require('connect');
+var con = require('./connect');
 
 //configure app
 app.set('view engine', 'ejs');
@@ -29,6 +29,7 @@ app.use(jsonParser);
 });*/
 
 app.get('/users', function(req, res){
+
     con.query("select * from AMEDUser", function(err, result){
         res.render('showUsers', {
             result: result
@@ -60,5 +61,5 @@ app.post('/add', function(req, res){
 
 app.listen(process.env.PORT || 3000, function(){
 
-    console.log('ready on port 1337');
+    console.log(process.env.PORT);
 });
