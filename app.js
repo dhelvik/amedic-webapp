@@ -3,7 +3,7 @@ var app = express();
 var path = require('path');
 var bodyParser = require('body-parser');
 var mysql = require('mysql');
-var con = require('connect');
+var con = require('./connect');
 
 //configure app
 app.set('view engine', 'ejs');
