@@ -1,7 +1,9 @@
 /* jshint indent: 2 */
+const bcrypt = require('bcrypt');
+const DataTypes = require('sequelize/lib/data-types');
+const db = require('../connect.js');
 
-module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('HealthFacility', {
+var HealthFacility = db.define('HealthFacility', {
     name: {
       type: DataTypes.STRING(255),
       allowNull: false,
@@ -16,6 +18,8 @@ module.exports = function(sequelize, DataTypes) {
       }
     }
   }, {
-    tableName: 'HealthFacility'
-  });
+    tableName: 'HealthFacility',
+    timestamps: false
+  })
 };
+module.exports = HealthFacility;
