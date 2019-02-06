@@ -77,7 +77,13 @@ router.get('/registerPatient', function(req, res){
 
 //Takes user to registerHealthFacility
 router.get('/registerHealthFacility', function(req, res){
-    res.render('registerHealthFacility');
+    var Village = require('./models/Village')
+    Village.findAll().then(result=>{
+        res.render('registerHealthFacility',{
+            result: result
+        })
+    })
+
 });
 
 //Takes user to table of HSAs
