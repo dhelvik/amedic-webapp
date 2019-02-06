@@ -39,6 +39,7 @@
 
         $('#registerUserForm').submit(function(e){
             e.preventDefault();
+            if($('#inputPassword').val() === $('#inputPasswordAgain').val()){
             $.ajax({
                 method:'post',
                 url:'/registerUser',
@@ -56,6 +57,9 @@
                     alert(status.message);
                 }
             });
+            } else {
+                alert("Passwords doesn't match");
+            }
         });
 
 </script>
