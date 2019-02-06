@@ -20,5 +20,5 @@ const db = new Sequelize('amedicdb', 'mysqldbuser@amedic-mysqldbserver', 'Grupp2
 });
 
 
-module.exports = con;
+//module.exports = con;
 module.exports = db;
