@@ -1,13 +1,17 @@
 /* jshint indent: 2 */
+const bcrypt = require('bcrypt');
+const DataTypes = require('sequelize/lib/data-types');
+const db = require('../connect.js');
 
-module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('District', {
+var District = db.define('District', {
     name: {
       type: DataTypes.STRING(255),
       allowNull: false,
       primaryKey: true
     }
   }, {
-    tableName: 'District'
-  });
+    tableName: 'District',
+    timestamps: false
+  })
 };
+module.exports = District;
