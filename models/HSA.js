@@ -46,6 +46,6 @@ var HSA = db.define('HSA', {
   }, {
     tableName: 'HSA',
     timestamps: false
-  })
-};
+  });
+
 module.exports = HSA;

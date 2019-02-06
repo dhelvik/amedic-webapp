@@ -35,6 +35,5 @@ var HealthExpert = db.define('HealthExpert', {
   }, {
     tableName: 'HealthExpert',
     timestamps: false
-  })
-};
+  });
 module.exports = HealthExpert;

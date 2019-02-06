@@ -12,6 +12,5 @@ var District = db.define('District', {
   }, {
     tableName: 'District',
     timestamps: false
-  })
-};
+  });
 module.exports = District;

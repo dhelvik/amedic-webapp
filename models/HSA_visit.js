@@ -47,6 +47,5 @@ var HSA_visit = db.define('HSA_visit', {
   }, {
     tableName: 'HSA_visit',
     timestamps : false
-  })
-};
+  });
 module.exports = HSA_visit;

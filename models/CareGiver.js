@@ -27,6 +27,5 @@ var CareGiver = db.define('CareGiver', {
   }, {
     tableName: 'CareGiver',
     timestamps: false
-  })
-};
+  });
 module.exports = CareGiver;

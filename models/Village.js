@@ -20,6 +20,5 @@ var Village = db.define('Village', {
   }, {
     tableName: 'Village',
     timestamps: false
-  })
-};
+  });
 module.exports = Village;

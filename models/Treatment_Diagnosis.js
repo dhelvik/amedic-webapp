@@ -26,6 +26,5 @@ treatmentID: {
   }, {
     tableName: 'Treatment_Diagnosis',
     timestamps: false
-  })
-};
+  });
 module.exports =  Treatment_Diagnosis;

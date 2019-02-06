@@ -38,6 +38,5 @@ var HE_visit = db.define('HE_visit', {
   }, {
     tableName: 'HE_visit',
     timestamps: false
-  })
-};
+  });
 module.exports = HE_visit

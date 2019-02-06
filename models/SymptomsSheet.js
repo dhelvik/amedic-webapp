@@ -110,6 +110,5 @@ var SymptomsSheet = db.define('SymptomsSheet', {
   }, {
     tableName: 'SymptomsSheet',
     timestamps: false
-  })
-};
+  });
 module.exports = SymptomsSheet;

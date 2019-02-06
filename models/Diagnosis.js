@@ -25,6 +25,5 @@ var Diagnosis = db.define('Diagnosis', {
   }, {
     tableName: 'Diagnosis',
     timestamps: false
-  })
-};
+  });
 module.exports = Diagnosis;

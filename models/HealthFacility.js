@@ -20,6 +20,5 @@ var HealthFacility = db.define('HealthFacility', {
   }, {
     tableName: 'HealthFacility',
     timestamps: false
-  })
-};
+  });
 module.exports = HealthFacility;

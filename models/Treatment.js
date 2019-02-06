@@ -30,6 +30,5 @@ const db = require('../connect.js');
   }, {
     tableName: 'Treatment',
     timestamps: false
-  })
-};
+  });
 module.exports = Treatment;
