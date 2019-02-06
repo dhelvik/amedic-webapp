@@ -19,7 +19,8 @@ router.post('/registerUser', function(req, res) {
     const user = AMEDUser.create({
         name: req.body.name,
         password: req.body.password,
-        loginID: req.body.loginID
+        loginID: req.body.loginID,
+        role: req.body.role
     }).then(function(item){
         res.json({
             Message : "Created item.",
