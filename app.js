@@ -74,5 +74,5 @@ app.post('/add', function(req, res){
 
 app.listen(process.env.PORT || 3000, function(){
 
-    console.log('ready on port 1337');
+    console.log('ready on port 1337 or 3000');
 });
