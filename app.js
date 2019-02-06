@@ -49,7 +49,7 @@ app.get('/', function(req, res){
 });
 
 app.get('/folke', function (req, res) {
-    var AMEDUser = require('./models/AMEDUser');
+    const AMEDUser = require('./models/AMEDUser');
     AMEDUser.findAll().then(asd => {res.send(asd)});
 })
 
