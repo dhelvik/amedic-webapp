@@ -4,6 +4,7 @@ var path = require('path');
 var bodyParser = require('body-parser');
 var mysql = require('mysql');
 var con = require('./connect');
+var db = require('./connect');
 
 //configure app
 app.set('view engine', 'ejs');
@@ -11,16 +12,22 @@ app.set('views', path.join(__dirname, 'views'));
 
 
 // create application/json parser
-var jsonParser = bodyParser.json()
+var jsonParser = bodyParser.json();
 
 // create application/x-www-form-urlencoded parser
-var urlencodedParser = bodyParser.urlencoded({ extended: false })
+var urlencodedParser = bodyParser.urlencoded({ extended: false });
 //use middleware
 app.use(urlencodedParser);
 app.use(jsonParser);
 //define routes
 
+//TEST DB
+db.authenticate()
+    .then(() => console.log("DB CONNECTED"))
+    .catch(err => console.log('ERROR: '+ err));
 
+const p = require('./models/Patient');
+p.findAll();
 
 /*con.connect(function (err) {
     if (err) throw err;

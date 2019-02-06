@@ -1,32 +1,33 @@
 /* jshint indent: 2 */
+const Sequelize  = require('sequelize');
+const db = require('../connect.js');
 
-module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('Patient', {
+const Patient = db.define('Patient', {
     ID: {
-      type: DataTypes.INTEGER(10).UNSIGNED,
+      type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false,
       primaryKey: true,
       autoIncrement: true
     },
     name: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.STRING,
       allowNull: true
     },
     nationalID: {
-      type: DataTypes.INTEGER(11),
+      type: DataTypes.INTEGER,
       allowNull: true,
       unique: true
     },
     mobileNo: {
-      type: DataTypes.INTEGER(11),
+      type: DataTypes.INTEGER,
       allowNull: true
     },
     sex: {
-      type: DataTypes.STRING(10),
+      type: DataTypes.STRING,
       allowNull: true
     },
     villageName: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.STRING,
       allowNull: true,
       references: {
         model: 'Village',
@@ -40,4 +41,5 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     tableName: 'Patient'
   });
-};
+
+module.exports = Patient;
