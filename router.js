@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var con = require('./connect');
 
+//Gets a list of all Patients
 router.get('/patients', function(req, res){
     var Patient = require('./models/Patient');
     Patient.findAll().then(result =>{
@@ -11,6 +12,35 @@ router.get('/patients', function(req, res){
     })
 
 });
+
+//Ajax Request to register AMEDUser
+router.post('/registerUser', function(req, res) {
+    var AMEDUser = require('./models/AMEDUser');
+    const user = AMEDUser.create({
+        name: req.body.name,
+        password: req.body.password,
+        loginID: req.body.loginID
+    }).then(function(item){
+        res.json({
+            Message : "Created item.",
+            Status : 200,
+            Item : user
+        });
+    }).catch(function (err) {
+        console.log(err)
+        res.json({
+            Error : err,
+            Status : 500
+
+        });
+    });
+
+});
+
+
+
+
+//Gets a list of all users
 router.get('/users', function(req, res){
     var AMEDUser = require('./models/AMEDUser');
     AMEDUser.findAll().then(result => {
@@ -21,6 +51,7 @@ router.get('/users', function(req, res){
 
 });
 
+//Index
 router.get('/', function(req, res){
     res.render('index');
 });
@@ -33,15 +64,23 @@ router.get('/folke', function (req, res) {
     });
 });
 
+
+//Takes user to registerUser
 router.get('/registerUser', function(req, res){
     res.render('registerUser');
 });
+
+//Takes user to regsiterPatient
 router.get('/registerPatient', function(req, res){
     res.render('registerPatient');
 });
+
+//Takes user to registerHealthFacility
 router.get('/registerHealthFacility', function(req, res){
     res.render('registerHealthFacility');
 });
+
+//Takes user to table of HSAs
 router.get('/showHSA', function(req, res){
     var HSA = require('./models/HSA');
     HSA.findAll().then( result => {
@@ -52,13 +91,5 @@ router.get('/showHSA', function(req, res){
     })
 })
 
-router.post('/add', function(req, res){
-    var newItem = req.body.newItem;
-    todoItems.push({
-        id: todoItems.length+1,
-        desc: newItem
-    });
-    res.redirect('/');
-});
 
 module.exports = router;
