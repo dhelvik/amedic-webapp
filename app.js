@@ -4,7 +4,7 @@ var path = require('path');
 var bodyParser = require('body-parser');
 var mysql = require('mysql');
 var con = require('./connect');
-
+var router = require('./router');
 //configure app
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -19,7 +19,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
 app.use(urlencodedParser);
 app.use(jsonParser);
 //define routes
-
+app.use(router);
 
 
 /*con.connect(function (err) {
@@ -27,52 +27,9 @@ app.use(jsonParser);
     console.log("Connected!");
 
 });*/
-app.get('/patients', function(req, res){
-    con.query("select * from Patient", function(err, result){
-        res.render('showPatient', {
-            result: result
-        });
 
-    })
-});
-app.get('/users', function(req, res){
-    con.query("select * from AMEDUser", function(err, result){
-        res.render('showUsers', {
-            result: result
-        });
-
-    })
-});
-
-app.get('/', function(req, res){
-    res.render('index');
-});
-
-app.get('/folke', function (req, res) {
-    var AMEDUser = require('./models/AMEDUser');
-    AMEDUser.findAll().then(asd => {res.send(asd)});
-})
-
-app.get('/registerUser', function(req, res){
-    res.render('registerUser');
-});
-app.get('/registerPatient', function(req, res){
-    res.render('registerPatient');
-});
-app.get('/registerHealthFacility', function(req, res){
-    res.render('registerHealthFacility');
-});
-
-app.post('/add', function(req, res){
-    var newItem = req.body.newItem;
-    todoItems.push({
-        id: todoItems.length+1,
-        desc: newItem
-    });
-    res.redirect('/');
-});
 
 app.listen(process.env.PORT || 3000, function(){
 
-    console.log('ready on port 1337');
+    console.log('ready on port 3000');
 });
