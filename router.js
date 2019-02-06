@@ -102,5 +102,14 @@ router.get('/showHSA', function(req, res){
     })
 })
 
+router.get('/showHealthFacility', function(req, res){
+    var HealthFacility = require('./models/HealthFacility')
+    HealthFacility.findAll().then(result=>{
+        res.render('showHealthFacility', {
+            result: result
+        });
+    })
+})
+
 
 module.exports = router;
