@@ -1,7 +1,10 @@
 /* jshint indent: 2 */
 
-module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('HealthExpert', {
+const bcrypt = require('bcrypt');
+const DataTypes = require('sequelize/lib/data-types');
+const db = require('../connect.js');
+
+var HealthExpert = db.define('HealthExpert', {
     ID: {
       type: DataTypes.INTEGER(10).UNSIGNED,
       allowNull: false,
@@ -30,6 +33,8 @@ module.exports = function(sequelize, DataTypes) {
       }
     }
   }, {
-    tableName: 'HealthExpert'
-  });
+    tableName: 'HealthExpert',
+    timestamps: false
+  })
 };
+module.exports = HealthExpert;
