@@ -28,6 +28,13 @@ app.use(router);
 
 });*/
 
+//***ROUTES****
+//ROUTES PATIENT
+app.use('/patients', require('./routes/patients'));
+
+// ROUTES USER
+app.use('/users', require('./routes/users'));
+
 
 
 app.listen(process.env.PORT || 3000, function(){
