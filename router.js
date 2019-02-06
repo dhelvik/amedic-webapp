@@ -72,7 +72,12 @@ router.get('/registerUser', function(req, res){
 
 //Takes user to regsiterPatient
 router.get('/registerPatient', function(req, res){
-    res.render('registerPatient');
+    var HealthFacility = require('./models/HealthFacility')
+    HealthFacility.findAll().then(result=>{
+        res.render('registerPatient',{
+            result: result
+        })
+    })
 });
 
 //Takes user to registerHealthFacility
