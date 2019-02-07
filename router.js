@@ -2,6 +2,36 @@ var express = require('express');
 var router = express.Router();
 var con = require('./connect');
 
+
+//RegisterPatient
+router.post('/registerPatient', function(req, res) {
+    var Patient = require('./models/Patient');
+    const newPatient = Patient.create({
+        name: req.body.name + " " + req.body.lastName,
+        nationalID: req.body.nationalID,
+        mobileNo: req.body.mobileNo,
+        sex: req.body.sex,
+        dateOfBirth: req.body.dateOfBirth,
+        villageName: req.body.villageName
+    }).then(function(item){
+        console.log(newPatient);
+        res.json({
+
+            Message : "Created item.",
+            Status : 200,
+            Item : newPatient
+        });
+    }).catch(function (err) {
+        console.log(err)
+        res.json({
+            Error : err,
+            Status : 500
+
+        });
+    });
+
+});
+
 //Gets a list of all Patients
 router.get('/patients', function(req, res){
     var Patient = require('./models/Patient');
@@ -102,8 +132,8 @@ router.get('/registerUser', function(req, res){
 
 //Takes user to regsiterPatient
 router.get('/registerPatient', function(req, res){
-    var HealthFacility = require('./models/HealthFacility')
-    HealthFacility.findAll().then(result=>{
+    var Village = require('./models/Village')
+    Village.findAll().then(result=>{
         res.render('registerPatient',{
             result: result
         })
