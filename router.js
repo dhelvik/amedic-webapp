@@ -12,6 +12,15 @@ router.get('/patients', function(req, res){
     })
 
 });
+//Find specific patient
+router.post('/findPatient', function(req, res){
+    var Patient = require('./models/Patient');
+    Patient.findOne({where: {nationalID:req.body.id}}).then(result =>{
+       res.send(result);
+       res.end();
+        })
+    });
+
 //Update a patient
 router.post('/updatePatient', function(req, res){
     var Patient = require('./models/Patient');

@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-<% include head.ejs%>
+<% include head.ejs %>
 <body>
-<% include header.ejs%>
+<% include header.ejs %>
 <div class="container">
-    <% include nav.ejs%>
-
-    <table style="margin-top:50px" class="table table-striped">
+    <% include nav.ejs %>
+    <span style="margin-top:50px">Search</span> <input type="text"
+                                                       name="searchText" id="searchText"
+                                                       placeholder="National ID" class="form-control"/>
+    <table id='patientTable' class="table table-striped">
         <tr>
             <th>ID</th>
             <th>name</th>
@@ -21,19 +23,24 @@
         </tr>
         <% for (var i = 0; i < result.length;i++){ %>
         <tr>
-            <td><%=result[i].ID%></td>
-            <td class="editable"><%=result[i].name%></td>
-            <td class="editable"><%=result[i].nationalIID%></td>
-            <td class="editable"><%=result[i].mobileNo%></td>
-            <td class="editable"><%=result[i].sex%></td>
-            <td class="editable"><%=result[i].villageName%></td>
-            <td class="editable"><%=result[i].dateOfBirth%></td>
-            <td><button id="btnEdit" type="button" class="btn-info btnEdit">Edit</button></td>
-            <td><button id="btnDelete" type="button" name="delete_btn" data-mail3=result[i].ID class="btn-danger">x</button></td>
+            <td><%= result[i].ID %></td>
+            <td class="editable"><%= result[i].name %></td>
+            <td class="editable"><%= result[i].nationalID %></td>
+            <td class="editable"><%= result[i].mobileNo %></td>
+            <td class="editable"><%= result[i].sex %></td>
+            <td class="editable"><%= result[i].villageName %></td>
+            <td class="editable"><%= result[i].dateOfBirth %></td>
+            <td>
+                <button id="btnEdit" type="button" class="btn-info btnEdit">Edit</button>
+            </td>
+            <td>
+                <button id="btnDelete" type="button" name="delete_btn" data-mail3=result[i].ID class="btn-danger">x
+                </button>
+            </td>
 
 
         <tr>
-            <%}%>
+            <% } %>
         </tr>
     </table>
 </div>
@@ -42,36 +49,38 @@
         var id = $(this).parent().siblings().filter(":first").text();
         deletePatient(id);
     }
+
     function deletePatient(id) {
         var confirmation = confirm("Are you sure you want to remove patient?");
-        if(confirmation == true){
+        if (confirmation == true) {
             $.ajax({
-                type : "POST",
-                url : "/deletePatient",
-                data : {
-                    id : id
+                type: "POST",
+                url: "/deletePatient",
+                data: {
+                    id: id
 
                 },
-                success : function(result) {
+                success: function (result) {
                     alert("Borttagen");
 
                 },
-                error : function(result) {
+                error: function (result) {
                     alert('hej');
                 }
             });
-        } else{
+        } else {
             return;
         }
     }
-    function editRow(){
+
+    function editRow() {
         if ($(this).html() == 'Edit') {
             $(this).removeClass('btn-info');
             $(this).addClass('btn-success');
             $(this).parent().siblings().find('select').prop("disabled", false);
 
             $(this).parent().siblings(".editable").attr("contenteditable", "true");
-        }else {
+        } else {
             $(this).parent().siblings().find('select').prop("disabled", true);
 
             $(this).addClass('btn-info');
@@ -89,19 +98,19 @@
             // GET from select           var sex = $(this).parent().siblings().find('select').val();
 
 
-
             updatePatient(id, name, nationalID, mobileNo, sex, villageName, dateOfBirth);
 
         }
         $(this).html($(this).html() == 'Edit' ? 'Save' : 'Edit')
 
     }
+
     function updatePatient(id, name, nationalID, mobileNo, sex, villageName, dateOfBirth) {
         $.ajax({
-            type : "POST",
-            url : "/updatePatient",
-            data : {
-                id : id,
+            type: "POST",
+            url: "/updatePatient",
+            data: {
+                id: id,
                 name: name,
                 nationalID: nationalID,
                 mobileNo: mobileNo,
@@ -109,13 +118,54 @@
                 villageName: villageName,
                 dateOfBirth: dateOfBirth
             },
-            success : function(result) {
+            success: function (result) {
             },
-            error : function(result) {
+            error: function (result) {
 
             }
         });
     }
+
+
+    function findPatient(id) {
+        $.ajax({
+            type: "POST",
+            url: "/findPatient",
+            data: {
+                id: id
+            },
+            success: function (result) {
+                if (!$.trim(result)) {
+                    alert("No patient found with given National ID");
+                } else {
+                    $('#patientTable tbody').empty();
+                    $('#patientTable tbody').append('<tr>\n' +
+                        '            <th>ID</th>\n' +
+                        '            <th>name</th>\n' +
+                        '            <th>NationalID</th>\n' +
+                        '            <th>Mobile No</th>\n' +
+                        '            <th>Sex</th>\n' +
+                        '            <th>Village Name</th>\n' +
+                        '            <th>Date Of Birth</th>\n' +
+                        '            <th>&nbsp</th>\n' +
+                        '            <th>&nbsp</th>\n' +
+                        '\n' +
+                        '        </tr>')
+                    $('#patientTable tbody').append('<tr><td>' + result.ID + '</td><td>' + result.name + '</td><td>' + result.nationalID + '</td><td>' + result.mobileNo + '</td><td>' + result.sex + '</td><td>' + result.villageName + '</td><td>' + result.dateOfBirth + '</td> <td><button id="btnEdit" type="button" class="btn-info btnEdit">Edit</button></td><td><button id="btnDelete" type="button" name="delete_btn" data-mail3=result[i].ID class="btn-danger">x</button></td></td></tr>');
+                }
+            },
+            error: function (result) {
+
+            }
+        });
+    }
+
+    $(document).keypress(function (e) {
+        if (e.which == 13) {
+            var id = $('#searchText').val();
+            findPatient(id);
+        }
+    })
     $(document).on('click', '.btn-danger', deleteRow);
     $(document).on('click', '.btnEdit', editRow);
 </script>
