@@ -33,6 +33,7 @@
             </button>
         </div>
     </div>
+<div>
     <table id='patientTable' class="table table-striped">
         <tr>
             <th>ID</th>
@@ -67,14 +68,18 @@
             <% } %>
         </tr>
     </table>
+    </div>
 </div>
 
+
 <script>
-    $('tr').on('dblclick', function () {
+        $(document).on("dblclick","#patientTable tr", function () {
         var $this = $(this);
         var row = $this.closest("tr");
         var id = row.find('td:first').text();
-        jQuery('#exampleModal').modal('toggle');
+        $('#HSAVisits').empty();
+
+        $('#exampleModal').modal('toggle');
 
         $.ajax({
             type: "POST",
@@ -86,10 +91,8 @@
             success: function (result) {
 
                 if (!$.trim(result)) {
-                    $('#HSAVisits').empty();
 
                 } else {
-                    $('#HSAVisits').empty();
                     $('#HSAVisits').append('<tr>\n' +
                         '            <th>Patient ID</th>\n' +
                         '            <th>Symptom ID</th>\n' +
@@ -106,7 +109,8 @@
                 alert('hej');
             }
         });
-    });
+        });
+
 
     function deleteRow() {
         var id = $(this).parent().siblings().filter(":first").text();
