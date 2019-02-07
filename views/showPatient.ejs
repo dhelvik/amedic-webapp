@@ -15,16 +15,21 @@
             <th>Sex</th>
             <th>Village Name</th>
             <th>Date Of Birth</th>
+            <th>&nbsp</th>
+            <th>&nbsp</th>
+
         </tr>
         <% for (var i = 0; i < result.length;i++){ %>
         <tr>
             <td><%=result[i].ID%></td>
-            <td><%=result[i].name%></td>
-            <td><%=result[i].nationalIID%></td>
-            <td><%=result[i].mobileNo%></td>
-            <td><%=result[i].sex%></td>
-            <td><%=result[i].villageName%></td>
-            <td><%=result[i].dateOfBirth%></td>
+            <td class="editable"><%=result[i].name%></td>
+            <td class="editable"><%=result[i].nationalIID%></td>
+            <td class="editable"><%=result[i].mobileNo%></td>
+            <td class="editable"><%=result[i].sex%></td>
+            <td class="editable"><%=result[i].villageName%></td>
+            <td class="editable"><%=result[i].dateOfBirth%></td>
+            <td><button id="btnEdit" type="button" class="btn-info btnEdit">Edit</button></td>
+            <td><button id="btnDelete" type="button" name="delete_btn" data-mail3=result[i].ID class="btn-danger">x</button></td>
 
 
         <tr>
@@ -32,5 +37,87 @@
         </tr>
     </table>
 </div>
+<script>
+    function deleteRow() {
+        var id = $(this).parent().siblings().filter(":first").text();
+        deletePatient(id);
+    }
+    function deletePatient(id) {
+        var confirmation = confirm("Are you sure you want to remove patient?");
+        if(confirmation == true){
+            $.ajax({
+                type : "POST",
+                url : "/deletePatient",
+                data : {
+                    id : id
+
+                },
+                success : function(result) {
+                    alert("Borttagen");
+
+                },
+                error : function(result) {
+                    alert('hej');
+                }
+            });
+        } else{
+            return;
+        }
+    }
+    function editRow(){
+        if ($(this).html() == 'Edit') {
+            $(this).removeClass('btn-info');
+            $(this).addClass('btn-success');
+            $(this).parent().siblings().find('select').prop("disabled", false);
+
+            $(this).parent().siblings(".editable").attr("contenteditable", "true");
+        }else {
+            $(this).parent().siblings().find('select').prop("disabled", true);
+
+            $(this).addClass('btn-info');
+            $(this).removeClass('btn-success');
+            $(this).parent().siblings().attr("contenteditable", "false");
+            var id = $(this).parent().siblings().filter(":first").text();
+            var name = $(this).parent().siblings().filter(":nth(1)").text();
+            var nationalID = $(this).parent().siblings().filter(":nth(2)").text();
+            var mobileNo = $(this).parent().siblings().filter(":nth(3)").text();
+            var sex = $(this).parent().siblings().filter(":nth(4)").text();
+            var villageName = $(this).parent().siblings().filter(":nth(5)").text();
+            var dateOfBirth = $(this).parent().siblings().filter(":nth(6)").text();
+
+
+            // GET from select           var sex = $(this).parent().siblings().find('select').val();
+
+
+
+            updatePatient(id, name, nationalID, mobileNo, sex, villageName, dateOfBirth);
+
+        }
+        $(this).html($(this).html() == 'Edit' ? 'Save' : 'Edit')
+
+    }
+    function updatePatient(id, name, nationalID, mobileNo, sex, villageName, dateOfBirth) {
+        $.ajax({
+            type : "POST",
+            url : "/updatePatient",
+            data : {
+                id : id,
+                name: name,
+                nationalID: nationalID,
+                mobileNo: mobileNo,
+                sex: sex,
+                villageName: villageName,
+                dateOfBirth: dateOfBirth
+            },
+            success : function(result) {
+            },
+            error : function(result) {
+
+            }
+        });
+    }
+    $(document).on('click', '.btn-danger', deleteRow);
+    $(document).on('click', '.btnEdit', editRow);
+</script>
 </body>
 </html>

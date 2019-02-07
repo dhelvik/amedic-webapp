@@ -12,7 +12,27 @@ router.get('/patients', function(req, res){
     })
 
 });
+//Update a patient
+router.post('/updatePatient', function(req, res){
+    var Patient = require('./models/Patient');
+    console.log(req.body.id);
+    Patient.update({
+        name: req.body.name,
+        nationalID: req.body.nationalID,
+        mobileNo: req.body.mobileNo,
+        sex: req.body.sex,
+        villageName: req.body.villageName,
+        dateOfBirth: req.body.dateOfBirth},
+        {where: {id : req.body.id}});
+    });
+//Delete a patient
+router.post('/deletePatient', function(req, res){
+    var Patient = require('./models/Patient');
+    Patient.destroy({
+        where: {id:req.body.id}
+    })
 
+})
 //Ajax Request to register AMEDUser
 router.post('/registerUser', function(req, res) {
     var AMEDUser = require('./models/AMEDUser');
