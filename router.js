@@ -170,6 +170,13 @@ router.get('/showHealthFacility', function(req, res){
         });
     })
 })
-
+//Find HSA_Visit for
+//Find specific patient
+router.post('/findHSAVisit', function(req, res){
+    var HSA_Visit = require('./models/HSA_visit');
+    HSA_Visit.findAll({where: {patientID:req.body.id}}).then(result =>{
+        res.send(result);
+    })
+});
 
 module.exports = router;
