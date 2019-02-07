@@ -151,7 +151,7 @@
                         '            <th>&nbsp</th>\n' +
                         '\n' +
                         '        </tr>')
-                    $('#patientTable tbody').append('<tr><td>' + result.ID + '</td><td>' + result.name + '</td><td>' + result.nationalID + '</td><td>' + result.mobileNo + '</td><td>' + result.sex + '</td><td>' + result.villageName + '</td><td>' + result.dateOfBirth + '</td> <td><button id="btnEdit" type="button" class="btn-info btnEdit">Edit</button></td><td><button id="btnDelete" type="button" name="delete_btn" data-mail3=result[i].ID class="btn-danger">x</button></td></td></tr>');
+                        $('#patientTable tbody').append('<tr><td>' + result.ID + '</td><td>' + result.name + '</td><td>' + result.nationalID + '</td><td>' + result.mobileNo + '</td><td>' + result.sex + '</td><td>' + result.villageName + '</td><td>' + result.dateOfBirth + '</td> <td><button id="btnEdit" type="button" class="btn-info btnEdit">Edit</button></td><td><button id="btnDelete" type="button" name="delete_btn" data-mail3=result[i].ID class="btn-danger">x</button></td></td></tr>');
                 }
             },
             error: function (result) {
@@ -163,7 +163,9 @@
     $(document).keypress(function (e) {
         if (e.which == 13) {
             var id = $('#searchText').val();
+            if(id!=''){
             findPatient(id);
+            }
         }
     })
     $(document).on('click', '.btn-danger', deleteRow);
