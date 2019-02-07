@@ -5,9 +5,15 @@
 <% include header.ejs %>
 <div class="container">
     <% include nav.ejs %>
-    <span style="margin-top:50px">Search</span> <input type="text"
-                                                       name="searchText" id="searchText"
-                                                       placeholder="National ID" class="form-control"/>
+
+    <div class="input-group">
+        <input type="text" class="form-control" placeholder="National ID" id="searchText"/>
+        <div class="input-group-btn">
+            <button class="btn btn-primary" type="submit" id="searchButton">
+                <span class="glyphicon glyphicon-search"></span>
+            </button>
+        </div>
+    </div>
     <table id='patientTable' class="table table-striped">
         <tr>
             <th>ID</th>
@@ -159,6 +165,13 @@
             }
         });
     }
+
+    $(document).on('click', '#searchButton', function(){
+        var id = $('#searchText').val();
+        if(id!=''){
+            findPatient(id);
+        }
+    });
 
     $(document).keypress(function (e) {
         if (e.which == 13) {
