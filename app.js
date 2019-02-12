@@ -77,6 +77,16 @@ app.use('/HSA_Visits', require('./routes/HSA_Visits'));
 //Routes HSA
 app.use('/HSAs', require('./routes/HSAs'));
 
+//Routes logout
+app.get('/logout', (req, res) => {
+    if (req.session.user && req.cookies.user_sid) {
+        res.clearCookie('user_sid');
+        res.redirect('/');
+    } else {
+        res.redirect('/login');
+    }
+});
+
 app.listen(process.env.PORT || 3000, function(){
 
     console.log('ready on port 3000');
