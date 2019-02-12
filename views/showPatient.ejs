@@ -25,15 +25,15 @@
             </div>
         </div>
     </div>
+    <div id="main-content">
     <div class="input-group">
-        <input type="text" class="form-control" placeholder="National ID" id="searchText"/>
+        <input type="number" class="form-control" placeholder="National ID" id="searchText"/>
         <div class="input-group-btn">
             <button class="btn btn-primary" type="submit" id="searchButton">
                 <span class="glyphicon glyphicon-search"></span>
             </button>
         </div>
     </div>
-<div>
     <table id='patientTable' class="table table-striped">
         <tr>
             <th></th>
@@ -50,16 +50,21 @@
 
     </table>
     </div>
+    </div>
 </div>
 
 
 <script>
-        $(document).on("dblclick","#patientTable tr", function () {
+       $(document).on("dblclick","#patientTable tr", function () {
+           var $this = $(this);
+           var row = $this.closest("tr");
+           var id = row.find('td:first').text();
 
-                var $this = $(this);
-                var row = $this.closest("tr");
-                var id = row.find('td:first').text();
-                $('#HSAVisits').empty();
+
+           var requestSite = '/records/'+id;
+           location.replace(requestSite);
+       });
+              /*  $('#HSAVisits').empty();
 
                 $('#exampleModal').modal('toggle');
 
@@ -92,9 +97,10 @@
                     }
                 });
 
+
         });
 
-
+*/
     function deleteRow() {
         var id = $(this).parent().siblings().filter(":first").text();
         deletePatient(id);
@@ -205,13 +211,13 @@
                         '            <th>&nbsp</th>\n' +
                         '\n' +
                         '        </tr>')
-                    var string = '<tr><td >' + patient.ID + '</td><td class="editable">' + patient.name + '</td><td class="editable">' + patient.nationalID + '</td><td class="editable">' + patient.mobileNo + '</td><td class="editable">' + patient.sex + '</td>';
+                    var string = '<tr><td>'+patient.ID+'</td><td class="editable">' + patient.name + '</td><td class="editable">' + patient.nationalID + '</td><td class="editable">' + patient.mobileNo + '</td><td class="editable">' + patient.sex + '</td>';
                     string = string.concat('<td><select class="editable villageName" disabled="true">');
 
                     for (i = 0; i < villages.length; i++) {
                         string = string.concat('<option value="' + villages[i].name.toUpperCase() + '">' + villages[i].name + '</option>');
                     }
-                   string =  string.concat('</select></td><td class="editable">' + patient.dateOfBirth + '</td><td><button id="btnEdit" type="button" class="btn-info btnEdit">Edit</button></td><td><button id="btnDelete" type="button" name="delete_btn" data-mail3=result[i].ID class="btn-danger">x</button></td></tr>')
+                   string =  string.concat('</select></td><td class="editable">' + patient.dateOfBirth + '</td></tr>')
                     $('#patientTable tbody').append(string);
                     $('.villageName').val(patient.villageName.toUpperCase());
 

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<% include head.ejs %>
+<body>
+<% include header.ejs %>
+<div class="container">
+    <% include nav.ejs %>
+
+    <div class="col-md-4 ">
+
+        <div class="panel panel-default">
+            <div class="panel-heading"><h4>Patient</h4></div>
+            <div class="panel-body">
+
+                <div class="box box-info">
+
+
+                    <div class="col-sm-6">
+                        <h4 style="color:#00b1b1;"><%= result.name %></h4></span>
+
+                    </div>
+                    <div class="clearfix"></div>
+                    <hr style="margin:5px 0 5px 0;">
+
+                    <div class="col-sm-5 col-xs-6 tital ">National ID:</div>
+                    <div class="col-sm-7 col-xs-6 "><%= result.nationalID %></div>
+                    <div class="clearfix"></div>
+                    <div class="bot-border"></div>
+
+                    <div class="col-sm-5 col-xs-6 tital ">Name:</div>
+                    <div class="col-sm-7 col-xs-6 "><%= result.name %></div>
+                    <div class="clearfix"></div>
+                    <div class="bot-border"></div>
+
+
+                    <div class="col-sm-5 col-xs-6 tital ">Date Of Birth:</div>
+                    <div class="col-sm-7"><%= result.dateOfBirth %></div>
+
+                    <div class="clearfix"></div>
+                    <div class="bot-border"></div>
+
+                    <div class="col-sm-5 col-xs-6 tital ">Sex:</div>
+                    <div class="col-sm-7"><%= result.sex %></div>
+
+                    <div class="clearfix"></div>
+                    <div class="bot-border"></div>
+
+                    <div class="col-sm-5 col-xs-6 tital ">Mobile Number:</div>
+                    <div class="col-sm-7"><%= result.mobileNo %></div>
+
+                    <div class="clearfix"></div>
+                    <div class="bot-border"></div>
+
+                    <div class="col-sm-5 col-xs-6 tital ">Village Name:</div>
+                    <div class="col-sm-7"><%= result.villageName %></div>
+
+                    <div class="clearfix"></div>
+                    <div class="bot-border"></div>
+
+                    <div class="col-sm-5 col-xs-6 tital ">
+                        <button style="margin-top:2em" type="button" class="btn-info">Edit</button>
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+    <div class="col-md-8 ">
+
+        <div class="panel panel-default">
+
+            <div class="panel-heading"><h4>Records</h4></div>
+            <div class="panel-body">
+                <table class="table">
+                    <tr>
+                        <th>Patient ID</th>
+                        <th>Record ID</th>
+                        <th>Symptom ID</th>
+                        <th>Diagnosis ID</th>
+                        <th>Timestamp</th>
+                    </tr>
+                    <% for(var i = 0; i < records.length;i++){ %>
+                    <tr>
+                        <td><%= records[i].patientID %></td>
+                        <td><%= records[i].HSAID %></td>
+                        <td><%= records[i].symptomID %></td>
+                        <td><%= records[i].diagnosisID %></td>
+                        <td><%= records[i].timestamp %></td>
+                    </tr>
+                    <% } %>
+
+                </table>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>
