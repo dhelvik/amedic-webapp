@@ -36,19 +36,28 @@ router.post('/registerPatient', function(req, res) {
 router.get('/patients', function(req, res){
     var Patient = require('./models/Patient');
     Patient.findAll().then(result =>{
-        res.render('showPatient', {
-            result: result
-        })
+        res.render('showPatient');
     })
 
 });
 //Find specific patient
 router.post('/findPatient', function(req, res){
+    var result = [];
     var Patient = require('./models/Patient');
-    Patient.findOne({where: {nationalID:req.body.id}}).then(result =>{
-       res.send(result);
-       res.end();
+    Patient.findOne({where: {nationalID:req.body.id}}).then(patient =>{
+        if(patient!=null){
+        result.push(patient);
+        var Village = require('./models/Village');
+        Village.findAll().then( villages =>{
+            result.push(villages);
+            res.send(result);
+            res.end();
         })
+        } else{
+            res.end();
+        }
+    })
+
     });
 
 //Update a patient

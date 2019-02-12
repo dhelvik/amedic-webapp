@@ -36,37 +36,18 @@
 <div>
     <table id='patientTable' class="table table-striped">
         <tr>
-            <th>ID</th>
-            <th>name</th>
-            <th>NationalID</th>
-            <th>Mobile No</th>
-            <th>Sex</th>
-            <th>Village Name</th>
-            <th>Date Of Birth</th>
-            <th>&nbsp</th>
-            <th>&nbsp</th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
 
         </tr>
-        <% for (var i = 0; i < result.length;i++){ %>
-            <tr>
-                <td><%= result[i].ID %></td>
-                <td class="editable"><%= result[i].name %></td>
-                <td class="editable"><%= result[i].nationalID %></td>
-                <td class="editable"><%= result[i].mobileNo %></td>
-                <td class="editable"><%= result[i].sex %></td>
-                <td class="editable"><%= result[i].villageName %></td>
-                <td class="editable"><%= result[i].dateOfBirth %></td>
-                <td>
-                    <button id="btnEdit" type="button" class="btn-info btnEdit">Edit</button>
-                </td>
-                <td>
-                    <button id="btnDelete" type="button" name="delete_btn" data-mail3=result[i].ID class="btn-danger">x
-                    </button>
-                </td>
 
-        <tr>
-            <% } %>
-        </tr>
     </table>
     </div>
 </div>
@@ -74,41 +55,43 @@
 
 <script>
         $(document).on("dblclick","#patientTable tr", function () {
-        var $this = $(this);
-        var row = $this.closest("tr");
-        var id = row.find('td:first').text();
-        $('#HSAVisits').empty();
 
-        $('#exampleModal').modal('toggle');
+                var $this = $(this);
+                var row = $this.closest("tr");
+                var id = row.find('td:first').text();
+                $('#HSAVisits').empty();
 
-        $.ajax({
-            type: "POST",
-            url: "/findHSAVisit",
-            data: {
-                id: id
+                $('#exampleModal').modal('toggle');
 
-            },
-            success: function (result) {
+                $.ajax({
+                    type: "POST",
+                    url: "/findHSAVisit",
+                    data: {
+                        id: id
 
-                if (!$.trim(result)) {
+                    },
+                    success: function (result) {
 
-                } else {
-                    $('#HSAVisits').append('<tr>\n' +
-                        '            <th>Patient ID</th>\n' +
-                        '            <th>Symptom ID</th>\n' +
-                        '            <th>Diagnosis ID</th>\n' +
-                        '            <th>Timestamp</th>\n' +
-                        '        </tr>');
-                    $.each(result, function (index, value) {
-                        $('#HSAVisits').append('<tr><td>' + value.patientID + '</td><td>' + value.symptomID + '</td><td>' + value.diagnosisID + '</td><td>' + value.timestamp + '</td></tr>');
+                        if (!$.trim(result)) {
 
-                    });
-                }
-            },
-            error: function (result) {
-                alert('hej');
-            }
-        });
+                        } else {
+                            $('#HSAVisits').append('<tr>\n' +
+                                '            <th>Patient ID</th>\n' +
+                                '            <th>Symptom ID</th>\n' +
+                                '            <th>Diagnosis ID</th>\n' +
+                                '            <th>Timestamp</th>\n' +
+                                '        </tr>');
+                            $.each(result, function (index, value) {
+                                $('#HSAVisits').append('<tr><td>' + value.patientID + '</td><td>' + value.symptomID + '</td><td>' + value.diagnosisID + '</td><td>' + value.timestamp + '</td></tr>');
+
+                            });
+                        }
+                    },
+                    error: function (result) {
+                        alert('hej');
+                    }
+                });
+
         });
 
 
@@ -158,7 +141,8 @@
             var nationalID = $(this).parent().siblings().filter(":nth(2)").text();
             var mobileNo = $(this).parent().siblings().filter(":nth(3)").text();
             var sex = $(this).parent().siblings().filter(":nth(4)").text();
-            var villageName = $(this).parent().siblings().filter(":nth(5)").text();
+            var villageName = $(this).parent().siblings().find('select').val();
+
             var dateOfBirth = $(this).parent().siblings().filter(":nth(6)").text();
 
 
@@ -205,11 +189,14 @@
                 if (!$.trim(result)) {
                     alert("No patient found with given National ID");
                 } else {
+                    patient = result[0];
+                    villages = result[1];
+
                     $('#patientTable tbody').empty();
                     $('#patientTable tbody').append('<tr>\n' +
                         '            <th>ID</th>\n' +
-                        '            <th>name</th>\n' +
-                        '            <th>NationalID</th>\n' +
+                        '            <th>Name</th>\n' +
+                        '            <th>National ID</th>\n' +
                         '            <th>Mobile No</th>\n' +
                         '            <th>Sex</th>\n' +
                         '            <th>Village Name</th>\n' +
@@ -218,14 +205,26 @@
                         '            <th>&nbsp</th>\n' +
                         '\n' +
                         '        </tr>')
-                    $('#patientTable tbody').append('<tr><td>' + result.ID + '</td><td>' + result.name + '</td><td>' + result.nationalID + '</td><td>' + result.mobileNo + '</td><td>' + result.sex + '</td><td>' + result.villageName + '</td><td>' + result.dateOfBirth + '</td> <td><button id="btnEdit" type="button" class="btn-info btnEdit">Edit</button></td><td><button id="btnDelete" type="button" name="delete_btn" data-mail3=result[i].ID class="btn-danger">x</button></td></td></tr>');
+                    var string = '<tr><td >' + patient.ID + '</td><td class="editable">' + patient.name + '</td><td class="editable">' + patient.nationalID + '</td><td class="editable">' + patient.mobileNo + '</td><td class="editable">' + patient.sex + '</td>';
+                    string = string.concat('<td><select class="editable villageName" disabled="true">');
+
+                    for (i = 0; i < villages.length; i++) {
+                        string = string.concat('<option value="' + villages[i].name.toUpperCase() + '">' + villages[i].name + '</option>');
+                    }
+                   string =  string.concat('</select></td><td class="editable">' + patient.dateOfBirth + '</td><td><button id="btnEdit" type="button" class="btn-info btnEdit">Edit</button></td><td><button id="btnDelete" type="button" name="delete_btn" data-mail3=result[i].ID class="btn-danger">x</button></td></tr>')
+                    $('#patientTable tbody').append(string);
+                    $('.villageName').val(patient.villageName.toUpperCase());
+
+
                 }
+
             },
             error: function (result) {
 
             }
         });
-    }
+
+        }
 
     $(document).on('click', '#searchButton', function () {
         var id = $('#searchText').val();
