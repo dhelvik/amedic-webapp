@@ -42,7 +42,7 @@
             if($('#inputPassword').val() === $('#inputPasswordAgain').val()){
             $.ajax({
                 method:'post',
-                url:'/registerUser',
+                url:'/users/register',
                 data: $('#registerUserForm').serialize(),
                 dataType:'json',
                 success: function(result){

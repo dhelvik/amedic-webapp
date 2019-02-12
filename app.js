@@ -35,7 +35,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
 app.use(urlencodedParser);
 app.use(jsonParser);
 //define routes
-app.use(router);
+//app.use(router);
 
 
 
@@ -62,10 +62,20 @@ app.use('/patients', require('./routes/patients'));
 // ROUTES USER
 app.use('/users', require('./routes/users'));
 
+// ROUTES LOGIN
 app.use('/login', require('./routes/login'));
 
+// ROUTES HEALTHFACILITIES
+app.use('/healthFacilities', require('./routes/healthFacilities'));
 
+//Routes Index
+app.use('/', require('./routes/index'));
 
+// Routes HSA visits
+app.use('/HSA_Visits', require('./routes/HSA_Visits'));
+
+//Routes HSA
+app.use('/HSAs', require('./routes/HSAs'));
 
 app.listen(process.env.PORT || 3000, function(){
 
