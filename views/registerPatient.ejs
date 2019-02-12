@@ -51,7 +51,7 @@
         if($('#inputPassword').val() === $('#inputPasswordAgain').val()){
             $.ajax({
                 method:'post',
-                url:'/registerPatient',
+                url:'/patients/register',
                 data: $('#registerPatientForm').serialize(),
                 dataType:'json',
                 success: function(result){

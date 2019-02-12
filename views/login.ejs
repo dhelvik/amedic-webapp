@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<% include head.ejs %>
+<body>
+<% include header.ejs %>
+<div class="container">
+    <form id="loginUserForm">
+        <div class="form-group">
+            <label for="inputUsername">Username</label>
+            <input class="form-control" name="username" id="inputUsername placeholder=" Username">
+        </div>
+        <div class="form-group">
+            <label for="inputPassword">Password</label>
+            <input type="password" name="password" class="form-control" id="inputPassword" placeholder="*********">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+</div>
+<script>
+
+    $('#loginUserForm').submit(function (e) {
+        e.preventDefault();
+        $.ajax({
+            method: 'post',
+            url: '/login',
+            data: $('#loginUserForm').serialize(),
+            dataType: 'json',
+            success: function (result) {
+                if (result.status === "Success") {
+                    window.location = result.redirect;
+                } else {
+                    alert(result.error);
+                }
+            },
+            error: function (xhr, status, error) {
+                alert(status.message);
+            }
+        });
+    });
+
+</script>
+</body>
+</html>

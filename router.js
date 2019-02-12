@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var con = require('./connect');
-
+var sessionChecker = require('./scripts/sessionChecker');
 
 //RegisterPatient
 router.post('/registerPatient', function (req, res) {
@@ -124,15 +124,6 @@ router.get('/', function (req, res) {
     res.render('index');
 });
 
-router.get('/folke', function (req, res) {
-    var AMEDUser = require('./models/AMEDUser');
-    AMEDUser.findAll().then(asd => {
-        res.send(asd),
-            res.end()
-    });
-});
-
-
 //Takes user to registerUser
 router.get('/registerUser', function (req, res) {
     res.render('registerUser');
@@ -151,6 +142,7 @@ router.get('/registerPatient', function (req, res) {
 //Takes user to registerHealthFacility
 router.get('/registerHealthFacility', function (req, res) {
     var Village = require('./models/Village');
+
     Village.findAll().then(result => {
         res.render('registerHealthFacility', {
             result: result
