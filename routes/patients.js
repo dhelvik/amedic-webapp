@@ -86,4 +86,25 @@ router.post('/updatePatient', function(req, res){
             dateOfBirth: req.body.dateOfBirth},
         {where: {id : req.body.id}});
 });
+//TEST AV NY SIDA
+router.get('/:id', function(req, res) {
+    var Patient = require('../models/Patient');
+    var HSA_Visit = require('../models/HSA_visit');
+    console.log(req.body);
+    Patient.findOne(
+        {where: {nationalID: req.params.id}}).then(patient => {
+        console.log(patient);
+        HSA_Visit.findAll(
+            {where: {patientID: patient.ID}
+            }).then(records => {
+            res.render('records', {
+                result: patient,
+                records: records
+            });
+            res.end();
+        });
+    });
+});
+
+
 module.exports=router;

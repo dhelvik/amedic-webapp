@@ -58,10 +58,10 @@
        $(document).on("dblclick","#patientTable tr", function () {
            var $this = $(this);
            var row = $this.closest("tr");
-           var id = row.find('td:first').text();
+           var id = row.find('td:nth(2)').text();
 
 
-           var requestSite = '/records/'+id;
+           var requestSite = '/patients/'+id;
            location.replace(requestSite);
        });
               /*  $('#HSAVisits').empty();
