@@ -38,13 +38,13 @@ app.use('/users', require('./routes/users'));
 app.use('/healthFacilities', require('./routes/healthFacilities'));
 
 //Routes Index
-app.use('/index', require('./routes/index'));
+app.use('/', require('./routes/index'));
 
 // Routes HSA visits
 app.use('/HSA_Visits', require('./routes/HSA_Visits'));
 
 //Routes HSA
-app.use('/HSAs', require('./routes/HSAs'))
+app.use('/HSAs', require('./routes/HSAs'));
 
 app.listen(process.env.PORT || 3000, function(){
 
