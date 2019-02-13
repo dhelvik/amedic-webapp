@@ -43,5 +43,54 @@ router.post('/register', function (req, res) {
 
 });
 
+//Ajax request to find AMEDUser like
+router.post('/findUserLike', function (req, res) {
+    AMEDUser.findAll({
+        where: {
+            $or: {
+                name: {
+                    $like: '%' + req.body.searchText + '%'
+
+                },
+                loginID: {
+                    $like: '%' + req.body.searchText + '%'
+
+                }
+            }
+
+
+        }
+    }).then(result => {
+            res.send(result);
+        }
+    )
+});
+
+//Ajax request to find User Profile
+router.post('/findUser', function (req, res) {
+    AMEDUser.findOne({
+        where: {
+            ID: req.body.id
+        }
+    }).then(result => {
+        res.send(result);
+
+
+    })
+});
+
+//Ajax request update user
+router.post('/updateUser', function (req, res) {
+    console.log(req.body.userName+req.body.userRole);
+    AMEDUser.update({
+        name: req.body.userName,
+        role: req.body.userRole,
+    },
+    {
+        where: {
+            loginID : req.body.userLoginID}});
+    res.end();
+});
+
 
 module.exports = router;

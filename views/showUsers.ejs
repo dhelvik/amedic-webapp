@@ -1,34 +1,231 @@
 <!DOCTYPE html>
 <html lang="en">
-<% include head.ejs%>
+<% include head.ejs %>
 <body>
-<% include header.ejs%>
+<% include header.ejs %>
+<style>
+    tr:not(:first-child):hover{
+        background-color:#ddd;
+    }
+    .table-wrapper-scroll-y {
+        display: block;
+        max-height: 500px;
+        overflow-y: auto;
+        -ms-overflow-style: -ms-autohiding-scrollbar;
+    }
+</style>
 <div class="container">
-    <% include nav.ejs%>
+    <% include nav.ejs %>
 
-    <table style="margin-top:50px" class="table table-striped">
-        <tr>
-            <th>ID</th>
-            <th>name</th>
-            <th>LoginID</th>
-            <th>password</th>
-            <th>role</th><th>lastLogin</th>
+    <div class="col-md-5 ">
+
+        <div class="panel panel-default" style="min-height:350px;">
+            <div class="panel-heading"><h4>Search</h4></div>
+            <div class="panel-body">
+
+                <div class="box box-info">
+
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Name or LoginID" id="searchText"
+                               onkeyup="fetchUsers()"/>
+                        <div class="input-group-btn">
+                            <button class="btn btn-primary" type="submit" id="searchButton">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="table-wrapper-scroll-y">
+
+                    <table id="usersTable" class="table">
+                        <tr>
+                            <th>ID</th>
+                            '
+                            <th>Name</th>
+                            <th>LoginID</th>
 
 
-        </tr>
-        <% for (var i = 0; i < result.length;i++){ %>
-        <tr>
-            <td><%=result[i].ID%></td>
-            <td><%=result[i].name%></td>
-            <td><%=result[i].loginID%></td>
-            <td><%=result[i].password%></td>
-            <td><%=result[i].role%></td>
-            <td><%=result[i].lastLogin%></td>
+                        </tr>
+                        <% for (var i = 0; i < result.length;i++){ %>
+                        <tr>
+                            <td><%= result[i].ID %></td>
+                            <td><%= result[i].name %></td>
+                            <td><%= result[i].loginID %></td>
 
-        <tr>
-            <%}%>
-        </tr>
-    </table>
+                            <% } %>
+                        </tr>
+                    </table>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <div class="col-md-7 ">
+
+        <div class="panel panel-default" style="min-height:350px;">
+            <div class="panel-heading"><h4>User</h4></div>
+            <div class="panel-body">
+
+                <div class="box box-info">
+                    <form id="userForm">
+                    <div class="form-group">
+                        <label for="userId">ID</label>
+                        <input id="userId" class="form-control" type="text" disabled="true">
+                    </div>
+                    <div class="form-group">
+                        <label for="userName">Name</label>
+
+                        <input id="userName" name="userName" class="form-control user" type="text" disabled="true">
+                    </div>
+                    <div class="form-group">
+                        <label for="userLoginID">Login ID</label>
+
+                        <input id="userLoginID" name="userLoginID" class="form-control user" type="text" disabled="true">
+                    </div>
+                    <div class="form-group">
+
+                        <label for="userPassword">Password</label>
+
+                        <input id="userPassword" class="form-control" type="password" disabled="true">
+                    </div>
+                    <div class="form-group">
+                        <label for="userRole">Role</label>
+                        <select id="userRole" name="userRole" class="form-control user" disabled="true">
+
+                            <option>HE</option>
+                            <option>HSA</option>
+                            <option>Sysadmin</option>
+
+                        </select>
+                    </div>
+                    <div class="form-group">
+
+                        <label for="userLastLogin">Last Login</label>
+
+                        <input id="userLastLogin" class="form-control" type="text" disabled="true">
+                    </div>
+                    </form>
+                    <button class="btn-info" onclick="unlockFields()">Edit</button>
+                    <button class="btn-success"  onclick="saveUser()" disabled="true">Save</button>
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+    </div>
 </div>
+
+</div>
+<script>
+    function fetchUsers() {
+        var searchText = $('#searchText').val();
+
+
+        $.ajax({
+            type: "POST",
+            url: "/users/findUserLike",
+            data: {
+                searchText: searchText
+            },
+            success: function (result) {
+                if (!$.trim(result)) {
+                } else {
+                    $('#usersTable tbody').empty();
+                    $('#usersTable tbody').append('<tr>\n' +
+                        '   <th>ID</th> ' +
+                        '            <th>Name</th>\n' +
+                        '            <th>LoginID</th>\n' +
+                        '</tr>')
+                    for (var i = 0; i < result.length; i++) {
+
+                        $('#usersTable tbody').append('<tr><td>' + result[i].ID + '<td>' + result[i].name + '</td><td>' + result[i].loginID + '</td></tr>');
+                    }
+
+                }
+
+            },
+            error: function (result) {
+
+            }
+        });
+
+    }
+
+    $(document).on("click", "#usersTable tr", function () {
+        var $this = $(this);
+        var row = $this.closest("tr");
+        var id = row.find('td:first').text();
+
+        $(".user").prop('disabled', true);
+        $(".btn-success").prop('disabled', true);
+        $(".btn-info").prop('disabled', false);
+        $.ajax({
+            type: "POST",
+            url: "/users/findUser",
+            data: {
+                id: id
+            },
+            success: function (result) {
+
+                $('#userID').val(result.ID);
+                $('#userName').val(result.name);
+            $('#userRole').val(result.role);
+                $('#userLoginID').val(result.loginID);
+                $('#userPassword').val(result.password);
+
+
+                $('#userLastLogin').val(result.lastLogin);
+
+
+            },
+            error: function (result) {
+
+            }
+        });
+
+    });
+    function unlockFields(){
+        $(".user").prop('disabled', false);
+        $(".btn-success").prop('disabled', false);
+        $(".btn-info").prop('disabled', true);
+
+    }
+    function saveUser(){
+        $(".user").prop('disabled', true);
+        $(".btn-success").prop('disabled', true);
+        $(".btn-info").prop('disabled', false);
+
+        $.ajax({
+            type: "POST",
+            url: "/users/updateUser",
+            data:{
+                userName: $('#userName').val(),
+                userRole: $('#userRole').val(),
+                userLoginID: $('#userLoginID').val()
+            }
+            ,
+            success: function (result) {
+                alert('hej');
+            fetchUsers();
+
+            },
+            error: function (result) {
+
+            }
+        });
+    }
+</script>
 </body>
 </html>
