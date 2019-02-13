@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <% include head.ejs %>
+<style>
+    tr:hover{
+        background-color:#ddd;
+    }
+</style>
 <body>
 <% include header.ejs %>
 <div class="container">
@@ -129,7 +134,7 @@
         }
     }
 
-    function editRow() {
+  /*  function editRow() {
         if ($(this).html() == 'Edit') {
             $(this).removeClass('btn-info');
             $(this).addClass('btn-success');
@@ -161,7 +166,9 @@
         $(this).html($(this).html() == 'Edit' ? 'Save' : 'Edit')
 
     }
+*/
 
+  /*
     function updatePatient(id, name, nationalID, mobileNo, sex, villageName, dateOfBirth) {
         $.ajax({
             type: "POST",
@@ -183,7 +190,7 @@
         });
     }
 
-
+*/
     function findPatient(id) {
         $.ajax({
             type: "POST",
@@ -248,7 +255,7 @@
         }
     })
     $(document).on('click', '.btn-danger', deleteRow);
-    $(document).on('click', '.btnEdit', editRow);
+  //  $(document).on('click', '.btnEdit', editRow);
 </script>
 </body>
 </html>
