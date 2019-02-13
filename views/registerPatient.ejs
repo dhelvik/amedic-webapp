@@ -1,42 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <% include head.ejs%>
+<style type="text/css">
+.colorChange {
+color:red;
+}
+</style>
+
 <body>
 <% include header.ejs%>
 <div class="container">
     <% include nav.ejs%>
     <form id="registerPatientForm" style="padding-bottom:2em;">
         <div class="form-group">
-            <label for="inputFirstName">First Name</label>
+            <label for="inputFirstName">First Name <span class="colorChange">* </span></label>
             <input class="form-control" id="inputFirstName" name="name" placeholder="First name" required>
         </div>
         <div class="form-group">
-            <label for="inputLastName">Last Name</label>
+            <label for="inputLastName">Last Name <span class="colorChange">* </span></label>
             <input class="form-control" id="inputLastName" name="lastName" placeholder="Last name" required>
         </div>
         <div class="form-group">
-            <label for="inputNationalId">National ID</label>
+            <label for="inputNationalId">National ID <span class="colorChange">* </span></label>
             <input type="number" class="form-control" id="inputNationalId" name="nationalID" placeholder="YYMMDD-XXXX"required>
         </div>
         <div class="form-group">
-            <label for="inputMobileNo">Mobile Number</label>
+            <label for="inputMobileNo">Mobile Number <span class="colorChange">* </span></label>
             <input type="number" class="form-control" id="inputMobileNo" name="mobileNo" placeholder="070000000" required>
         </div>
 
+
         <div class="form-group">
-            <label for="inputSex">Sex</label>
+            <label for="inputDateOfBirth">Date Of Birth <span class="colorChange">* </span></label>
+            <input class="form-control" id="inputDateOfBirth" name="dateOfBirth" placeholder="YYMMDD-XXXX" required>
+        </div>
+        <div class="form-group">
+            <label for="inputSex">Sex <span class="colorChange">* </span></label>
             <select name="sex">
                 <option> Male </option>
                 <option> Female</option>
             </select>
         </div>
-
         <div class="form-group">
-            <label for="inputDateOfBirth">Date Of Birth</label>
-            <input class="form-control" id="inputDateOfBirth" name="dateOfBirth" placeholder="YYMMDD-XXXX" required>
-        </div>
-        <div class="form-group">
-            <label for="inputPatient">Village</label>
+            <label for="inputPatient">Village <span class="colorChange">* </span></label>
             <select name="villageName"><%for (var i = 0; i < result.length;i++){ %><option><%=result[i].name%></option><%}%>></select>
         </div>
 
@@ -48,7 +54,8 @@
 <script>
     $('#registerPatientForm').submit(function(e){
         e.preventDefault();
-        if($('#inputPassword').val() === $('#inputPasswordAgain').val()){
+        const newID = $('#inputNationalId').val();
+
             $.ajax({
                 method:'post',
                 url:'/patients/register',
@@ -57,6 +64,8 @@
                 success: function(result){
                     if(result.status=200){
                         alert('success');
+                        $("#registerPatientForm")[0].reset();
+                        location.href = newID;
                     }else {
                         alert('error');
                     }
@@ -66,7 +75,7 @@
                     alert(status.message);
                 }
             });
-        }
+
     });
 </script>
 <script>
