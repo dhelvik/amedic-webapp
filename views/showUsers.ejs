@@ -115,6 +115,32 @@
                     <button class="btn btn-info btn-lg" onclick="unlockFields()">Edit</button>
                     <button class="btn btn-success btn-lg"  onclick="saveUser()" disabled="true">Save</button>
 
+                    <!-- Trigger the modal with a button -->
+                    <button type="button" class="btn btn-danger btn-lg" data-toggle="modal" data-target="#myModal" disabled="true">Delete</button>
+
+                    <!-- Dialog Modal --->
+                    <!-- Modal -->
+                    <div id="myModal" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Delete User!</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <p> <span id="textChange"> <b>Are you sure you want to delete the selected user? </b></span></p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" onclick="removeUser()" class="btn btn-danger" data-dismiss="modal">Yes</button>
+                                    <button type="button" class="btn btn-info" data-dismiss="modal">No</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
 
                 </div>
 
@@ -163,43 +189,47 @@
 
     }
 
-    $(document).on("click", "#usersTable tr", function () {
-        var $this = $(this);
-        var row = $this.closest("tr");
-        var id = row.find('td:first').text();
+        $(document).on("click", "#usersTable tr", function () {
+            var $this = $(this);
+            var row = $this.closest("tr");
+            var id = row.find('td:first').text();
 
-        $(".user").prop('disabled', true);
-        $(".btn-success").prop('disabled', true);
-        $(".btn-info").prop('disabled', false);
-        $.ajax({
-            type: "POST",
-            url: "/users/findUser",
-            data: {
-                id: id
-            },
-            success: function (result) {
+            $(".user").prop('disabled', true);
+            $(".btn-success").prop('disabled', true);
+            $(".btn-info").prop('disabled', false);
+            $(".btn-danger").prop('disabled', false);
+            $.ajax({
+                type: "POST",
+                url: "/users/findUser",
+                data: {
+                    id: id
+                },
+                success: function (result) {
 
-                $('#userID').val(result.ID);
-                $('#userName').val(result.name);
-            $('#userRole').val(result.role);
-                $('#userLoginID').val(result.loginID);
-                $('#userPassword').val(result.password);
-
-
-                $('#userLastLogin').val(result.lastLogin);
+                    $('#userId').val(result.ID);
+                    $('#userName').val(result.name);
+                    $('#userRole').val(result.role);
+                    $('#userLoginID').val(result.loginID);
+                    $('#userPassword').val(result.password);
 
 
-            },
-            error: function (result) {
+                    $('#userLastLogin').val(result.lastLogin);
 
-            }
+
+
+                },
+                error: function (result) {
+
+                }
+            });
+
         });
 
-    });
     function unlockFields(){
         $(".user").prop('disabled', false);
         $(".btn-success").prop('disabled', false);
         $(".btn-info").prop('disabled', true);
+
 
     }
     function saveUser(){
@@ -224,6 +254,25 @@
 
             }
         });
+    }
+
+    function removeUser() {
+        var id = $('#userId').val();
+
+        $('.btn-danger').prop('disabled', false);
+        $.ajax({
+            type: "POST",
+            url: "/users/removeUser",
+            data: {
+                id: id
+            },
+            success: function (result) {
+                $('#usersTable').ajax.reload();
+
+
+            }
+        })
+
     }
 </script>
 </body>
