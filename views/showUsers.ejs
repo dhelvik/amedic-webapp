@@ -261,22 +261,23 @@
 
         $('.btn-danger').prop('disabled', false);
         $.ajax({
-            type: "POST",
+            method: "POST",
             url: "/users/removeUser",
             data: {
                 id: id
             },
             success: function(result) {
-                if(result.status=200) {
+                    $('#textChange').text("User deleted");
                     alert("User deleted successfully");
-                }
-                else{
-                    alert(error);
-                }
 
+
+            },
+            error: function(err){
+                console.log(err);
+                throw err();
 
             }
-        })
+        });
 
     }
 </script>

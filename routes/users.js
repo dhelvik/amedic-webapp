@@ -98,7 +98,8 @@ router.post('/removeUser', function(req, res){
     console.log(id);
 AMEDUser.destroy({
    where: {id: req.body.id}
-})
-})
+});
+    res.end();
+});
 
 module.exports = router;
