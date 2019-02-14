@@ -266,8 +266,13 @@
             data: {
                 id: id
             },
-            success: function (result) {
-                $('#usersTable').ajax.reload();
+            success: function(result) {
+                if(result.status=200) {
+                    alert("User deleted successfully");
+                }
+                else{
+                    alert(error);
+                }
 
 
             }
