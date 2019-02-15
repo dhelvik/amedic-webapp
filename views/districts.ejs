@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<% include head.ejs %>
+<style>
+    tr:not(:first-child):hover{
+        background-color:#ddd;
+    }
+</style>
+<body>
+<% include header.ejs %>
+<div class="container">
+    <% include nav.ejs %>
+
+    <div class="col-md-5 ">
+
+        <div class="panel panel-default" style="min-height:350px;">
+            <div class="panel-heading"><h4>Districts</h4></div>
+            <div class="panel-body">
+
+                <div class="box box-info">
+
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Name or LoginID" id="searchText"
+                               onkeyup="fetchUsers()"/>
+                        <div class="input-group-btn">
+                            <button class="btn btn-primary" type="submit" id="searchButton">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="table-wrapper-scroll-y">
+
+                        <table id="districtsTable" class="table">
+                            <tr>
+                                <th>Name</th>
+                            </tr>
+                            <% for (var i = 0; i < result.length;i++){ %>
+                            <tr>
+                                <td><%= result[i].name %></td>
+                                <% } %>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+    <div class="col-md-4 ">
+
+        <div class="panel panel-default" style="min-height:350px;">
+            <div class="panel-heading"><h4>Villages</h4></div>
+            <div class="panel-body">
+
+                <div class="box box-info">
+                    <div class="table-wrapper-scroll-y">
+
+                        <table id="villagesTable" class="table">
+                            <tr>
+                                <th>Name</th>
+                            </tr>
+                            <tr>
+                            </tr>
+                        </table>
+                    </div>
+                    <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#addVillage">+</button>
+
+                    <!-- Modal -->
+                    <div id="addVillage" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Add Village</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="registerVillage" style="padding-bottom:2em;">
+                                        <div class="form-group">
+                                            <label for="inputFirstName">Name <span class="colorChange">* </span></label>
+                                            <input class="form-control" id="inputFirstName" name="name" placeholder="Name" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputFirstName">District <span class="colorChange">* </span></label>
+                                            <input class="form-control" id="inputFirstName" name="name" disabled="true" required >
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Add</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+</div>
+            <script>
+                $(document).on("click", "#districtsTable tr", function () {
+                    $("#villagesTable td").remove();
+                    var $this = $(this);
+                    var row = $this.closest("tr");
+                    var name = row.find('td:first').text();
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/districts/findVillages",
+                        format: "json",
+                        data: {name: name},
+                        success: function (result) {
+                         var table = $("#villagesTable");
+                         $.each(result, function(idx, element){
+                             table.append("<tr><td>" + element.name + "</td></tr>");
+                         });
+                        },
+                        error: function (err) {
+                            console.log(err);
+                            throw err;
+                        }
+
+                    });
+
+                });
+
+
+            </script>
+</body>
+</html>
