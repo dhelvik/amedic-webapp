@@ -20,7 +20,7 @@
                 <div class="box box-info">
 
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Name or LoginID" id="searchText"
+                        <input type="text" class="form-control" placeholder="District Name" id="searchText"
                                onkeyup="fetchUsers()"/>
                         <div class="input-group-btn">
                             <button class="btn btn-primary" type="submit" id="searchButton">
@@ -69,6 +69,7 @@
                         </table>
                     </div>
                     <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#addVillage">+</button>
+                    <button type="button" class="btn btn-danger btn-lg" disabled="true">Delete</button>
 
                     <!-- Modal -->
                     <div id="addVillage" class="modal fade" role="dialog">
@@ -81,21 +82,26 @@
                                     <h4 class="modal-title">Add Village</h4>
                                 </div>
                                 <div class="modal-body">
-                                    <form id="registerVillage" style="padding-bottom:2em;">
+                                    <form id="registerVillageForm" style="padding-bottom:2em;">
                                         <div class="form-group">
-                                            <label for="inputFirstName">Name <span class="colorChange">* </span></label>
-                                            <input class="form-control" id="inputFirstName" name="name" placeholder="Name" required>
+                                            <label for="inputName">Name <span class="colorChange">* </span></label>
+                                            <input class="form-control" id="inputVillageName" name="villageName" placeholder="Name" required />
                                         </div>
                                         <div class="form-group">
                                             <label for="inputFirstName">District <span class="colorChange">* </span></label>
-                                            <input class="form-control" id="inputFirstName" name="name" disabled="true" required >
+                                            <input class="form-control" id="inputDistrictName" name="districtName" disabled="true" required />
                                         </div>
+                                        <input id="registerVillageFormSubmit" type="submit" class="btn btn-primary" value="Add">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+
                                     </form>
                                 </div>
+
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Add</button>
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+
+
                                 </div>
+
                             </div>
 
                         </div>
@@ -110,12 +116,14 @@
 
 
 </div>
+</div>
             <script>
                 $(document).on("click", "#districtsTable tr", function () {
                     $("#villagesTable td").remove();
                     var $this = $(this);
                     var row = $this.closest("tr");
                     var name = row.find('td:first').text();
+                    $('#inputDistrictName').val(name);
 
                     $.ajax({
                         type: "POST",
@@ -139,5 +147,31 @@
 
 
             </script>
+    <script>
+        $('#registerVillageFormSubmit').on('click', function(e){
+            e.preventDefault();
+           $.ajax({
+               method:'post',
+               url:'/districts/addVillage',
+               data: $('#registerVillageForm').serialize(),
+               dataType:'json',
+               success: function(result){
+                   if(result.status=200){
+                       $("#registerVillageForm")[0].reset();
+                       alert('Village added')
+                       $("#villagesTable").ajax.reload();
+                   }else {
+                       alert('error');
+                   }
+                   alert(result.message);
+               },
+               error: function(xhr, status, error){
+                   alert(status.message);
+               }
+               });
+           });
+
+
+    </script>
 </body>
 </html>

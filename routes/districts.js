@@ -16,4 +16,25 @@ router.post('/findVillages', (req, res) =>
             })
 );
 
+router.post('/addVillage', function(req, res) {
+    const newVillage = Village.create({
+        name: req.body.villageName,
+        districtName: req.body.districtName
+
+    }).then(function(item){
+        console.log(newVillage);
+        res.json({
+            Message : "Created item.",
+            Status : 200,
+            Item : newVillage
+        });
+    }).catch(function(err){
+        res.json({
+            Error : err,
+            Status : 500
+
+        });
+    });
+});
+
 module.exports = router;
