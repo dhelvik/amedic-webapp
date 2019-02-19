@@ -10,6 +10,27 @@ router.get('/', (req, res) =>
     })
 );
 
+router.post('/addDistrict', function(req, res) {
+    const newDistrict = District.create({
+        name: req.body.districtName
+
+    }).then(function(item){
+        console.log(newDistrict.name);
+        res.json({
+            Message : "Created item.",
+            Status : 200,
+            Item : newDistrict
+        });
+    }).catch(function(err){
+        res.json({
+            Error : err,
+            Status : 500
+
+        });
+    });
+});
+
+
 router.post('/findVillages', (req, res) =>
         Village.findAll().then( result => {
             res.send(result);
@@ -36,5 +57,15 @@ router.post('/addVillage', function(req, res) {
         });
     });
 });
+
+router.post('/removeVillage', function(req,res){
+    const name = req.body.name;
+    Village.destroy({
+        where:{name:name}
+    });
+    res.end();
+
+});
+
 
 module.exports = router;

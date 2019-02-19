@@ -42,19 +42,54 @@
                         </table>
                     </div>
                 </div>
+                <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#addDistrict">+</button>
 
 
             </div>
 
+            <!-- Modal -->
+            <div id="addDistrict" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Add District</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form id="registerDistrictForm" style="padding-bottom:2em;">
+                                <div class="form-group">
+                                    <label for="inputDistrictName">District <span class="colorChange">* </span></label>
+                                    <input class="form-control" id="inputDistrictName" name="districtName" required >
+                                </div>
+                                <input id="registerDistrictFormSubmit" type="submit" class="btn btn-primary" value="Add">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+
+                            </form>
+                        </div>
+
+                        <div class="modal-footer">
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
 
         </div>
+
+
 
     </div>
 
     <div class="col-md-4 ">
 
         <div class="panel panel-default" style="min-height:350px;">
-            <div class="panel-heading"><h4>Villages</h4></div>
+            <div class="panel-heading"><h4>Villages in: <span id="selectedDistrict" >no district selected </span> </h4></div>
             <div class="panel-body">
 
                 <div class="box box-info">
@@ -69,7 +104,7 @@
                         </table>
                     </div>
                     <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#addVillage">+</button>
-                    <button type="button" class="btn btn-danger btn-lg" disabled="true">Delete</button>
+                    <button type="button" class="btn btn-danger btn-lg" disabled="true" data-toggle="modal" data-target="#deleteVillageModal">Delete</button>
 
                     <!-- Modal -->
                     <div id="addVillage" class="modal fade" role="dialog">
@@ -88,7 +123,7 @@
                                             <input class="form-control" id="inputVillageName" name="villageName" placeholder="Name" required />
                                         </div>
                                         <div class="form-group">
-                                            <label for="inputFirstName">District <span class="colorChange">* </span></label>
+                                            <label for="inputDistrictName">District <span class="colorChange">* </span></label>
                                             <input class="form-control" id="inputDistrictName" name="districtName" disabled="true" required />
                                         </div>
                                         <input id="registerVillageFormSubmit" type="submit" class="btn btn-primary" value="Add">
@@ -107,6 +142,29 @@
                         </div>
                     </div>
 
+                    <!-- Dialog Deletion Modal --->
+                    <!-- Modal delete -->
+                    <div id="deleteVillageModal" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Delete Village</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <p>  Are you sure you want to delete the selected village?<br> Selected village: <b><span id="villageName"></span> </b> </p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" onclick="removeVillage()" class="btn btn-danger" data-dismiss="modal">Yes</button>
+                                    <button type="button" class="btn btn-info" data-dismiss="modal">No</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
 
             </div>
         </div>
@@ -117,32 +175,38 @@
 
 </div>
 </div>
+
+<script>
+    $('#registerDistrictFormSubmit').on('click', function(e){
+        e.preventDefault();
+        $.ajax({
+            method:'post',
+            url:'/districts/addDistrict',
+            data: $('#registerDistrictForm').serialize(),
+            dataType:'json',
+            success: function(result){
+                if(result.status=200){
+                    $("#registerDistrictForm")[0].reset();
+                    alert('District added');
+                }else {
+                    alert('error');
+                }
+                alert(result.message);
+            },
+            error: function(xhr, status, error){
+                alert(status.message);
+            }
+        });
+    });
+</script>
             <script>
                 $(document).on("click", "#districtsTable tr", function () {
-                    $("#villagesTable td").remove();
                     var $this = $(this);
                     var row = $this.closest("tr");
                     var name = row.find('td:first').text();
                     $('#inputDistrictName').val(name);
-
-                    $.ajax({
-                        type: "POST",
-                        url: "/districts/findVillages",
-                        format: "json",
-                        data: {name: name},
-                        success: function (result) {
-                         var table = $("#villagesTable");
-                         $.each(result, function(idx, element){
-                             table.append("<tr><td>" + element.name + "</td></tr>");
-                         });
-                        },
-                        error: function (err) {
-                            console.log(err);
-                            throw err;
-                        }
-
-                    });
-
+                    $("#selectedDistrict").text(name);
+                    tableReload();
                 });
 
 
@@ -173,5 +237,59 @@
 
 
     </script>
+
+<script>
+
+    $(document).on("click", "#villagesTable tr", function () {
+        var $this = $(this);
+        var row = $this.closest("tr");
+        var name = row.find('td:first').text();
+        $(".btn-danger").prop('disabled', false);
+        $("#villageName").text(name);
+
+    });
+
+    function removeVillage(){
+        var name = $("#villageName").text();
+        console.log("tutte");
+        $.ajax({
+            type:"POST",
+            url: "/districts/removeVillage",
+            data: {name:name},
+            success: function (data){
+                alert("Village: " + name + "successfully removed" );
+                tableReload();
+
+            }
+        });
+    }
+
+
+    function tableReload(){
+        $("#villagesTable td").remove();
+        $.ajax({
+            type: "POST",
+            url: "/districts/findVillages",
+            format: "json",
+            data: {name: name},
+            success: function (result) {
+                var table = $("#villagesTable");
+                $.each(result, function(idx, element){
+                    table.append("<tr><td>" + element.name + "</td></tr>");
+                });
+            },
+            error: function (err) {
+                console.log(err);
+                throw err;
+            }
+
+        });
+
+    }
+
+
+
+
+</script>
 </body>
 </html>

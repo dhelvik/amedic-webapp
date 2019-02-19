@@ -94,8 +94,6 @@ router.post('/updateUser', function (req, res) {
 
 //Ajax request to delete user
 router.post('/removeUser', function(req, res){
-    var id = req.body.id;
-    console.log(id);
 AMEDUser.destroy({
    where: {id: req.body.id}
 });
