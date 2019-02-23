@@ -61,7 +61,7 @@
                             <form id="registerDistrictForm" style="padding-bottom:2em;">
                                 <div class="form-group">
                                     <label for="inputDistrictName">District <span class="colorChange">* </span></label>
-                                    <input class="form-control" id="inputDistrictName" name="districtName" required >
+                                    <input class="form-control" id="inputDistrictNameModal" name="name" required >
                                 </div>
                                 <input id="registerDistrictFormSubmit" type="submit" class="btn btn-primary" value="Add">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
@@ -124,7 +124,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="inputDistrictName">District <span class="colorChange">* </span></label>
-                                            <input class="form-control" id="inputDistrictName" name="districtName" disabled="true" required />
+                                            <input class="form-control" id="inputDistrictName" name="districtName" required readonly />
                                         </div>
                                         <input id="registerVillageFormSubmit" type="submit" class="btn btn-primary" value="Add">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
@@ -204,15 +204,16 @@
                     var $this = $(this);
                     var row = $this.closest("tr");
                     var name = row.find('td:first').text();
-                    $('#inputDistrictName').val(name);
                     $("#selectedDistrict").text(name);
-                    tableReload();
+                    tableReload(name);
                 });
 
 
             </script>
     <script>
         $('#registerVillageFormSubmit').on('click', function(e){
+            var districtName = $("#selectedDistrict").text();
+            console.log(districtName);
             e.preventDefault();
            $.ajax({
                method:'post',
@@ -223,11 +224,11 @@
                    if(result.status=200){
                        $("#registerVillageForm")[0].reset();
                        alert('Village added')
-                       $("#villagesTable").ajax.reload();
+                       tableReload(districtName);
                    }else {
                        alert('error');
                    }
-                   alert(result.message);
+
                },
                error: function(xhr, status, error){
                    alert(status.message);
@@ -250,33 +251,38 @@
     });
 
     function removeVillage(){
+        var districtName = $("#selectedDistrict").text();
         var name = $("#villageName").text();
-        console.log("tutte");
         $.ajax({
             type:"POST",
             url: "/districts/removeVillage",
             data: {name:name},
             success: function (data){
                 alert("Village: " + name + "successfully removed" );
-                tableReload();
+                tableReload(districtName);
 
             }
         });
     }
 
 
-    function tableReload(){
+    function tableReload(districtName){
+// FIXA DENNA SKITEN, SÅ DEN UPPDATERRAR RÄTT
         $("#villagesTable td").remove();
         $.ajax({
             type: "POST",
             url: "/districts/findVillages",
             format: "json",
-            data: {name: name},
+            data: {districtName:districtName},
             success: function (result) {
+                console.log(name);
                 var table = $("#villagesTable");
                 $.each(result, function(idx, element){
                     table.append("<tr><td>" + element.name + "</td></tr>");
                 });
+                $('#inputDistrictName').text(districtName);
+                $('#inputDistrictName').val (districtName);
+
             },
             error: function (err) {
                 console.log(err);

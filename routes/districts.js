@@ -12,7 +12,7 @@ router.get('/', (req, res) =>
 
 router.post('/addDistrict', function(req, res) {
     const newDistrict = District.create({
-        name: req.body.districtName
+        name: req.body.name
 
     }).then(function(item){
         console.log(newDistrict.name);
@@ -31,11 +31,13 @@ router.post('/addDistrict', function(req, res) {
 });
 
 
-router.post('/findVillages', (req, res) =>
-        Village.findAll().then( result => {
-            res.send(result);
-            })
-);
+router.post('/findVillages',function(req, res) {
+    Village.findAll({
+        where: {districtName: req.body.districtName}
+    }).then(result => {
+        res.send(result);
+    });
+});
 
 router.post('/addVillage', function(req, res) {
     const newVillage = Village.create({
