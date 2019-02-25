@@ -36,18 +36,20 @@ color:red;
         </div>
         <div class="form-group">
             <label for="inputSex">Sex <span class="colorChange">* </span></label>
-            <select name="sex">
+            <select id="selectSex" name="sex" class="form-control">
                 <option> Male </option>
                 <option> Female</option>
             </select>
         </div>
         <div class="form-group">
             <label for="inputPatient">Village <span class="colorChange">* </span></label>
-            <select name="villageName"><%for (var i = 0; i < result.length;i++){ %><option><%=result[i].name%></option><%}%>></select>
+            <select id="selectVillage" name="villageName" class="form-control"><%for (var i = 0; i < result.length;i++){ %><option><%=result[i].name%></option><%}%>></select>
         </div>
 
 
         <button type="submit" class="btn btn-primary">Submit</button>
+        <input type="reset" value="Reset" class="btn btn-info">
+
     </form>
 
 </div>
@@ -77,8 +79,7 @@ color:red;
             });
 
     });
-</script>
-<script>
+
     $(document).ready(function(){
         var date_input=$('input[id="inputDateOfBirth"]'); //our date input has the name "date"
         var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
@@ -88,7 +89,58 @@ color:red;
             todayHighlight: true,
             autoclose: true,
         });
+       // checkLocal();
+        //setInterval(saveLocal, 3000);
+        checkSession();
+        setInterval(saveSession, 3000);
+
     });
+
+    function saveSession(){
+        var session = {
+            firstName : $('#inputFirstName').val(),
+            lastName : $('#inputLastName').val(),
+            nationalID: $('#inputNationalId').val(),
+            mobileNo: $('#inputMobileNo').val(),
+            dateOfBirth: $('#inputDateOfBirth').val(),
+            sex: $('#selectSex').val(),
+            village: $('#selectVillage').val()
+        };
+        sessionStorage.setItem('regPatient', JSON.stringify(session));
+
+
+    }
+
+    function checkSession(){
+        var obj = JSON.parse(sessionStorage.getItem('regPatient'));
+        if(obj!== null){
+            console.log(obj);
+            if(obj.firstName !== ""){
+                $('#inputFirstName').val(obj.firstName);
+            }
+
+            if(obj.lastName !== ""){
+                $('#inputLastName').val(obj.lastName);
+            }
+            if(obj.nationalID !== "");
+            $('#inputNationalId').val(obj.nationalID);
+
+            if(obj.mobileNo !== ""){
+                $('#inputMobileNo').val(obj.mobileNo);
+            }
+            if(obj.dateOfBirth !== ""){
+                $('#inputDateOfBirth').val(obj.dateOfBirth);
+            }
+                if(obj.sex !== ""){
+                    $('#selectSex').val(obj.sex);
+                }
+
+            if(obj.village !== ""){
+                $('#selectVillage').val(obj.village);
+            }
+
+        }
+    }
 </script>
 
 </body>
