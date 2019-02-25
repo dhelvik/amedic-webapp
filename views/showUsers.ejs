@@ -14,6 +14,9 @@
         overflow-y: auto;
         -ms-overflow-style: -ms-autohiding-scrollbar;
     }
+    .btn-space{
+        margin-right:1em;
+    }
 </style>
 <div class="container">
     <% include nav.ejs %>
@@ -178,13 +181,14 @@
                 </div>
             </div>
                 <div class="panel-footer">
-                    <button class="btn btn-info btn-lg" onclick="unlockFields()">Edit</button>
-                    <button class="btn btn-success btn-lg" onclick="saveUser()" disabled="true">Save</button>
+                    <button class="btn btn-space btn-info btn-lg" onclick="unlockFields()"><span class="glyphicon glyphicon-pencil"></span></button>
+                    <button class="btn btn-space btn-success btn-edit btn-lg" onclick="saveUser()" disabled="true"><span class="glyphicon glyphicon-ok"></span></button>
 
 
                     <!-- Trigger the modal with a button -->
-                    <button type="button" class="btn btn-danger btn-lg" data-toggle="modal" data-target="#myModal"
-                            disabled="true">Delete
+                    <button type="button" class="btn btn-space btn-danger btn-lg" data-toggle="modal" data-target="#myModal"
+                            disabled="true"><span class="glyphicon glyphicon-trash"></span>
+
                     </button>
 
                     <!-- Dialog Modal --->
@@ -298,7 +302,7 @@
 
     function unlockFields() {
         $(".user").prop('disabled', false);
-        $(".btn-success").prop('disabled', false);
+        $(".btn-edit").prop('disabled', false);
         $(".btn-info").prop('disabled', true);
 
 
@@ -306,7 +310,7 @@
 
     function saveUser() {
         $(".user").prop('disabled', true);
-        $(".btn-success").prop('disabled', true);
+        $(".btn-edit").prop('disabled', true);
         $(".btn-info").prop('disabled', false);
 
         $.ajax({
