@@ -9,7 +9,7 @@ var Village = db.define('Village', {
       allowNull: false,
       primaryKey: true
     },
-    districtName: {
+    district_name: {
       type: DataTypes.STRING(255),
       allowNull: true,
       references: {

@@ -44,10 +44,10 @@ var con = mysql.createConnection({
         host: "amedic-mysqldbserver.mysql.database.azure.com",
         user: "mysqldbuser@amedic-mysqldbserver",
         password: "Grupp2122",
-        database: "amedicdb"
+        database: "AMEDIC_DB"
     });
 
-const db = new Sequelize('amedicdb', 'mysqldbuser@amedic-mysqldbserver', 'Grupp2122', {
+const db = new Sequelize('AMEDIC_DB', 'mysqldbuser@amedic-mysqldbserver', 'Grupp2122', {
     host: "amedic-mysqldbserver.mysql.database.azure.com",
     dialect: "mysql",
     operatorsAliases,

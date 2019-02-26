@@ -9,7 +9,7 @@ var HealthFacility = db.define('HealthFacility', {
       allowNull: false,
       primaryKey: true
     },
-    villageName: {
+    village_name: {
       type: DataTypes.STRING(255),
       allowNull: true,
       references: {
@@ -18,7 +18,7 @@ var HealthFacility = db.define('HealthFacility', {
       }
     }
   }, {
-    tableName: 'HealthFacility',
+    tableName: 'Health_Facility',
     timestamps: false
   });
 module.exports = HealthFacility;

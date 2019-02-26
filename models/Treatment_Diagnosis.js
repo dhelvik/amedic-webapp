@@ -5,7 +5,7 @@ const DataTypes = require('sequelize/lib/data-types');
 const db = require('../connect.js');
 
 var Treatment_Diagnosis = db.define('Treatment_Diagnosis', {
-treatmentID: {
+treatment_id: {
       type: DataTypes.INTEGER(10).UNSIGNED,
       allowNull: false,
       primaryKey: true,
@@ -14,7 +14,7 @@ treatmentID: {
         key: 'ID'
       }
     },
-    diagnosisID: {
+    diagnosis_id: {
       type: DataTypes.INTEGER(10).UNSIGNED,
       allowNull: false,
       primaryKey: true,

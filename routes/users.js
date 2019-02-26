@@ -24,7 +24,7 @@ router.post('/register', function (req, res) {
     var user = AMEDUser.create({
         name: req.body.name,
         password: req.body.password,
-        loginID: req.body.loginID,
+        login_id: req.body.loginID,
         role: req.body.role
     }).then(function (item) {
         res.json({
@@ -52,7 +52,7 @@ router.post('/findUserLike', function (req, res) {
                     $like: '%' + req.body.searchText + '%'
 
                 },
-                loginID: {
+                login_id: {
                     $like: '%' + req.body.searchText + '%'
 
                 }
@@ -88,7 +88,7 @@ router.post('/updateUser', function (req, res) {
     },
     {
         where: {
-            loginID : req.body.userLoginID}});
+            login_id : req.body.userLoginID}});
     res.end();
 });
 

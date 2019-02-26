@@ -15,15 +15,25 @@ var CareGiver = db.define('CareGiver', {
       type: DataTypes.STRING(255),
       allowNull: true
     },
-    nationalID: {
+    national_id: {
       type: DataTypes.INTEGER(11),
       allowNull: true,
       unique: true
     },
-    relationToPatient: {
+    relation_to_patient: {
       type: DataTypes.STRING(255),
       allowNull: true
-    }
+    },
+    date_of_birth: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        unique: true
+    },
+    mobile_no: {
+        type: DataTypes.STRING(255),
+        allowNull: true,
+        unique: true
+    },
   }, {
     tableName: 'CareGiver',
     timestamps: false

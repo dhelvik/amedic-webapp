@@ -4,8 +4,7 @@ const db = require('../connect');
 const Patient = require('../models/Patient');
 const AMEDUser = require('../models/AMEDUser');
 const Village = require('../models/Village');
-const Villages = require('./Villages');
-
+const Visit = require('../models/Visit');
 router.get('/', (req, res) =>
 // Gets all patients
 Patient.findAll().then(result => {
@@ -17,7 +16,11 @@ Patient.findAll().then(result => {
 //Gets all villages page on load
 router.get('/register', function(req, res){
     //router.post('/register', Villages.getAll);
-    Village.findAll().then(result=>{
+    Village.findAll({
+        order: [
+        ['name', 'ASC']
+    ],
+    }).then(result=>{
         res.render('registerPatient',{
             result: result
         })
@@ -27,11 +30,11 @@ router.get('/register', function(req, res){
 router.post('/register', function(req, res) {
     const newPatient = Patient.create({
         name: req.body.name + " " + req.body.lastName,
-        nationalID: req.body.nationalID,
-        mobileNo: req.body.mobileNo,
+        national_id: req.body.nationalID,
+        mobile_no: req.body.mobileNo,
         sex: req.body.sex,
-        dateOfBirth: req.body.dateOfBirth,
-        villageName: req.body.villageName
+        date_of_birth: req.body.dateOfBirth,
+        village_name: req.body.villageName
     }).then(function(item){
         console.log(newPatient);
         res.json({
@@ -53,7 +56,7 @@ router.post('/register', function(req, res) {
 //Find specific patient
 router.post('/', function(req, res){
     var result = [];
-    Patient.findOne({where: {nationalID:req.body.id}}).then(Patient =>{
+    Patient.findOne({where: {national_id:req.body.id}}).then(Patient =>{
         if(Patient!=null){
             result.push(Patient);
             Village.findAll().then( villages =>{
@@ -79,11 +82,11 @@ router.post('/updatePatient', function(req, res){
     console.log(req.body.id);
     Patient.update({
             name: req.body.name,
-            nationalID: req.body.nationalID,
-            mobileNo: req.body.mobileNo,
+            national_id: req.body.nationalID,
+            mobile_no: req.body.mobileNo,
             sex: req.body.sex,
-            villageName: req.body.villageName,
-            dateOfBirth: req.body.dateOfBirth},
+            village_name: req.body.villageName,
+            date_of_birth: req.body.dateOfBirth},
         {where: {id : req.body.id}});
 });
 //TEST AV NY SIDA
@@ -92,10 +95,10 @@ router.get('/:id', function(req, res) {
     var HSA_Visit = require('../models/HSA_visit');
     console.log(req.body);
     Patient.findOne(
-        {where: {nationalID: req.params.id}}).then(patient => {
+        {where: {national_id: req.params.id}}).then(patient => {
         console.log(patient);
-        HSA_Visit.findAll(
-            {where: {patientID: patient.ID}
+        Visit.findAll(
+            {where: {patient_id: patient.id}
             }).then(records => {
             res.render('records', {
                 result: patient,

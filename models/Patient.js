@@ -14,12 +14,12 @@ var Patient = db.define('Patient', {
       type: DataTypes.STRING(255),
       allowNull: true
     },
-    nationalID: {
+    national_id: {
       type: DataTypes.INTEGER(11),
       allowNull: true,
       unique: true
     },
-    mobileNo: {
+    mobile_no: {
       type: DataTypes.INTEGER(11),
       allowNull: true
     },
@@ -27,7 +27,7 @@ var Patient = db.define('Patient', {
       type: DataTypes.STRING(10),
       allowNull: true
     },
-    villageName: {
+    village_name: {
       type: DataTypes.STRING(255),
       allowNull: true,
       references: {
@@ -35,10 +35,19 @@ var Patient = db.define('Patient', {
         key: 'name'
       }
     },
-    dateOfBirth: {
+    date_of_birth: {
       type: DataTypes.DATEONLY,
       allowNull: true
-    }
+    },
+    caregiver_id: {
+        type: DataTypes.INTEGER(10),
+        allowNull: true,
+        unique:true,
+        references: {
+            model: 'Caregiver',
+            key: 'ID'
+        }
+    },
   }, {
     tableName: 'Patient',
     timestamps: false

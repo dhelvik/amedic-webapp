@@ -33,7 +33,8 @@ router.post('/addDistrict', function(req, res) {
 
 router.post('/findVillages',function(req, res) {
     Village.findAll({
-        where: {districtName: req.body.districtName}
+        where: {district_name: req.body.districtName},
+
     }).then(result => {
         res.send(result);
     });
@@ -42,7 +43,7 @@ router.post('/findVillages',function(req, res) {
 router.post('/addVillage', function(req, res) {
     const newVillage = Village.create({
         name: req.body.villageName,
-        districtName: req.body.districtName
+        district_name: req.body.districtName
 
     }).then(function(item){
         console.log(newVillage);
