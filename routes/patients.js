@@ -13,6 +13,10 @@ Patient.findAll().then(result => {
     })
 })
 )
+
+router.get('/register', (req, res) =>
+    res.render('registerPatient')
+);
 //register patient
 router.post('/register', function(req, res) {
     const newPatient = Patient.create({
