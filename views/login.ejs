@@ -2,8 +2,9 @@
 <html lang="en">
 <% include head.ejs %>
 <body>
-<% include header.ejs %>
+<% include loginHeader.ejs %>
 <div class="container">
+    <div class="col-md-6 col-md-offset-3">
     <form id="loginUserForm">
         <div class="form-group">
             <label for="inputUsername">Username</label>
@@ -15,7 +16,7 @@
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
-
+    </div>
 </div>
 <script>
 

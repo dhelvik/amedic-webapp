@@ -38,15 +38,6 @@ var Patient = db.define('Patient', {
       type: DataTypes.DATEONLY,
       allowNull: true
     },
-    caregiver_id: {
-        type: DataTypes.INTEGER(10),
-        allowNull: true,
-        unique:true,
-        references: {
-            model: 'Caregiver',
-            key: 'ID'
-        }
-    },
   }, {
     tableName: 'Patient',
     timestamps: false
