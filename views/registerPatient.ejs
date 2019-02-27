@@ -41,9 +41,16 @@ color:red;
                 <option> Female</option>
             </select>
         </div>
+        <div class ="form-group">
+            <label for="inputDistrict"> District <span class="colorChange">* </span> </label>
+            <select name="districtName" id="districtsDropdown">
+            </select>
+        </div>
         <div class="form-group">
             <label for="inputPatient">Village <span class="colorChange">* </span></label>
-            <select id="selectVillage" name="villageName" class="form-control"><%for (var i = 0; i < result.length;i++){ %><option><%=result[i].name%></option><%}%>></select>
+            <select id="villageDropdown" name="villageName" class="form-control">
+
+            </select>
         </div>
 
 
@@ -54,6 +61,50 @@ color:red;
 
 </div>
 <script>
+    $(document).ready(function() {
+        $.ajax({
+            type: "GET",
+            url: "/districts/getDistricts",
+            success: function (result) {
+                console.log(result[0].name);
+                const districtsDropDown = $("#districtsDropdown");
+                $.each(result, function(idx, element){
+                    districtsDropDown.append("<option value=element.name>" + element.name + "</option>");
+                });
+
+            },
+            error: function (err) {
+                console.log(err);
+                throw err;
+            }
+
+        });
+
+    });
+
+    $('#districtsDropdown').on('change', function (){
+    var districtName = $(this).children('#districtsDropdown option:selected').text(); /// fixa denna skiten
+        console.log(districtName);
+       $(villageDropdown).empty();
+        $.ajax({
+            type: "POST",
+            url: "/districts/findVillages",
+            format: "json",
+            data: {districtName: districtName},
+            success: function (result) {
+                console.log(name);
+                var villageDropdown = $("#villageDropdown");
+                $.each(result, function (idx, element) {
+                    villageDropdown.append("<option>" + element.name + "</option>");
+                });
+
+            }
+        });
+
+    });
+
+
+
     $('#registerPatientForm').submit(function(e){
         e.preventDefault();
         const newID = $('#inputNationalId').val();

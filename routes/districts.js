@@ -2,11 +2,15 @@ const express = require('express');
 const router = express.Router();
 const District = require('../models/District');
 const Village = require('../models/Village');
+
 router.get('/', (req, res) =>
+        res.render('districts')
+    );
+
+
+router.get('/getDistricts', (req, res) =>
     District.findAll().then(result => {
-        res.render('districts', {
-            result
-        })
+        res.send(result);
     })
 );
 
