@@ -13,19 +13,6 @@ Patient.findAll().then(result => {
     })
 })
 )
-//Gets all villages page on load
-router.get('/register', function(req, res){
-    //router.post('/register', Villages.getAll);
-    Village.findAll({
-        order: [
-        ['name', 'ASC']
-    ],
-    }).then(result=>{
-        res.render('registerPatient',{
-            result: result
-        })
-    })
-});
 //register patient
 router.post('/register', function(req, res) {
     const newPatient = Patient.create({

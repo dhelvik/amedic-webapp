@@ -88,7 +88,7 @@ color:red;
        $(villageDropdown).empty();
         $.ajax({
             type: "POST",
-            url: "/districts/findVillages",
+            url: "/villages/findVillages",
             format: "json",
             data: {districtName: districtName},
             success: function (result) {
