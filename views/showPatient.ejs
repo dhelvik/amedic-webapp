@@ -225,7 +225,8 @@
                     }
                    string =  string.concat('</select></td><td class="editable">' + patient.date_of_birth + '</td></tr>')
                     $('#patientTable tbody').append(string);
-                    $('.villageName').val(patient.villageName.toUpperCase());
+                    alert(patient.village_name);
+                    $('.villageName').val(patient.village_name.toUpperCase());
 
 
                 }
