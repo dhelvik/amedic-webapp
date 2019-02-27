@@ -1,7 +1,9 @@
+<!--
 <nav class="navbar navbar-default">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="/">Home</a>
+            <a href="/"><img src="http://amedic.org/wp-content/uploads/2018/11/cropped-dark_logo_transparent.png" style="width: 100px;height: auto"></a>
+
         </div>
         <ul class="nav navbar-nav">
 
@@ -19,3 +21,39 @@
         </ul>
     </div>
 </nav>
+-->
+<div>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar2">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/" style="padding: 0px"><img src="http://amedic.org/wp-content/uploads/2018/11/cropped-dark_logo_transparent.png" style="height: 100%; width: auto" alt="AMedic">
+                </a>
+            </div>
+            <div id="navbar2" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/patients">Search Patient</a></li>
+                    <li><a href="/patients/register">Register Patient</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Admin<span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="/users">Add/Edit Users</a></li>
+                            <li><a href="/healthFacilities/registerHealthFacility">Register Health Facility</a></li>
+                            <li><a href="/healthFacilities">Update Health Facility</a></li>
+                            <li><a href="/districts">Add/Edit Districts and Villages</a></li>
+
+                        </ul>
+                    </li>
+                    <li><a href="/logout">Log out</a></li>
+                </ul>
+            </div>
+            <!--/.nav-collapse -->
+        </div>
+        <!--/.container-fluid -->
+    </nav>
+</div>
