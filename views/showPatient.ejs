@@ -218,13 +218,13 @@
                         '            <th>&nbsp</th>\n' +
                         '\n' +
                         '        </tr>')
-                    var string = '<tr><td>'+patient.ID+'</td><td class="editable">' + patient.name + '</td><td class="editable">' + patient.nationalID + '</td><td class="editable">' + patient.mobileNo + '</td><td class="editable">' + patient.sex + '</td>';
+                    var string = '<tr><td>'+patient.ID+'</td><td class="editable">' + patient.name + '</td><td class="editable">' + patient.national_id + '</td><td class="editable">' + patient.mobile_no + '</td><td class="editable">' + patient.sex + '</td>';
                     string = string.concat('<td><select class="editable villageName" disabled="true">');
 
                     for (i = 0; i < villages.length; i++) {
                         string = string.concat('<option value="' + villages[i].name.toUpperCase() + '">' + villages[i].name + '</option>');
                     }
-                   string =  string.concat('</select></td><td class="editable">' + patient.dateOfBirth + '</td></tr>')
+                   string =  string.concat('</select></td><td class="editable">' + patient.date_of_birth + '</td></tr>')
                     $('#patientTable tbody').append(string);
                     $('.villageName').val(patient.villageName.toUpperCase());
 

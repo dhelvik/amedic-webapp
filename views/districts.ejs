@@ -219,7 +219,7 @@
             e.preventDefault();
            $.ajax({
                method:'post',
-               url:'/districts/addVillage',
+               url:'/villages/addVillage',
                data: $('#registerVillageForm').serialize(),
                dataType:'json',
                success: function(result){
@@ -260,7 +260,7 @@
         var name = $("#villageName").text();
         $.ajax({
             type:"POST",
-            url: "/districts/removeVillage",
+            url: "/villages/removeVillage",
             data: {name:name},
             success: function (data){
                 alert("Village: " + name + "successfully removed" );
@@ -272,11 +272,10 @@
 
 
     function tableReload(districtName){
-// FIXA DENNA SKITEN, SÅ DEN UPPDATERRAR RÄTT
         $("#villagesTable td").remove();
         $.ajax({
             type: "POST",
-            url: "/districts/findVillages",
+            url: "/villages/findVillages",
             format: "json",
             data: {districtName:districtName},
             success: function (result) {
