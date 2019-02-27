@@ -13,18 +13,19 @@
         overflow-y: auto;
         -ms-overflow-style: -ms-autohiding-scrollbar;
     }
-    .btn-space{
-        margin-right:1em;
+
+    .btn-space {
+        margin-right: 1em;
     }
 </style>
 <div class="container">
     <% include nav.ejs %>
 
-    <div class="col-md-5" >
+    <div class="col-md-5">
 
         <div class="panel panel-default">
             <div class="panel-heading"><h4>Search</h4></div>
-            <div class="panel-body"  style="min-height:400px;">
+            <div class="panel-body" style="min-height:400px;">
 
                 <div class="box box-info">
 
@@ -67,11 +68,9 @@
                 </button>
 
 
-
+            </div>
 
         </div>
-
-    </div>
     </div>
 
     <!-- Modal -->
@@ -97,7 +96,8 @@
                         </div>
                         <div class="form-group">
                             <label for="inputDateOfBirth">Date of Birth <span class="colorChange">*</span></label>
-                            <input type="date" class="form-control" name="dateOfBirth" id="inputDateOfBirth" placeholder="Date of birth"
+                            <input type="date" class="form-control" name="dateOfBirth" id="inputDateOfBirth"
+                                   placeholder="Date of birth"
                                    required>
                         </div>
                         <div class="form-group">
@@ -105,7 +105,7 @@
                             <input class="form-control" name="mobileNo" id="inputMobileNo" placeholder="Mobile No"
                                    required>
                         </div>
-                                                <div class="form-group">
+                        <div class="form-group">
                             <label for="inputUsername">Login ID <span class="colorChange">*</span></label>
                             <input class="form-control" name="loginID" id="inputLoginID" placeholder="Login ID"
                                    required>
@@ -125,13 +125,14 @@
                         <div class="form-group">
                             <label for="role">Role</label>
                             <div class="checkbox">
-                                <label><input id="checkboxRegisterAdmin" type="checkbox" value="Sysadmin" class="user" >Sysadmin</label>
+                                <label><input id="checkboxRegisterAdmin" type="checkbox" value="Sysadmin" class="user">Sysadmin</label>
                             </div>
                             <div class="checkbox">
-                                <label><input id="checkboxRegisterHE" type="checkbox" value="HE" class="user" >HE</label>
+                                <label><input id="checkboxRegisterHE" type="checkbox" value="HE" class="user">HE</label>
                             </div>
                             <div class="checkbox">
-                                <label><input id="checkboxRegisterHSA" type="checkbox" value="HSA" class="user" >HSA</label>
+                                <label><input id="checkboxRegisterHSA" type="checkbox" value="HSA"
+                                              class="user">HSA</label>
                             </div>
                         </div>
 
@@ -199,44 +200,44 @@
                     </form>
                 </div>
             </div>
-                <div class="panel-footer">
-                    <button class="btn btn-space btn-info btn-lg" onclick="unlockFields()"><span class="glyphicon glyphicon-pencil"></span></button>
-                    <button class="btn btn-space btn-success btn-edit btn-lg" onclick="saveUser()" disabled="true"><span class="glyphicon glyphicon-ok"></span></button>
+            <div class="panel-footer">
+                <button class="btn btn-space btn-info btn-lg" onclick="unlockFields()"><span
+                            class="glyphicon glyphicon-pencil"></span></button>
+                <button class="btn btn-space btn-success btn-edit btn-lg" onclick="saveUser()" disabled="true"><span
+                            class="glyphicon glyphicon-ok"></span></button>
 
 
-                    <!-- Trigger the modal with a button -->
-                    <button type="button" class="btn btn-space btn-danger btn-lg" data-toggle="modal" data-target="#myModal"
-                            disabled="true"><span class="glyphicon glyphicon-trash"></span>
+                <!-- Trigger the modal with a button -->
+                <button type="button" class="btn btn-space btn-danger btn-lg" data-toggle="modal" data-target="#myModal"
+                        disabled="true"><span class="glyphicon glyphicon-trash"></span>
 
-                    </button>
+                </button>
 
-                    <!-- Dialog Modal --->
-                    <!-- Modal -->
-                    <div id="myModal" class="modal fade" role="dialog">
-                        <div class="modal-dialog">
+                <!-- Dialog Modal --->
+                <!-- Modal -->
+                <div id="myModal" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
 
-                            <!-- Modal content-->
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    <h4 class="modal-title">Delete User!</h4>
-                                </div>
-                                <div class="modal-body">
-                                    <p><span id="textChange"> <b>Are you sure you want to delete the selected user? </b></span>
-                                    </p>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" onclick="removeUser()" class="btn btn-danger"
-                                            data-dismiss="modal">Yes
-                                    </button>
-                                    <button type="button" class="btn btn-info" data-dismiss="modal">No</button>
-                                </div>
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Delete User!</h4>
                             </div>
-
+                            <div class="modal-body">
+                                <p>
+                                    <span id="textChange"> <b>Are you sure you want to delete the selected user? </b></span>
+                                </p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" onclick="removeUser()" class="btn btn-danger"
+                                        data-dismiss="modal">Yes
+                                </button>
+                                <button type="button" class="btn btn-info" data-dismiss="modal">No</button>
+                            </div>
                         </div>
+
                     </div>
-
-
                 </div>
 
 
@@ -245,7 +246,10 @@
 
         </div>
 
+
     </div>
+
+</div>
 </div>
 
 </div>
@@ -305,24 +309,24 @@
                 $('#userRole').val(result.role);
                 $('#userLoginID').val(result.login_id);
                 $('#userPassword').val(result.password);
-                if(result.hsa_flag===1){
+                if (result.hsa_flag === 1) {
                     $("#checkboxHSA").prop("checked", true);
 
-                }else{
+                } else {
                     $("#checkboxHSA").prop("checked", false);
 
                 }
-                if(result.health_expert_flag===1){
+                if (result.health_expert_flag === 1) {
                     $("#checkboxHE").prop("checked", true);
 
-                }else{
+                } else {
                     $("#checkboxHE").prop("checked", false);
 
                 }
-                if(result.admin_flag===1){
+                if (result.admin_flag === 1) {
                     $("#checkboxAdmin").prop("checked", true);
 
-                }else{
+                } else {
                     $("#checkboxAdmin").prop("checked", false);
 
                 }
@@ -340,10 +344,12 @@
     });
 
     function unlockFields() {
-        $(".user").prop('disabled', false);
-        $(".btn-edit").prop('disabled', false);
-        $(".btn-info").prop('disabled', true);
+        if ($('#userLoginID').val() !== "") {
 
+            $(".user").prop('disabled', false);
+            $(".btn-edit").prop('disabled', false);
+            $(".btn-info").prop('disabled', true);
+        }
 
     }
 
@@ -351,46 +357,45 @@
         $(".user").prop('disabled', true);
         $(".btn-edit").prop('disabled', true);
         $(".btn-info").prop('disabled', false);
-        if($('#checkboxHE').is(':checked')){
-            var heFlag = 1;
-        }
-        else {
-            heFlag = 0;
-        }
-        if($('#checkboxHSA').is(':checked')){
-            var hsaFlag = 1;
-        }
-        else {
-            hsaFlag = 0;
-        }
-        if($('#checkboxAdmin').is(':checked')){
-            var adminFlag = 1;
-        }
-        else {
-            adminFlag = 0;
-        }
-        $.ajax({
-            type: "POST",
-            url: "/users/updateUser",
-            data: {
-                userName: $('#userName').val(),
-                userRole: $('#userRole').val(),
-                userLoginID: $('#userLoginID').val(),
-                heFlag: heFlag,
-                hsaFlag: hsaFlag,
-                adminFlag: adminFlag,
 
-
+            if ($('#checkboxHE').is(':checked')) {
+                var heFlag = 1;
+            } else {
+                heFlag = 0;
             }
-            ,
-            success: function (result) {
-                fetchUsers();
-
-            },
-            error: function (result) {
-
+            if ($('#checkboxHSA').is(':checked')) {
+                var hsaFlag = 1;
+            } else {
+                hsaFlag = 0;
             }
-        });
+            if ($('#checkboxAdmin').is(':checked')) {
+                var adminFlag = 1;
+            } else {
+                adminFlag = 0;
+            }
+            $.ajax({
+                type: "POST",
+                url: "/users/updateUser",
+                data: {
+                    userName: $('#userName').val(),
+                    userRole: $('#userRole').val(),
+                    userLoginID: $('#userLoginID').val(),
+                    heFlag: heFlag,
+                    hsaFlag: hsaFlag,
+                    adminFlag: adminFlag,
+
+
+                }
+                ,
+                success: function (result) {
+                    fetchUsers();
+
+                },
+                error: function (result) {
+
+                }
+            });
+
     }
 
     function removeUser() {
@@ -422,29 +427,26 @@
     $('#registerUserForm').submit(function (e) {
         e.preventDefault();
         if ($('#inputPassword').val() === $('#inputPasswordAgain').val()) {
-            if($('#checkboxRegisterHE').is(':checked')){
+            if ($('#checkboxRegisterHE').is(':checked')) {
                 var heFlag = 1;
-            }
-            else {
+            } else {
                 heFlag = 0;
             }
-            if($('#checkboxRegisterHSA').is(':checked')){
+            if ($('#checkboxRegisterHSA').is(':checked')) {
                 var hsaFlag = 1;
-            }
-            else {
+            } else {
                 hsaFlag = 0;
             }
-            if($('#checkboxRegisterAdmin').is(':checked')){
+            if ($('#checkboxRegisterAdmin').is(':checked')) {
                 var adminFlag = 1;
-            }
-            else {
+            } else {
                 adminFlag = 0;
             }
             $.ajax({
                 method: 'post',
                 url: '/users/register',
                 data:
-                    $('#registerUserForm').serialize() + "&hsaFlag="+hsaFlag+"&heFlag="+heFlag+"&adminFlag="+adminFlag,
+                    $('#registerUserForm').serialize() + "&hsaFlag=" + hsaFlag + "&heFlag=" + heFlag + "&adminFlag=" + adminFlag,
 
                 dataType: 'json',
                 success: function (result) {
