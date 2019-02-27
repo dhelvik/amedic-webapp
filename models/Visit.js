@@ -40,7 +40,7 @@ var Visit = db.define('Visit', {
         key: 'ID'
       }
     },
-    symptom_sheet_id: {
+    symptoms_sheet_id: {
       type: DataTypes.INTEGER(10).UNSIGNED,
       allowNull: false,
         unique: true,
@@ -54,7 +54,7 @@ var Visit = db.define('Visit', {
       allowNull: true
     }
   }, {
-    tableName: 'HSA_visit',
+    tableName: 'Visit',
     timestamps : false
   });
 module.exports = Visit;

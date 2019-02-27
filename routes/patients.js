@@ -83,7 +83,6 @@ router.post('/updatePatient', function(req, res){
 //TEST AV NY SIDA
 router.get('/:id', function(req, res) {
     var Patient = require('../models/Patient');
-    var HSA_Visit = require('../models/HSA_visit');
     console.log(req.body);
     Patient.findOne(
         {where: {national_id: req.params.id}}).then(patient => {
