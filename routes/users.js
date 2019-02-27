@@ -25,7 +25,13 @@ router.post('/register', function (req, res) {
         name: req.body.name,
         password: req.body.password,
         login_id: req.body.loginID,
-        role: req.body.role
+        role: req.body.role,
+        hsa_flag: req.body.hsaFlag,
+        health_expert_flag: req.body.heFlag,
+        admin_flag: req.body.adminFlag,
+        mobile_no: req.body.mobileNo,
+        date_of_birth: req.body.dateOfBirth,
+        national_id: req.body.nationalID
     }).then(function (item) {
         res.json({
             Message: "Created item.",
@@ -85,6 +91,9 @@ router.post('/updateUser', function (req, res) {
     AMEDUser.update({
         name: req.body.userName,
         role: req.body.userRole,
+        hsa_flag : req.body.hsaFlag,
+        health_expert_flag : req.body.heFlag,
+        admin_flag: req.body.adminFlag
     },
     {
         where: {
