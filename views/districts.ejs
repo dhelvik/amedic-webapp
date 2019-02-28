@@ -86,13 +86,21 @@
 
     </div>
 
-    <div class="col-md-4 ">
+    <div class="col-md-5 ">
 
         <div class="panel panel-default" style="min-height:350px;">
             <div class="panel-heading"><h4>Villages in: <span id="selectedDistrict" >no district selected </span> </h4></div>
             <div class="panel-body">
 
                 <div class="box box-info">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Village Name" id="searchTextVillage">
+                        <div class="input-group-btn">
+                            <button class="btn btn-primary" type="submit" id="searchButton">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
+                        </div>
+                    </div>
                     <div class="table-wrapper-scroll-y">
 
                         <table id="villagesTable" class="table">
@@ -318,8 +326,37 @@
 
 
 
+    // Search Village Jquery Script
+    $(document).ready(function(){
+        $("#searchTextVillage").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#villagesTable tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
 
+</script>
+<script>
+    // Search District Jquery Script
+    $(document).ready(function(){
+        $("#searchText").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#districtsTable tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
 
+    // Search Jquery Script
+    $(document).ready(function(){
+        $("#searchText").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#districtsTable tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
 </script>
 </body>
 </html>
