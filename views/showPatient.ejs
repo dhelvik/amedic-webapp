@@ -56,10 +56,13 @@
         var id = row.find('td:nth(2)').text();
 
 
-        var requestSite = '/patients/' + id;
-        location.replace(requestSite);
-    });
 
+
+           var requestSite = '/patients/'+id;
+           location.replace(requestSite);
+       });
+
+              /*  $('#HSAVisits').empty();
     /*  $('#HSAVisits').empty();
 
       $('#exampleModal').modal('toggle');

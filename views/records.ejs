@@ -78,11 +78,12 @@
 
             <div class="panel-heading"><h4>Records</h4></div>
             <div class="panel-body" style="min-height: 300px">
-                <table class="table">
+                <table id="recordsTable" class="table">
                     <tr>
                         <%if(records.length>0){ %>
+                        <th>Rec ID</th>
                         <th>Patient ID</th>
-                        <th>Record ID</th>
+                        <th>Symptom  ID</th>
                         <th>Symptom ID</th>
                         <th>Diagnosis ID</th>
                         <th>Timestamp</th>
@@ -91,6 +92,7 @@
                     </tr>
                     <% for(var i = 0; i < records.length;i++){ %>
                     <tr>
+                        <td><%= records[i].id %></td>
                         <td><%= records[i].patient_id %></td>
                         <td><%= records[i].symptoms_sheet_id %></td>
                         <td><%= records[i].diagnosis_id %></td>
@@ -107,6 +109,16 @@
     </div>
 </div>
 
+<script>  $(document).on("dblclick","#recordsTable tr", function () {
+        var $this = $(this);
+        var row = $this.closest("tr");
+        var id = row.find('td:first').text();
 
+
+        var requestSite = '/visits/'+id;
+        location.replace(requestSite);
+    });
+
+</script>
 </body>
 </html>

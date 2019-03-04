@@ -76,6 +76,9 @@ app.use('/HSA_Visits', require('./routes/HSA_Visits'));
 
 //Routes HSA
 app.use('/HSAs', require('./routes/HSAs'));
+//Routes Visits
+app.use('/visits', require('./routes/visits'));
+
 
 //Routes logout
 app.get('/logout', (req, res) => {

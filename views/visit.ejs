@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<% include head.ejs %>
+<body>
+
+<div class="container">
+    <% include nav.ejs %>
+    <div class="col-md-5 ">
+
+        <div class="panel panel-default" >
+            <div class="panel-heading"><h4>Visit</h4></div>
+            <div class="panel-body">
+
+                <div class="box box-info">
+
+
+                    <div class="col-sm-6">
+                        <h4 style="color:#00b1b1;"><%= result.name %></h4></span>
+
+                    </div>
+                    <div class="clearfix"></div>
+                    <hr style="margin:5px 0 5px 0;">
+
+                    <div class="col-sm-5 col-xs-6 tital ">Visit ID</div>
+                    <div class="col-sm-7 col-xs-6 "><%= result[0].ID %></div>
+                    <div class="clearfix"></div>
+                    <div class="bot-border"></div>
+
+                    <div class="col-sm-5 col-xs-6 tital ">Symptoms ID</div>
+                    <div class="col-sm-7 col-xs-6 "><%= result[0].symptoms_sheet_id %></div>
+                    <div class="clearfix"></div>
+                    <div class="bot-border"></div>
+
+
+                    <div class="col-sm-5 col-xs-6 tital ">Patient ID</div>
+                    <div class="col-sm-7"> <%= result[0].patient_id %></div>
+
+                    <div class="clearfix"></div>
+                    <div class="bot-border"></div>
+
+                    <div class="col-sm-5 col-xs-6 tital ">Diagnosis ID</div>
+                    <div class="col-sm-7"><%= result[0].diagnosis_id %></div>
+
+                    <div class="clearfix"></div>
+                    <div class="bot-border"></div>
+
+                    <div class="col-sm-5 col-xs-6 tital ">HSA/HE ID</div>
+                    <div class="col-sm-7"><%= result[0].user_id %></div>
+
+                    <div class="clearfix"></div>
+                    <div class="bot-border"></div>
+
+                    <div class="col-sm-5 col-xs-6 tital ">Timestamp</div>
+                    <div class="col-sm-7"><%= result[0].timestamp %></div>
+
+                    <div class="clearfix"></div>
+                    <div class="bot-border"></div>
+
+                    <div class="col-sm-5 col-xs-6 tital ">
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+            <div class="panel-footer">
+            </div>
+
+        </div>
+
+    </div>
+    <div class="col-md-7 ">
+
+        <div class="panel panel-default">
+
+            <div class="panel-heading"><h4>Notes</h4></div>
+            <div class="panel-body" style="min-height: 300px">
+
+
+        <table>
+            <tr>
+                <th>Note</th>
+                <th>Timestamp</th>
+            </tr>
+            <% notes = result[1];
+            for(var i = 0; i < notes.length; i++){ %>
+            <tr>
+                <td><%= notes[i].ID %></td>
+                <td><%= notes[i].description %></td>
+            </tr>
+            <% } %>
+
+        </table>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
