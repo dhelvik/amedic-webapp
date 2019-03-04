@@ -5,7 +5,66 @@
 
 <div class="container">
     <% include nav.ejs %>
-    <div class="col-md-5 ">
+    <div class =col-md-5>
+
+        <div class="panel panel-default">
+            <div class="panel-heading"><h4>Symptoms</h4></div>
+            <div class="panel-body" style="min-height: 300px">
+                <div class="box box-info">
+                    <!-- Denna kod skall användas om vi vill ha den i KOLUMNER -->
+                    <% symptom = result[2];
+                            for (var key in symptom) {
+                    if(symptom.hasOwnProperty(key)) {
+                        console.log(key + "--->" + symptom[key]);
+                    %>
+
+                    <div class="col-sm-5 col-xs-6 tital "><b><%=key%> </b></div>
+                    <div class="col-sm-7 col-xs-6  "><%= symptom[key]%></div>
+                    <div class="clearfix"></div>
+                    <div class="bot-border"></div>
+                    <% }
+                    } %>
+                    <!-- Denna kod skall användas om vi vill ha den I EN TABELL
+                    <table>
+                        <tr>
+                            <% symptom = result[2];
+                            for (var key in symptom) {
+                                if(symptom.hasOwnProperty(key)) {
+                                    console.log(key + "--->" + symptom[key]);
+                                %>
+                            <td> <b> <%=key + ": "%> </b>  <%= symptom[key] %></td>
+                        </tr>
+
+                        <%  }
+                                }%>
+                    </table>
+-->
+
+
+
+                </div>
+            </div>
+            <div class="panel-footer">
+            </div>
+        </div>
+    </div>
+
+    <div class =col-md-3>
+        <div class="panel panel-default">
+
+            <div class="panel-heading"><h4>Diagnosis</h4></div>
+            <div class="panel-body" style="min-height: 300px">
+                <div class="box box-info">
+
+
+                </div>
+            </div>
+            <div class="panel-footer">
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
 
         <div class="panel panel-default" >
             <div class="panel-heading"><h4>Visit</h4></div>
@@ -71,7 +130,7 @@
         </div>
 
     </div>
-    <div class="col-md-7 ">
+    <div class="col-md-10 ">
 
         <div class="panel panel-default">
 
@@ -96,6 +155,8 @@
             </div>
         </div>
     </div>
+
+</div>
 
 </body>
 </html>

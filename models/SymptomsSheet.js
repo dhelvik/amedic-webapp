@@ -61,7 +61,7 @@ var SymptomsSheet = db.define('SymptomsSheet', {
       type: DataTypes.INTEGER(1),
       allowNull: true
     },
-    redEyes: {
+    red_eyes: {
       type: DataTypes.INTEGER(1),
       allowNull: true
     },
