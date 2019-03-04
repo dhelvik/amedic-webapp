@@ -1,11 +1,23 @@
 const express = require ('express');
 const router = express.Router();
-const Visit = require('../models/HSA_visit');
+const Visit = require('../models/Visit');
+const Notes = require('../models/Notes');
+//TEST AV NY SIDA
+router.get('/:id', function(req, res) {
+    Visit.findOne(
+        {where: {ID: req.params.id}}).then(visit => {
+        var result = [];
+            result.push(visit);
+            Notes.findAll({where: {visit_id: req.params.id}}).then(notes => {
+                result.push(notes);
+                console.log(notes);
+                res.render('visit',{
+                    result: result
+                });
+            });
 
-router.post('/', function(req, res){
-    Visit.findAll({where: {patientID:req.body.id}}).then(result =>{
-        res.send(result);
-    })
+    });
 });
+
 
 module.exports = router;

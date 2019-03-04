@@ -61,9 +61,9 @@
                                 <td><%= result[i].ID %></td>
                                 <td><%= result[i].name %></td>
                                 <td><%= result[i].login_id %></td>
+                            </tr>
 
                                 <% } %>
-                            </tr>
                         </table>
                     </div>
                 </div>
@@ -363,7 +363,61 @@
         });
 
     });
+    $(document).on("click", "#usersTable tr", function () {
+        var $this = $(this);
+        var row = $this.closest("tr");
+        var id = row.find('td:first').text();
 
+        $(".user").prop('disabled', true);
+        $(".btn-info").prop('disabled', false);
+        $(".btn-danger").prop('disabled', false);
+        $.ajax({
+            type: "POST",
+            url: "/users/findUser",
+            data: {
+                id: id
+            },
+            success: function (result) {
+
+                $('#userId').val(result.ID);
+                $('#userName').val(result.name);
+                $('#userEmail').val(result.email);
+                $('#userLoginID').val(result.login_id);
+                $('#userPassword').val(result.password);
+
+                if (result.hsa_flag === 1) {
+                    $("#checkboxHSA").prop("checked", true);
+
+                } else {
+                    $("#checkboxHSA").prop("checked", false);
+
+                }
+                if (result.health_expert_flag === 1) {
+                    $("#checkboxHE").prop("checked", true);
+
+                } else {
+                    $("#checkboxHE").prop("checked", false);
+
+                }
+                if (result.admin_flag === 1) {
+                    $("#checkboxAdmin").prop("checked", true);
+
+                } else {
+                    $("#checkboxAdmin").prop("checked", false);
+
+                }
+
+
+                $('#userLastLogin').val(result.lastLogin);
+
+
+            },
+            error: function (result) {
+
+            }
+        });
+
+    });
     function unlockFields() {
         if ($('#userLoginID').val() !== "") {
 
