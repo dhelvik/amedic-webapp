@@ -50,11 +50,8 @@ router.post('/', function(req, res){
     Patient.findOne({where: {national_id:req.body.id}}).then(Patient =>{
         if(Patient!=null){
             result.push(Patient);
-            Village.findAll().then( villages =>{
-                result.push(villages);
-                res.send(result);
-                res.end();
-            })
+            res.send(result);
+            res.end();
         } else{
             res.end();
         }

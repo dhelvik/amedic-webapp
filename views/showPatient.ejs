@@ -2,8 +2,8 @@
 <html lang="en">
 <% include head.ejs %>
 <style>
-    tr:hover{
-        background-color:#ddd;
+    tr:hover {
+        background-color: #ddd;
     }
 </style>
 <body>
@@ -30,30 +30,32 @@
         </div>
     </div>
     <div id="main-content">
-    <div class="input-group">
-        <input type="number" class="form-control" placeholder="National ID" id="searchText"/>
-        <div class="input-group-btn">
-            <button class="btn btn-primary" type="submit" id="searchButton">
-                <span class="glyphicon glyphicon-search"></span>
-            </button>
+        <div class="input-group">
+            <input type="number" class="form-control" placeholder="National ID" id="searchText"/>
+            <div class="input-group-btn">
+                <button class="btn btn-primary" type="submit" id="searchButton">
+                    <span class="glyphicon glyphicon-search"></span>
+                </button>
+            </div>
         </div>
-    </div>
-    <table id='patientTable' class="table table-striped">
-        <tr>
+        <table id='patientTable' class="table table-striped">
+            <tr>
 
-        </tr>
+            </tr>
 
-    </table>
+        </table>
     </div>
-    </div>
+</div>
 </div>
 
 
 <script>
-       $(document).on("dblclick","#patientTable tr", function () {
-           var $this = $(this);
-           var row = $this.closest("tr");
-           var id = row.find('td:nth(2)').text();
+    $(document).on("dblclick", "#patientTable tr", function () {
+        var $this = $(this);
+        var row = $this.closest("tr");
+        var id = row.find('td:nth(2)').text();
+
+
 
 
            var requestSite = '/patients/'+id;
@@ -61,40 +63,41 @@
        });
 
               /*  $('#HSAVisits').empty();
+    /*  $('#HSAVisits').empty();
 
-                $('#exampleModal').modal('toggle');
+      $('#exampleModal').modal('toggle');
 
-                $.ajax({
-                    type: "POST",
-                    url: "/HSA_Visits",
-                    data: {
-                        id: id
+      $.ajax({
+          type: "POST",
+          url: "/HSA_Visits",
+          data: {
+              id: id
 
-                    },
-                    success: function (result) {
+          },
+          success: function (result) {
 
-                        if (!$.trim(result)) {
+              if (!$.trim(result)) {
 
-                        } else {
-                            $('#HSAVisits').append('<tr>\n' +
-                                '            <th>Patient ID</th>\n' +
-                                '            <th>Symptom ID</th>\n' +
-                                '            <th>Diagnosis ID</th>\n' +
-                                '            <th>Timestamp</th>\n' +
-                                '        </tr>');
-                            $.each(result, function (index, value) {
-                                $('#HSAVisits').append('<tr><td>' + value.patientID + '</td><td>' + value.symptomID + '</td><td>' + value.diagnosisID + '</td><td>' + value.timestamp + '</td></tr>');
+              } else {
+                  $('#HSAVisits').append('<tr>\n' +
+                      '            <th>Patient ID</th>\n' +
+                      '            <th>Symptom ID</th>\n' +
+                      '            <th>Diagnosis ID</th>\n' +
+                      '            <th>Timestamp</th>\n' +
+                      '        </tr>');
+                  $.each(result, function (index, value) {
+                      $('#HSAVisits').append('<tr><td>' + value.patientID + '</td><td>' + value.symptomID + '</td><td>' + value.diagnosisID + '</td><td>' + value.timestamp + '</td></tr>');
 
-                            });
-                        }
-                    },
-                    error: function (result) {
-                        alert('hej');
-                    }
-                });
+                  });
+              }
+          },
+          error: function (result) {
+              alert('hej');
+          }
+      });
 
 
-        });
+});
 
 */
     function deleteRow() {
@@ -125,63 +128,63 @@
         }
     }
 
-  /*  function editRow() {
-        if ($(this).html() == 'Edit') {
-            $(this).removeClass('btn-info');
-            $(this).addClass('btn-success');
-            $(this).parent().siblings().find('select').prop("disabled", false);
+    /*  function editRow() {
+          if ($(this).html() == 'Edit') {
+              $(this).removeClass('btn-info');
+              $(this).addClass('btn-success');
+              $(this).parent().siblings().find('select').prop("disabled", false);
 
-            $(this).parent().siblings(".editable").attr("contenteditable", "true");
-        } else {
-            $(this).parent().siblings().find('select').prop("disabled", true);
+              $(this).parent().siblings(".editable").attr("contenteditable", "true");
+          } else {
+              $(this).parent().siblings().find('select').prop("disabled", true);
 
-            $(this).addClass('btn-info');
-            $(this).removeClass('btn-success');
-            $(this).parent().siblings().attr("contenteditable", "false");
-            var id = $(this).parent().siblings().filter(":first").text();
-            var name = $(this).parent().siblings().filter(":nth(1)").text();
-            var nationalID = $(this).parent().siblings().filter(":nth(2)").text();
-            var mobileNo = $(this).parent().siblings().filter(":nth(3)").text();
-            var sex = $(this).parent().siblings().filter(":nth(4)").text();
-            var villageName = $(this).parent().siblings().find('select').val();
+              $(this).addClass('btn-info');
+              $(this).removeClass('btn-success');
+              $(this).parent().siblings().attr("contenteditable", "false");
+              var id = $(this).parent().siblings().filter(":first").text();
+              var name = $(this).parent().siblings().filter(":nth(1)").text();
+              var nationalID = $(this).parent().siblings().filter(":nth(2)").text();
+              var mobileNo = $(this).parent().siblings().filter(":nth(3)").text();
+              var sex = $(this).parent().siblings().filter(":nth(4)").text();
+              var villageName = $(this).parent().siblings().find('select').val();
 
-            var dateOfBirth = $(this).parent().siblings().filter(":nth(6)").text();
-
-
-            // GET from select           var sex = $(this).parent().siblings().find('select').val();
+              var dateOfBirth = $(this).parent().siblings().filter(":nth(6)").text();
 
 
-            updatePatient(id, name, nationalID, mobileNo, sex, villageName, dateOfBirth);
+              // GET from select           var sex = $(this).parent().siblings().find('select').val();
 
-        }
-        $(this).html($(this).html() == 'Edit' ? 'Save' : 'Edit')
 
-    }
-*/
+              updatePatient(id, name, nationalID, mobileNo, sex, villageName, dateOfBirth);
 
-  /*
-    function updatePatient(id, name, nationalID, mobileNo, sex, villageName, dateOfBirth) {
-        $.ajax({
-            type: "POST",
-            url: "/patients/updatePatient",
-            data: {
-                id: id,
-                name: name,
-                nationalID: nationalID,
-                mobileNo: mobileNo,
-                sex: sex,
-                villageName: villageName,
-                dateOfBirth: dateOfBirth
-            },
-            success: function (result) {
-            },
-            error: function (result) {
+          }
+          $(this).html($(this).html() == 'Edit' ? 'Save' : 'Edit')
 
-            }
-        });
-    }
+      }
+  */
 
-*/
+    /*
+      function updatePatient(id, name, nationalID, mobileNo, sex, villageName, dateOfBirth) {
+          $.ajax({
+              type: "POST",
+              url: "/patients/updatePatient",
+              data: {
+                  id: id,
+                  name: name,
+                  nationalID: nationalID,
+                  mobileNo: mobileNo,
+                  sex: sex,
+                  villageName: villageName,
+                  dateOfBirth: dateOfBirth
+              },
+              success: function (result) {
+              },
+              error: function (result) {
+
+              }
+          });
+      }
+
+  */
     function findPatient(id) {
         $.ajax({
             type: "POST",
@@ -194,32 +197,26 @@
                     alert("No patient found with given National ID");
                 } else {
                     patient = result[0];
-                    villages = result[1];
+                    //villages = result[1];
 
                     $('#patientTable tbody').empty();
-                    $('#patientTable tbody').append('<tr>\n' +
-                        '            <th>ID</th>\n' +
-                        '            <th>Name</th>\n' +
-                        '            <th>National ID</th>\n' +
-                        '            <th>Mobile No</th>\n' +
-                        '            <th>Sex</th>\n' +
-                        '            <th>Village Name</th>\n' +
-                        '            <th>Date Of Birth</th>\n' +
-                        '            <th>&nbsp</th>\n' +
-                        '            <th>&nbsp</th>\n' +
-                        '\n' +
-                        '        </tr>')
-                    var string = '<tr><td>'+patient.ID+'</td><td class="editable">' + patient.name + '</td><td class="editable">' + patient.national_id + '</td><td class="editable">' + patient.mobile_no + '</td><td class="editable">' + patient.sex + '</td>';
-                    string = string.concat('<td><select class="editable villageName" disabled="true">');
-
-                    for (i = 0; i < villages.length; i++) {
-                        string = string.concat('<option value="' + villages[i].name.toUpperCase() + '">' + villages[i].name + '</option>');
-                    }
-                   string =  string.concat('</select></td><td class="editable">' + patient.date_of_birth + '</td></tr>')
+                    $('#patientTable tbody').append('<tr>' +
+                        '            <th>ID</th>' +
+                        '            <th>Name</th>' +
+                        '            <th>National ID</th>' +
+                        '            <th>Mobile No</th>' +
+                        '            <th>Sex</th>' +
+                        '            <th>Village Name</th>' +
+                        '            <th>Date Of Birth</th>' +
+                        '            </tr>')
+                    var string = '<tr><td>' + patient.ID + '</td>' +
+                        '<td class="editable">' + patient.name + '</td>' +
+                        '<td class="editable">' + patient.national_id + '</td>' +
+                        '<td class="editable">' + patient.mobile_no + '</td>' +
+                        '<td class="editable">' + patient.sex + '</td>' +
+                        '<td class="editable">' + patient.village_name + '</td>' +
+                        '</td><td class="editable">' + patient.date_of_birth + '</td></tr>';
                     $('#patientTable tbody').append(string);
-                    $('.villageName').val(patient.village_name.toUpperCase());
-
-
                 }
 
             },
@@ -228,7 +225,7 @@
             }
         });
 
-        }
+    }
 
     $(document).on('click', '#searchButton', function () {
         var id = $('#searchText').val();
@@ -246,7 +243,7 @@
         }
     })
     $(document).on('click', '.btn-danger', deleteRow);
-  //  $(document).on('click', '.btnEdit', editRow);
+    //  $(document).on('click', '.btnEdit', editRow);
 </script>
 </body>
 </html>
