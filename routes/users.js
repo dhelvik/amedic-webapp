@@ -31,7 +31,9 @@ router.post('/register', function (req, res) {
         admin_flag: req.body.adminFlag,
         mobile_no: req.body.mobileNo,
         date_of_birth: req.body.dateOfBirth,
-        national_id: req.body.nationalID
+        national_id: req.body.nationalID,
+        email: req.body.email,
+        health_facility_name: req.body.healthFacility
     }).then(function (item) {
         res.json({
             Message: "Created item.",

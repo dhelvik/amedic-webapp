@@ -4,7 +4,7 @@
 <body>
 <div class="container">
     <% include nav.ejs%>
-    <form action="/registerHF" method="post">
+    <form action="registerHealthFacility" method="post">
         <div class="form-group">
             <label for="inputHealthFacilityName">Health Facility Name</label>
             <input name= "name" class="form-control" id="inputHealthFacilityName" placeholder="Facility Name" required>
@@ -12,7 +12,7 @@
 
         <div class="form-group">
             <label for="inputVillageName">Village Name</label>
-            <select id="inputVillageName" class="form-control"><% for (var i = 0; i < result.length;i++){ %><option><%=result[i].name%></option><%}%></select>
+            <select id="inputVillageName"name="villageName" class="form-control"><% for (var i = 0; i < result.length;i++){ %><option><%=result[i].name%></option><%}%></select>
 
         </div>
 

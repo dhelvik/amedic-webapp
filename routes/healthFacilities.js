@@ -18,6 +18,36 @@ router.get('/registerHealthFacility', function(req, res){
     })
 
 });
+router.post('/registerHealthFacility', function(req, res){
+    const healthFacility = HealthFacility.create({
+       name: req.body.name,
+       village_name: req.body.villageName
+    }).then(function(item){
+        console.log(healthFacility);
+        res.json({
+
+            Message : "Created item.",
+            Status : 200,
+            Item : healthFacility
+        });
+    }).catch(function (err) {
+        console.log(err)
+        res.json({
+            Error : err,
+            Status : 500
+
+        });
+    });
+
+
+});
+router.post('/getHealthFacilities', function(req, res){
+    HealthFacility.findAll().then(result=>{
+        res.send(result);
+        res.end;
+    })
+
+});
 
 
 
