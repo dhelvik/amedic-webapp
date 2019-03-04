@@ -91,10 +91,10 @@
                     </tr>
                     <% for(var i = 0; i < records.length;i++){ %>
                     <tr>
-                        <td><%= records[i].patientID %></td>
-                        <td><%= records[i].HSAID %></td>
-                        <td><%= records[i].symptomID %></td>
-                        <td><%= records[i].diagnosisID %></td>
+                        <td><%= records[i].patient_id %></td>
+                        <td><%= records[i].symptoms_sheet_id %></td>
+                        <td><%= records[i].diagnosis_id %></td>
+                        <td><%= records[i].user_id %></td>
                         <td><%= records[i].timestamp %></td>
                     </tr>
                     <% } %>
