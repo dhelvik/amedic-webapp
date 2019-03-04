@@ -17,6 +17,13 @@
     .btn-space {
         margin-right: 1em;
     }
+    .panel-body{
+        min-height: 550px;
+    }
+    .highlight{
+        background-color: #aaa;
+    }
+
 </style>
 <div class="container">
     <% include nav.ejs %>
@@ -25,7 +32,7 @@
 
         <div class="panel panel-default">
             <div class="panel-heading"><h4>Search</h4></div>
-            <div class="panel-body" style="min-height:400px;">
+            <div class="panel-body">
 
                 <div class="box box-info">
 
@@ -164,7 +171,7 @@
 
     <div class="col-md-7 ">
 
-        <div class="panel panel-default" style="min-height:350px;">
+        <div class="panel panel-default">
             <div class="panel-heading"><h4>User</h4></div>
             <div class="panel-body">
 
@@ -482,7 +489,12 @@
             alert("Passwords doesn't match");
         }
     });
-
+    $("#usersTable tr").click(function() {
+        var selected = $(this).hasClass("highlight");
+        $("#usersTable tr").removeClass("highlight");
+        if(!selected)
+            $(this).addClass("highlight");
+    });
 
     $(document).ready(function() {
         $.ajax({
