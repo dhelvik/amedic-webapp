@@ -10,7 +10,6 @@ router.get('/:id', function(req, res) {
             result.push(visit);
             Notes.findAll({where: {visit_id: req.params.id}}).then(notes => {
                 result.push(notes);
-                console.log(notes);
                 res.render('visit',{
                     result: result
                 });
