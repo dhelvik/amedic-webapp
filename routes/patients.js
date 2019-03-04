@@ -82,13 +82,12 @@ router.post('/updatePatient', function(req, res){
 });
 //TEST AV NY SIDA
 router.get('/:id', function(req, res) {
-    var Patient = require('../models/Patient');
-    console.log(req.body);
+    console.log(req.params.id);
     Patient.findOne(
         {where: {national_id: req.params.id}}).then(patient => {
         console.log(patient);
         Visit.findAll(
-            {where: {patient_id: patient.id}
+            {where: {patient_id: patient.ID}
             }).then(records => {
             res.render('records', {
                 result: patient,
