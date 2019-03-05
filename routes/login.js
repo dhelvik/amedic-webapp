@@ -28,8 +28,7 @@ router.get('/', (req, res) => {
                 console.log(username + " logged in successfully.");
                 user.update({
                     last_login: Date.now()
-                }).then(() => {console.log("hmm")});
-                user.save().then(() => {});
+                }).then(() => {});
                 res.json({status: "Success", redirect: '/'});
             }
         }).catch(function (err) {
