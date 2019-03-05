@@ -17,7 +17,17 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="/patients">Search Patient</a></li>
                     <li><a href="/patients/register">Register Patient</a></li>
-                    <li><a href="/users">Admin</a></li>
+                    <%
+                    if(!user){
+
+                    }else{
+                        if(user.admin_flag === 1){
+                        %>
+                            <li><a href="/users">Admin</a></li>
+                        <%
+                        }
+                    }
+                    %>
                     <li><a href="/logout">Log out</a></li>
                 </ul>
             </div>

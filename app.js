@@ -49,6 +49,11 @@ app.use((req, res, next) => {
     next();
 });
 
+// This middleware will save the session to local so we can use it in EJS files
+app.use(function(req, res, next) {
+    res.locals.user = req.session.user;
+    next();
+});
 /*con.connect(function (err) {
     if (err) throw err;
     console.log("Connected!");
@@ -84,7 +89,7 @@ app.use('/visits', require('./routes/visits'));
 app.get('/logout', (req, res) => {
     if (req.session.user && req.cookies.user_sid) {
         res.clearCookie('user_sid');
-        res.redirect('/');
+        res.redirect('/login');
     } else {
         res.redirect('/login');
     }
