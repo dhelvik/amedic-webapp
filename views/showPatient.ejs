@@ -50,7 +50,7 @@
 
 
 <script>
-    $(document).on("dblclick", "#patientTable tr", function () {
+    $(document).on("dblclick", "#patientTable tr:not(:first-child)", function () {
         var $this = $(this);
         var row = $this.closest("tr");
         var id = row.find('td:nth(2)').text();
