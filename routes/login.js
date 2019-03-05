@@ -16,7 +16,7 @@ router.get('/', (req, res) => {
         var username = req.body.username,
             password = req.body.password;
 
-        AMEDUser.findOne({where: {loginID: username}}).then(function (user) {
+        AMEDUser.findOne({where: {login_id: username}}).then(function (user) {
             if (!user || !bcrypt.compareSync(password, user.password)) {
                 console.log("Failed login from username: " + username);
                 res.json({
@@ -26,6 +26,10 @@ router.get('/', (req, res) => {
             } else {
                 req.session.user = user.dataValues;
                 console.log(username + " logged in successfully.");
+                user.update({
+                    last_login: Date.now()
+                }).then(() => {console.log("hmm")});
+                user.save().then(() => {});
                 res.json({status: "Success", redirect: '/'});
             }
         }).catch(function (err) {

@@ -32,11 +32,14 @@ var AMEDUser = db.define('AMEDUser', {
         type: DataTypes.STRING,
         allowNull: true
     },
-       login_id: {
+    login_id: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true
-
+    },
+    last_login: {
+        type: DataTypes.DATE,
+        allowNull: true,
     },
     password: {
         type: DataTypes.STRING,
