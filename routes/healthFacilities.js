@@ -19,6 +19,9 @@ router.get('/registerHealthFacility', function(req, res){
 
 });
 router.post('/registerHealthFacility', function(req, res){
+    console.log(req.body.villageName);
+
+
     const healthFacility = HealthFacility.create({
        name: req.body.name,
        village_name: req.body.villageName
@@ -47,6 +50,50 @@ router.post('/getHealthFacilities', function(req, res){
         res.end;
     })
 
+});
+
+//Ajax request to find AMEDUser like
+router.post('/findHFSLike', function (req, res) {
+    HealthFacility.findAll({
+        where: {
+            $or: {
+                name: {
+                    $like: '%' + req.body.searchText + '%'
+
+                },
+                village_name: {
+                    $like: '%' + req.body.searchText + '%'
+
+                }
+            }
+
+
+        }
+    }).then(result => {
+            res.send(result);
+        }
+    )
+});
+
+//Ajax request to find Health Facility
+router.post('/findHealthFacility', function (req, res) {
+    HealthFacility.findOne({
+        where: {
+            name: req.body.id
+        }
+    }).then(result => {
+        res.send(result);
+
+
+    })
+});
+
+//Ajax request to delete user
+router.post('/removeHealthFacility', function(req, res){
+    HealthFacility.destroy({
+        where: {name: req.body.id}
+    });
+    res.end();
 });
 
 
