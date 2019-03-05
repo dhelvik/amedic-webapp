@@ -1,17 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <% include head.ejs %>
+<style>
+    .table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
+        background-color: #ebffff;
+
+    }
+</style>
 <body>
 
 <div class="container">
     <% include nav.ejs %>
-    <div class =col-md-5>
+    <div class =col-md-4>
 
         <div class="panel panel-default">
             <div class="panel-heading"><h4>Symptoms</h4></div>
             <div class="panel-body" style="min-height: 300px">
                 <div class="box box-info">
-                    <!-- Denna kod skall användas om vi vill ha den i KOLUMNER -->
+                    <!-- Denna kod skall användas om vi vill ha den i KOLUMNER
                     <% symptom = result[2];
                             for (var key in symptom) {
                     if(symptom.hasOwnProperty(key)) {
@@ -24,21 +30,31 @@
                     <div class="bot-border"></div>
                     <% }
                     } %>
-                    <!-- Denna kod skall användas om vi vill ha den I EN TABELL
-                    <table>
+
+                    -->
+                    <div class="table-wrapper-scroll-y">
+                    <table id="symptomsTable" class="table table-striped " >
+                        <thead>
+                        <tr>
+                         <th></th>
+                         <th></th>
+                        </tr>
+                        </thead>
                         <tr>
                             <% symptom = result[2];
                             for (var key in symptom) {
                                 if(symptom.hasOwnProperty(key)) {
                                     console.log(key + "--->" + symptom[key]);
                                 %>
-                            <td> <b> <%=key + ": "%> </b>  <%= symptom[key] %></td>
+                            <td> <b> <%=key + ": "%> </b> </td>
+                            <td> <%= symptom[key] %></td>
                         </tr>
 
                         <%  }
                                 }%>
+
                     </table>
--->
+                    </div>
 
 
 
