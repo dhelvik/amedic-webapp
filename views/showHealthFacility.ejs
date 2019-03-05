@@ -1,25 +1,288 @@
 <!DOCTYPE html>
 <html lang="en">
-<% include head.ejs%>
+<% include head.ejs %>
 <body>
 <div class="container">
-    <% include adminNav.ejs%>
+    <% include adminNav.ejs %>
+    <div class="col-md-5">
 
-    <table style="margin-top:50px" class="table table-striped">
-        <tr>
+        <div class="panel panel-default">
+            <div class="panel-heading"><h4>Search</h4></div>
+            <div class="panel-body">
 
-            <th>Name</th>
-            <th>Village</th>
+                <div class="box box-info">
 
-        </tr>
-        <% for (var i = 0; i < result.length;i++){ %>
-        <tr>
-            <td><%=result[i].name%></td>
-            <td><%=result[i].village_name%></td>
-        <tr>
-            <%}%>
-        </tr>
-    </table>
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Name or Village Name" id="searchText"
+                               onkeyup="fetchHealthFacilities()"/>
+                        <div class="input-group-btn">
+                            <button class="btn btn-primary" type="submit" id="searchButton">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="table-wrapper-scroll-y">
+
+                        <table id="healthFacilitiesTable" style="margin-top:50px" class="table table-striped">
+                            <tr>
+
+                                <th>Name</th>
+                                <th>Village</th>
+
+                            </tr>
+                            <% for (var i = 0; i < result.length;i++){ %>
+                            <tr>
+                                <td><%= result[i].name %></td>
+                                <td><%= result[i].village_name %></td>
+                            <tr>
+                                <% } %>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+
+                <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#addHealthFacility"><span
+                            class="glyphicon glyphicon-plus"></span>
+                </button>
+
+
+            </div>
+
+        </div>
+    </div>
+    <div class="col-md-7 ">
+
+        <div class="panel panel-default">
+            <div class="panel-heading"><h4>Health Facility</h4></div>
+            <div class="panel-body">
+
+                <div class="box box-info">
+                    <form id="healthFacilityForm">
+                        <div class="form-group">
+                            <label for="healthFacilityName">Name</label>
+                            <input id="healthFacilityName" name="name" class="form-control editable" type="text" disabled="true">
+                        </div>
+                        <div class="form-group">
+                            <label for="healthFacilityVillageName">Village Name</label>
+                            <input id="healthFacilityVillageName" name="villageName" class="form-control" type="text" disabled="true">
+                        </div>
+
+
+                    </form>
+                </div>
+            </div>
+            <div class="panel-footer">
+
+                <!-- Trigger the modal with a button -->
+                <button type="button" class="btn btn-space btn-danger btn-lg" data-toggle="modal"
+                        data-target="#removeHealthFacility"
+                        disabled="true"><span class="glyphicon glyphicon-trash"></span>
+
+                </button>
+
+
+            </div>
+
+
+        </div>
+        <!-- Modal -->
+        <div id="addHealthFacility" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Add User</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form id="registerHealthFacility">
+                            <div class="form-group">
+                                <label for="inputName">Name <span class="colorChange">*</span> </label>
+                                <input class="form-control" name="name" id="inputName" placeholder="Name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputNationalID">Village<span class="colorChange">*</span></label>
+                               <select id="inputVillageName" name="villageName" class="form-control">
+
+                               </select>
+                            </div>
+
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+
+
+                </div>
+
+            </div>
+
+        </div>
+        </div>
+    </div>
+
+
+    <!-- Dialog Modal --->
+    <!-- Modal -->
+    <div id="removeHealthFacility" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Delete Health Facility</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        <span id="textChange"> <b>Are you sure you want to delete the selected Health Facility? </b></span>
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" onclick="removeHealthFacility()" class="btn btn-danger"
+                            data-dismiss="modal">Yes
+                    </button>
+                    <button type="button" class="btn btn-info" data-dismiss="modal">No</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
 </div>
+
+    <script>
+        function fetchHealthFacilities() {
+            var searchText = $('#searchText').val();
+
+
+            $.ajax({
+                type: "POST",
+                url: "/healthFacilities/findHFSLike",
+                data: {
+                    searchText: searchText
+                },
+                success: function (result) {
+                    if (!$.trim(result)) {
+                    } else {
+                        $('#healthFacilitiesTable tbody').empty();
+                        $('#healthFacilitiesTable tbody').append('<tr>\n' +
+                            '            <th>Name</th>\n' +
+                            '            <th>Village</th>\n' +
+                            '</tr>')
+                        for (var i = 0; i < result.length; i++) {
+
+                            $('#healthFacilitiesTable tbody').append('<tr><td>' + result[i].name + '<td>' + result[i].village_name + '</td></tr>');
+                        }
+
+                    }
+
+                },
+                error: function (result) {
+
+                }
+            });
+
+        }
+
+        $(document).on("click", "#healthFacilitiesTable tr", function () {
+            var $this = $(this);
+            var row = $this.closest("tr");
+            var id = row.find('td:first').text();
+
+            $(".user").prop('disabled', true);
+            $(".btn-info").prop('disabled', false);
+            $(".btn-danger").prop('disabled', false);
+            $.ajax({
+                type: "POST",
+                url: "/healthFacilities/findHealthFacility",
+                data: {
+                    id: id
+                },
+                success: function (result) {
+
+                    $('#healthFacilityName').val(result.name);
+                    $('#healthFacilityVillageName').val(result.village_name);
+
+                },
+                error: function (result) {
+
+                }
+            });
+
+        });
+
+        function removeHealthFacility() {
+            var id = $('#healthFacilityName').val();
+
+            $('.btn-danger').prop('disabled', false);
+            $.ajax({
+                method: "POST",
+                url: "/healthFacilities/removeHealthFacility",
+                data: {
+                    id: id
+                },
+                success: function (result) {
+                    $('#textChange').text("Health Facility deleted");
+                    alert("Health Facility deleted successfully");
+                    fetchHealthFacilities();
+
+
+                },
+                error: function (err) {
+                    console.log(err);
+                    throw err();
+
+                }
+            });
+
+        }
+
+        $(document).ready(function() {
+            $.ajax({
+                method: 'post',
+                url: '/villages/getVillages',
+                dataType: 'json',
+                success: function (result) {
+                    for (var i = 0; i < result.length; i++) {
+                        $('#inputVillageName').append('<option>'+result[i].name+'</option>');
+
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert(status.message);
+                }
+            });
+        });
+        $('#registerHealthFacility').submit(function (e) {
+            e.preventDefault();
+
+            $.ajax({
+                method: 'post',
+                url: '/healthFacilities/registerHealthFacility',
+                data:
+                    $('#registerHealthFacility').serialize(),
+                dataType: 'json',
+                success: function (result) {
+                    if (result.status = 200) {
+                        alert('success');
+                        $("#registerHealthFacility")[0].reset();
+                        $('#addHealthFacility').modal('hide');
+                        fetchHealthFacilities();
+
+                    } else {
+                        alert('error');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert(status.message);
+                },
+
+            });
+        });
+    </script>
 </body>
 </html>

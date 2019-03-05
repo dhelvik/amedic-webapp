@@ -41,4 +41,13 @@ router.post('/removeVillage', function(req,res){
 
 });
 
+router.post('/getVillages', function(req, res){
+    Village.findAll().then(result=>{
+        res.send(result);
+        res.end;
+    })
+
+});
+
+
 module.exports = router;
