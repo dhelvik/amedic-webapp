@@ -50,7 +50,6 @@
                         <table id="usersTable" class="table">
                             <tr>
                                 <th>ID</th>
-                                '
                                 <th>Name</th>
                                 <th>LoginID</th>
 
@@ -221,7 +220,7 @@
                 </div>
             </div>
             <div class="panel-footer">
-                <button class="btn btn-space btn-info btn-lg" onclick="unlockFields()"><span
+                <button class="btn btn-space btn-info btn-lg" onclick="unlockFields()"  disabled="true"><span
                             class="glyphicon glyphicon-pencil"></span></button>
                 <button class="btn btn-space btn-success btn-edit btn-lg" onclick="saveUser()" disabled="true"><span
                             class="glyphicon glyphicon-ok"></span></button>
@@ -308,7 +307,7 @@
 
     }
 
-    $(document).on("click", "#usersTable tr", function () {
+    $(document).on("click", "#usersTable tr:not(:first)", function () {
         var $this = $(this);
         var row = $this.closest("tr");
         var id = row.find('td:first').text();
@@ -363,7 +362,7 @@
         });
 
     });
-    $(document).on("click", "#usersTable tr", function () {
+    $(document).on("click", "#usersTable tr:not(:first-child)", function () {
         var $this = $(this);
         var row = $this.closest("tr");
         var id = row.find('td:first').text();
@@ -543,7 +542,7 @@
             alert("Passwords doesn't match");
         }
     });
-    $("#usersTable tr").click(function() {
+    $("#usersTable tr:not(:first-child)").click(function() {
         var selected = $(this).hasClass("highlight");
         $("#usersTable tr").removeClass("highlight");
         if(!selected)
