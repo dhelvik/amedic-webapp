@@ -55,7 +55,33 @@
             <div class="panel-heading"><h4>Diagnosis</h4></div>
             <div class="panel-body" style="min-height: 300px">
                 <div class="box box-info">
+                    <div class="clearfix"></div>
+                    <hr style="margin:5px 0 5px 0;">
 
+                    <% diagnosis = result[3]; %>
+
+                    <div class="col-sm-5 col-xs-6 tital ">ID</div>
+                    <div class="col-sm-7 col-xs-6 "><%= diagnosis.ID %></div>
+                    <div class="clearfix"></div>
+                    <div class="bot-border"></div>
+
+                    <div class="col-sm-5 col-xs-6 tital ">Name</div>
+                    <div class="col-sm-7 col-xs-6 "><%= diagnosis.name %></div>
+                    <div class="clearfix"></div>
+                    <div class="bot-border"></div>
+
+
+                    <div class="col-sm-5 col-xs-6 tital ">Description</div>
+                    <div class="col-sm-7"> <%= diagnosis.description %></div>
+
+                    <div class="clearfix"></div>
+                    <div class="bot-border"></div>
+
+                    <div class="col-sm-5 col-xs-6 tital ">Class</div>
+                    <div class="col-sm-7"><%= diagnosis.class %></div>
+
+                    <div class="clearfix"></div>
+                    <div class="bot-border"></div>
 
                 </div>
             </div>
@@ -63,6 +89,49 @@
             </div>
         </div>
     </div>
+
+
+    <div class =col-md-3>
+        <div class="panel panel-default">
+
+            <div class="panel-heading"><h4>Treatment</h4></div>
+            <div class="panel-body" style="min-height: 300px">
+                <div class="box box-info">
+                    <div class="clearfix"></div>
+                    <hr style="margin:5px 0 5px 0;">
+
+                    <% diagnosis = result[3]; %>
+
+                    <div class="col-sm-5 col-xs-6 tital ">ID</div>
+                    <div class="col-sm-7 col-xs-6 "><%= diagnosis.ID %></div>
+                    <div class="clearfix"></div>
+                    <div class="bot-border"></div>
+
+                    <div class="col-sm-5 col-xs-6 tital ">Name</div>
+                    <div class="col-sm-7 col-xs-6 "><%= diagnosis.name %></div>
+                    <div class="clearfix"></div>
+                    <div class="bot-border"></div>
+
+
+                    <div class="col-sm-5 col-xs-6 tital ">Description</div>
+                    <div class="col-sm-7"> <%= diagnosis.description %></div>
+
+                    <div class="clearfix"></div>
+                    <div class="bot-border"></div>
+
+                    <div class="col-sm-5 col-xs-6 tital ">Class</div>
+                    <div class="col-sm-7"><%= diagnosis.class %></div>
+
+                    <div class="clearfix"></div>
+                    <div class="bot-border"></div>
+
+                </div>
+            </div>
+            <div class="panel-footer">
+            </div>
+        </div>
+    </div>
+
 
     <div class="col-md-4">
 
@@ -81,7 +150,7 @@
                     <hr style="margin:5px 0 5px 0;">
 
                     <div class="col-sm-5 col-xs-6 tital ">Visit ID</div>
-                    <div class="col-sm-7 col-xs-6 "><%= result[0].ID %></div>
+                    <div class="col-sm-7 col-xs-6 "><span id="visitId"> <%= result[0].id %> </span> </div>
                     <div class="clearfix"></div>
                     <div class="bot-border"></div>
 
@@ -153,10 +222,60 @@
 
         </table>
             </div>
+            <div class="panel-footer">
+                <button type="button" class="btn btn-success btn-lg" id="showTextArea"><span
+                            class="glyphicon glyphicon-plus"></span>
+                </button>
+                <div class="form-group">
+                    <label id="noteLabel" for="note">Note:</label>
+                    <textarea class="form-control" rows="10" id="noteTextArea"></textarea>
+                </div>
+                <button type="button" class="btn btn-primary" id="submitNote" >Submit</button>
+            </div>
         </div>
     </div>
 
 </div>
+<script>
+    $(document).ready(function(){
+        $("#noteLabel").hide();
+        $("#submitNote").hide();
+        $("#noteTextArea").hide();
+        $("#showTextArea").click(function(){
+            $("#noteTextArea").slideToggle("slow");
+            $("#noteLabel").slideToggle("slow");
+            $("#submitNote").slideToggle("slow");
+        });
+    });
 
+    $('#submitNote').on('click', function(e){
+        e.preventDefault();
+        const Note = {
+            "description":$('#noteTextArea').val(),
+            "timestamp" :Date.now(),
+            "visit_id":$('#visitId').text(),
+            "health_expert_id":"1",
+        }
+        $.ajax({
+            method:'post',
+            url:'/visits/addNote',
+            data: Note,
+            dataType:'json',
+            success: function(result){
+                if(result.status=200){
+                    location.reload(true);
+                    console.log(result);
+                    alert('Note Added')
+                }else {
+                    alert('error');
+                }
+
+            },
+            error: function(xhr, status, error){
+                alert(status.message);
+            }
+        });
+    })
+</script>
 </body>
 </html>
