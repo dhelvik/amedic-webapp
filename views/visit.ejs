@@ -1,72 +1,150 @@
 <!DOCTYPE html>
 <html lang="en">
 <% include head.ejs %>
+
 <style>
     .table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
         background-color: #ebffff;
 
     }
+    .my-custom-scrollbar {
+        position: relative;
+        height: 600px;
+        overflow: auto;
+    }
+    .notes-scrollbar {
+        position: relative;
+        height: 300px;
+        overflow: auto;
+    }
+    .table-wrapper-scroll-y {
+        display: block;
+    }
+    .panel-footer.panel-custom {
+        background:	#FEF7E4;
+       color:white;
+    }
+
+
+
 </style>
 <body>
 
+
 <div class="container">
     <% include nav.ejs %>
-    <div class =col-md-4>
+    <div class="row">
 
-        <div class="panel panel-default">
-            <div class="panel-heading"><h4>Symptoms</h4></div>
+        <div class ="col-sm-12">
+
+            <div class="panel panel-primary">
+                <div class="panel-heading" style="min-height:10px"><h4>Visit Info:</h4></div>
+                <div class="panel-body">
+                    <div class="box box-info">
+                        <span id="visitId"><%= result[0].id %> </span>
+                        </div>
+
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+<div class="row">
+
+    <div class="col-md-5">
+
+        <div class="panel panel-warning">
+
+            <div class="panel-heading"><h4>Notes</h4></div>
             <div class="panel-body" style="min-height: 300px">
-                <div class="box box-info">
-                    <!-- Denna kod skall användas om vi vill ha den i KOLUMNER
+
+                <div class="table-wrapper-scroll-y notes-scrollbar table-responsive">
+                <table class="table">
+                    <tr>
+                        <th>Note</th>
+                        <th>Timestamp</th>
+                    </tr>
+                    <% notes = result[1];
+                    for(var i = 0; i < notes.length; i++){ %>
+                        <tr>
+                            <td><%= notes[i].ID %></td>
+                            <td><%= notes[i].description %></td>
+                        </tr>
+                    <% } %>
+
+                </table>
+                </div>
+            </div>
+            <div class="panel-footer panel-custom">
+                <button type="button" class="btn btn-success btn-lg" id="showTextArea"><span
+                            class="glyphicon glyphicon-plus"></span>
+                </button>
+                <div class="form-group">
+                    <label id="noteLabel" for="note">Note:</label>
+                    <textarea class="form-control" rows="10" id="noteTextArea"></textarea>
+                </div>
+                <button type="button" class="btn btn-primary" id="submitNote" >Submit</button>
+            </div>
+        </div>
+    </div>
+
+      <div class =" col-sm-4">
+
+          <div class="panel panel-info">
+              <div class="panel-heading"><h4>Symptoms</h4></div>
+              <div class="panel-body" style="min-height: 400px">
+                  <div class="box box-info">
+                      <!-- Denna kod skall användas om vi vill ha den i KOLUMNER
                     <% symptom = result[2];
-                            for (var key in symptom) {
-                    if(symptom.hasOwnProperty(key)) {
-                        console.log(key + "--->" + symptom[key]);
-                    %>
+                              for (var key in symptom) {
+                      if(symptom.hasOwnProperty(key)) {
+                      %>
 
                     <div class="col-sm-5 col-xs-6 tital "><b><%=key%> </b></div>
                     <div class="col-sm-7 col-xs-6  "><%= symptom[key]%></div>
                     <div class="clearfix"></div>
                     <div class="bot-border"></div>
                     <% }
-                    } %>
+                      } %>
 
                     -->
-                    <div class="table-wrapper-scroll-y">
-                    <table id="symptomsTable" class="table table-striped " >
-                        <thead>
-                        <tr>
-                         <th></th>
-                         <th></th>
-                        </tr>
-                        </thead>
-                        <tr>
-                            <% symptom = result[2];
-                            for (var key in symptom) {
-                                if(symptom.hasOwnProperty(key)) {
-                                    console.log(key + "--->" + symptom[key]);
-                                %>
-                            <td> <b> <%=key + ": "%> </b> </td>
-                            <td> <%= symptom[key] %></td>
-                        </tr>
+                      <div class="table-wrapper-scroll-y my-custom-scrollbar table-responsive">
+                          <table id="symptomsTable" class="table table-striped" >
+                              <thead>
+                              <tr>
+                                  <th></th>
+                                  <th></th>
+                              </tr>
+                              </thead>
+                              <tr>
+                                  <% symptom = result[2];
+                                          for (var key in symptom) {
+                                  if(symptom.hasOwnProperty(key)) {
+                                      console.log(key + "--->" + symptom[key]);
+                                  %>
+                                  <td> <b> <%=key + ": "%> </b> </td>
+                                  <td> <%= symptom[key] %></td>
+                              </tr>
 
-                        <%  }
-                                }%>
+                              <%  }
+                              }%>
 
-                    </table>
-                    </div>
+                          </table>
+                      </div>
 
 
 
-                </div>
-            </div>
-            <div class="panel-footer">
-            </div>
-        </div>
-    </div>
-
-    <div class =col-md-3>
-        <div class="panel panel-default">
+                  </div>
+              </div>
+              <div class="panel-footer">
+              </div>
+          </div>
+      </div>
+<!--------------------------------------------------------------Break---------------------------------------->
+    <div class ="col-md-3">
+        <div class="panel panel-danger">
 
             <div class="panel-heading"><h4>Diagnosis</h4></div>
             <div class="panel-body" style="min-height: 300px">
@@ -105,13 +183,12 @@
             </div>
         </div>
     </div>
-
-
-    <div class =col-md-3>
-        <div class="panel panel-default">
+<!----------------------------------------------------------------------------------Break--------------->
+    <div class = "col-md-3">
+        <div class="panel panel-success">
 
             <div class="panel-heading"><h4>Treatment</h4></div>
-            <div class="panel-body" style="min-height: 300px">
+            <div class="panel-body" style="min-height: 230px">
                 <div class="box box-info">
                     <div class="clearfix"></div>
                     <hr style="margin:5px 0 5px 0;">
@@ -149,108 +226,86 @@
     </div>
 
 
-    <div class="col-md-4">
-
-        <div class="panel panel-default" >
-            <div class="panel-heading"><h4>Visit</h4></div>
-            <div class="panel-body">
-
-                <div class="box box-info">
+    <!---------------------------------------------------BREAK--------------------------------------------->
 
 
-                    <div class="col-sm-6">
-                        <h4 style="color:#00b1b1;"><%= result.name %></h4></span>
-
-                    </div>
-                    <div class="clearfix"></div>
-                    <hr style="margin:5px 0 5px 0;">
-
-                    <div class="col-sm-5 col-xs-6 tital ">Visit ID</div>
-                    <div class="col-sm-7 col-xs-6 "><span id="visitId"> <%= result[0].id %> </span> </div>
-                    <div class="clearfix"></div>
-                    <div class="bot-border"></div>
-
-                    <div class="col-sm-5 col-xs-6 tital ">Symptoms ID</div>
-                    <div class="col-sm-7 col-xs-6 "><%= result[0].symptoms_sheet_id %></div>
-                    <div class="clearfix"></div>
-                    <div class="bot-border"></div>
 
 
-                    <div class="col-sm-5 col-xs-6 tital ">Patient ID</div>
-                    <div class="col-sm-7"> <%= result[0].patient_id %></div>
 
-                    <div class="clearfix"></div>
-                    <div class="bot-border"></div>
 
-                    <div class="col-sm-5 col-xs-6 tital ">Diagnosis ID</div>
-                    <div class="col-sm-7"><%= result[0].diagnosis_id %></div>
+</div>
 
-                    <div class="clearfix"></div>
-                    <div class="bot-border"></div>
 
-                    <div class="col-sm-5 col-xs-6 tital ">HSA/HE ID</div>
-                    <div class="col-sm-7"><%= result[0].user_id %></div>
 
-                    <div class="clearfix"></div>
-                    <div class="bot-border"></div>
 
-                    <div class="col-sm-5 col-xs-6 tital ">Timestamp</div>
-                    <div class="col-sm-7"><%= result[0].timestamp %></div>
 
-                    <div class="clearfix"></div>
-                    <div class="bot-border"></div>
+<div class="col-md-4">
 
-                    <div class="col-sm-5 col-xs-6 tital ">
+    <div class="panel panel-default" >
+        <div class="panel-heading"><h4></h4></div>
+        <div class="panel-body">
 
-                    </div>
+            <div class="box box-info">
 
+
+                <div class="col-sm-6">
+                    <h4 style="color:#00b1b1;"><%= result.name %></h4>
+
+                </div>
+                <div class="clearfix"></div>
+                <hr style="margin:5px 0 5px 0;">
+
+                <div class="col-sm-5 col-xs-6 tital ">Visit ID</div>
+                <div class="col-sm-7 col-xs-6 "> </div>
+                <div class="clearfix"></div>
+                <div class="bot-border"></div>
+
+                <div class="col-sm-5 col-xs-6 tital ">Symptoms ID</div>
+                <div class="col-sm-7 col-xs-6 "><%= result[0].symptoms_sheet_id %></div>
+                <div class="clearfix"></div>
+                <div class="bot-border"></div>
+
+
+                <div class="col-sm-5 col-xs-6 tital ">Patient ID</div>
+                <div class="col-sm-7"> <%= result[0].patient_id %></div>
+
+                <div class="clearfix"></div>
+                <div class="bot-border"></div>
+
+                <div class="col-sm-5 col-xs-6 tital ">Diagnosis ID</div>
+                <div class="col-sm-7"><%= result[0].diagnosis_id %></div>
+
+                <div class="clearfix"></div>
+                <div class="bot-border"></div>
+
+                <div class="col-sm-5 col-xs-6 tital ">HSA/HE ID</div>
+                <div class="col-sm-7"><%= result[0].user_id %></div>
+
+                <div class="clearfix"></div>
+                <div class="bot-border"></div>
+
+                <div class="col-sm-5 col-xs-6 tital ">Timestamp</div>
+                <div class="col-sm-7"><%= result[0].timestamp %></div>
+
+                <div class="clearfix"></div>
+                <div class="bot-border"></div>
+
+                <div class="col-sm-5 col-xs-6 tital ">
 
                 </div>
 
 
             </div>
-            <div class="panel-footer">
-            </div>
 
+
+        </div>
+        <div class="panel-footer">
         </div>
 
     </div>
-    <div class="col-md-10 ">
-
-        <div class="panel panel-default">
-
-            <div class="panel-heading"><h4>Notes</h4></div>
-            <div class="panel-body" style="min-height: 300px">
 
 
-        <table>
-            <tr>
-                <th>Note</th>
-                <th>Timestamp</th>
-            </tr>
-            <% notes = result[1];
-            for(var i = 0; i < notes.length; i++){ %>
-            <tr>
-                <td><%= notes[i].ID %></td>
-                <td><%= notes[i].description %></td>
-            </tr>
-            <% } %>
-
-        </table>
-            </div>
-            <div class="panel-footer">
-                <button type="button" class="btn btn-success btn-lg" id="showTextArea"><span
-                            class="glyphicon glyphicon-plus"></span>
-                </button>
-                <div class="form-group">
-                    <label id="noteLabel" for="note">Note:</label>
-                    <textarea class="form-control" rows="10" id="noteTextArea"></textarea>
-                </div>
-                <button type="button" class="btn btn-primary" id="submitNote" >Submit</button>
-            </div>
-        </div>
-    </div>
-
+</div>
 </div>
 <script>
     $(document).ready(function(){
@@ -279,9 +334,8 @@
             dataType:'json',
             success: function(result){
                 if(result.status=200){
-                    location.reload(true);
-                    console.log(result);
                     alert('Note Added')
+                    location.reload(true);
                 }else {
                     alert('error');
                 }
