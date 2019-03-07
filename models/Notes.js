@@ -1,7 +1,7 @@
 /* jshint indent: 2 */
 const DataTypes = require('sequelize/lib/data-types');
 const db = require('../connect.js');
-
+const moment = require('moment');
 var Notes = db.define('Notes', {
     ID: {
       type: DataTypes.INTEGER(10).UNSIGNED,
@@ -16,7 +16,7 @@ var Notes = db.define('Notes', {
     timestamp: {
       type: DataTypes.TIME,
       allowNull: true,
-      unique: true
+      unique: true,
     },
     visit_id: {
       type: DataTypes.INTEGER(10),
