@@ -5,11 +5,13 @@ const Notes = require('../models/Notes');
 const Symptoms = require('../models/SymptomsSheet');
 const Diagnosis = require('../models/Diagnosis');
 const Treatment = require('../models/Treatment');
+const Patient = require('../models/Patient');
 //TEST AV NY SIDA
 router.get('/:id', function (req, res) {
     Visit.findOne(
         {where: {ID: req.params.id}}).then(visit => {
         var result = [];
+        var moreResult=[];
         result.push(visit);
         Notes.findAll({where: {visit_id: req.params.id}}).then(notes => {
             result.push(notes);
@@ -17,10 +19,13 @@ router.get('/:id', function (req, res) {
                 result.push(symptoms);
                 Diagnosis.findOne({where: {ID: visit.diagnosis_id}, raw: true}).then(diagnosis => {
                     result.push(diagnosis);
+                    Patient.findOne({where: {ID: visit.patient_id}, raw: true}).then(patientInfo => {
 
+                        result.push(patientInfo);
 
                     res.render('visit', {
-                        result: result
+                        result: result,
+                    });
                     });
                 });
             });

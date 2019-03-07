@@ -4,7 +4,7 @@
 
 <style>
     .table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
-        background-color: #ebffff;
+        background-color: #D9EDF6;
 
     }
     .my-custom-scrollbar {
@@ -14,7 +14,7 @@
     }
     .notes-scrollbar {
         position: relative;
-        height: 300px;
+        height: 500px;
         overflow: auto;
     }
     .table-wrapper-scroll-y {
@@ -24,9 +24,6 @@
         background:	#FEF7E4;
        color:white;
     }
-
-
-
 </style>
 <body>
 
@@ -34,23 +31,21 @@
 <div class="container">
     <% include nav.ejs %>
     <div class="row">
+        <div class ="col-sm-12 no-border">
+            <%patient = result[4]%>
+            <div class="panel panel-info">
+                <div class="panel-heading" style="min-height:10px"><h4>Visit <span id="visitId">  <%= result[0].id %> | </span><span id="nationalId"><%=patient.national_id%> | </span><%= patient.name %>
+                    </h4></div>
 
-        <div class ="col-sm-12">
-
-            <div class="panel panel-primary">
-                <div class="panel-heading" style="min-height:10px"><h4>Visit Info:</h4></div>
-                <div class="panel-body">
-                    <div class="box box-info">
-                        <span id="visitId"><%= result[0].id %> </span>
-                        </div>
-
-
-
-                    </div>
-                </div>
 
             </div>
+            <button type="button" class="btn-lg btn-primary" id="pageBack" ><span
+                        class=" glyphicon glyphicon-arrow-left"></span>
+            </button>
         </div>
+
+    </div>
+
 <div class="row">
 
     <div class="col-md-5">
@@ -65,11 +60,13 @@
                     <tr>
                         <th>Note</th>
                         <th>Timestamp</th>
+                        <th>Description</th>
                     </tr>
                     <% notes = result[1];
                     for(var i = 0; i < notes.length; i++){ %>
                         <tr>
                             <td><%= notes[i].ID %></td>
+                            <td> <%= notes[i].timestamp%></td>
                             <td><%= notes[i].description %></td>
                         </tr>
                     <% } %>
@@ -92,7 +89,7 @@
 
       <div class =" col-sm-4">
 
-          <div class="panel panel-info">
+          <div class="panel panel-primary">
               <div class="panel-heading"><h4>Symptoms</h4></div>
               <div class="panel-body" style="min-height: 400px">
                   <div class="box box-info">
@@ -121,14 +118,29 @@
                               <tr>
                                   <% symptom = result[2];
                                           for (var key in symptom) {
-                                  if(symptom.hasOwnProperty(key)) {
-                                      console.log(key + "--->" + symptom[key]);
+                                  if(symptom.hasOwnProperty(key) && symptom[key] == true) {
+                                       %>
+                                  <td> <b> <%=key + ": "%> </b> </td>
+                                  <td> Yes</td>
+                              </tr>
+                                  <%
+
+                                  }
+                                  else if(symptom.hasOwnProperty(key) && symptom[key] == false){
+                                  %>
+                                  <td> <b> <%=key + ": "%> </b> </td>
+                                  <td> No</td>
+                                  </tr>
+                                  <%}
+                                   else if (symptom.hasOwnProperty(key)) {
                                   %>
                                   <td> <b> <%=key + ": "%> </b> </td>
                                   <td> <%= symptom[key] %></td>
                               </tr>
 
                               <%  }
+
+
                               }%>
 
                           </table>
@@ -321,12 +333,15 @@
 
     $('#submitNote').on('click', function(e){
         e.preventDefault();
-        const Note = {
+        const newDate = new Date(Date.now());
+        const sendDate = moment(newDate).format('YYYY/MM/DD hh:mm:ss SSS');
+         const Note = {
             "description":$('#noteTextArea').val(),
-            "timestamp" :Date.now(),
+            "timestamp" :sendDate,
             "visit_id":$('#visitId').text(),
             "health_expert_id":"1",
         }
+
         $.ajax({
             method:'post',
             url:'/visits/addNote',
@@ -345,7 +360,13 @@
                 alert(status.message);
             }
         });
-    })
+    });
+
+    $('#pageBack').on('click', function() {
+        window.location.href = "/patients/"+$('#nationalId').text();
+    });
+
+
 </script>
 </body>
 </html>
