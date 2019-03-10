@@ -57,5 +57,34 @@ router.post('/addNote', function (req, res) {
         });
     });
 });
+//addVisit
+router.post("/addVisit", function(req, res) {
+    console.log("Inside add visit");
+    const visit = Visit.create({
+        patient_id: req.body.patientID || 2,
+        diagnosis_id: req.body.diagnosisID || 1,
+        user_id: req.body.userID || 1
+    }).then(function (item) {
+        const notes = Notes.create({
+            description: req.body.note,
+            visit_id: visit.visit_id,
+        }).then(function (item) {
+            console.log(notes);
+            res.json({
+                Message: "Created item.",
+                Status: 200,
+            });
+        }).catch(function (err) {
+            console.log(err)
+            res.json({
+                Error: err,
+                Status: 500
+
+            });
+
+        });
+
+    });
+});
 
 module.exports = router;

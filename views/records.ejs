@@ -76,9 +76,9 @@
 
         <div class="panel panel-default">
 
-            <div class="panel-heading"><h4>Records</h4></div>
+            <div class="panel-heading"><h4>Visits</h4></div>
             <div class="panel-body" style="min-height: 300px">
-                <table id="recordsTable" class="table table-hover">
+                <table id="VisitsTable" class="table table-hover">
                     <tr>
                         <%if(records.length>0){ %>
                         <th>Rec ID</th>
@@ -103,13 +103,69 @@
 
                 </table>
             </div>
-        <div class="panel-footer">                <button class="glyphicon glyphicon-plus btn-success btn-lg"></button>
+        <div class="panel-footer">
+            <button class="glyphicon glyphicon-plus btn-success btn-lg" data-toggle="modal" data-target="#addVisit"></button>
         </div>
         </div>
+        <!-- Dialog Modal --->
+        <!-- Modal -->
+        <div id="addVisit" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Add Visit</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form id="addVisitForm">
+                            <div class="form-group">
+                                <label for="inputDiagnosis">Diagnosis <span class="colorChange">*</span> </label>
+                                <select class="form-control" name="diagnosisID" id="inputName" required>
+                                    <option value="1">Diagnosis 1</option>
+                                    <option value="2">Diagnosis 2</option>
+                                    <option value="3">Diagnosis 3</option>
+
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputTreatment">Treatment <span class="colorChange">*</span></label>
+                                <select class="form-control" name="treatmentID" id="inputTreatment"
+                                       required>
+                                    <option value="1">Treatment 1</option>
+                                    <option value="2">Treatment 2</option>
+                                    <option value="3">Treatment 3</option>
+
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="inputMobileNo">Note <span class="colorChange">*</span></label>
+                                <textarea class="form-control" name="note" id="inputNote" required></textarea>
+
+                            </div>
+                        </form>
+
+
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" onclick="addVisit()" class="btn btn-success" data-dismiss="modal"
+                                >Save
+                        </button>
+                        <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+
+            </div>
     </div>
 </div>
+</div>
 
-<script>  $(document).on("dblclick","#recordsTable tr", function () {
+<script>
+    $(document).on("dblclick","#VisitsTable tr", function () {
         var $this = $(this);
         var row = $this.closest("tr");
         var id = row.find('td:first').text();
@@ -118,7 +174,44 @@
         var requestSite = '/visits/'+id;
         location.replace(requestSite);
     });
+    function fetchVisits(){
+        $.ajax({
+            type: "POST",
+            url: "/Visits/getVisits",
+            data:
+                $('#addVisitForm').serialize()
 
+
+            ,
+            success: function (result) {
+                fetchVisits();
+
+            },
+            error: function (result) {
+
+            }
+        });
+    }
+
+function addVisit(){
+        alert("here");
+    $.ajax({
+        type: "POST",
+        url: "/visits/addVisit",
+        data:
+            $('#addVisitForm').serialize()
+        ,
+        success: function (result) {
+            alert("gick bra");
+
+        },
+        error: function (result, err, status) {
+            alert(err);
+            alert(status.message);
+
+        }
+    });
+}
 </script>
 </body>
 </html>
