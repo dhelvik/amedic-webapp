@@ -6,6 +6,11 @@ const AMEDUser = require('../models/AMEDUser');
 const Village = require('../models/Village');
 const Visit = require('../models/Visit');
 
+const Caregiver = require('../models/CareGiver');
+const Note = require('../models/Notes');
+
+const Caregiver_Patient = require('../models/CareGiver_Patient');
+
 
 router.get('/', (req, res) =>
 // Gets all patients
@@ -14,7 +19,7 @@ Patient.findAll().then(result => {
         result
     })
 })
-)
+);
 
 router.get('/register', (req, res) =>
     res.render('registerPatient')
@@ -96,5 +101,30 @@ router.get('/:id', function(req, res) {
         });
     });
 });
+
+
+//Caregiver
+router.post("", function(req, res){
+    const caregiver = Caregiver.create({
+        name: req.body.name + " " + req.body.caregiverName,
+        national_id: req.body.caregiverNationalID,
+        mobile_no: req.body.caregiverMobileNo,
+        relation_to_patientt: req.body.relationToPatient,
+        date_of_birth: req.body.caregiverDateOfBirth,
+    }).then(function(item){
+
+
+
+    }).catch(function (err) {
+        console.log(err)
+        res.json({
+            Error : err,
+            Status : 500
+
+        });
+    });
+
+});
+
 
 module.exports=router;
