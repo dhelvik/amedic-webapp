@@ -5,7 +5,7 @@ const Patient = require('../models/Patient');
 const AMEDUser = require('../models/AMEDUser');
 const Village = require('../models/Village');
 const Visit = require('../models/Visit');
-
+const Diagnosis = require('../models/Diagnosis');
 const Caregiver = require('../models/CareGiver');
 const Note = require('../models/Notes');
 
@@ -36,7 +36,6 @@ router.post('/register', function(req, res) {
     }).then(function(item){
         console.log(newPatient);
         res.json({
-
             Message : "Created item.",
             Status : 200,
             Item : newPatient
@@ -46,7 +45,6 @@ router.post('/register', function(req, res) {
         res.json({
             Error : err,
             Status : 500
-
         });
     });
 
@@ -84,24 +82,25 @@ router.post('/updatePatient', function(req, res){
             date_of_birth: req.body.dateOfBirth},
         {where: {id : req.body.id}});
 });
-//TEST AV NY SIDA
+
+//get records
 router.get('/:id', function(req, res) {
     console.log(req.params.id);
     Patient.findOne(
         {where: {national_id: req.params.id}}).then(patient => {
         console.log(patient);
         Visit.findAll(
-            {where: {patient_id: patient.ID}, include:[{model: AMEDUser}]
+            {where: {patient_id: patient.ID}, include:[{model: AMEDUser}, {model: Diagnosis}]
             }).then(records => {
+                console.log(JSON.stringify(records));
             res.render('records', {
                 result: patient,
                 records: records
             });
             res.end();
-        });
+        }).catch();
     });
 });
-
 
 //Caregiver
 router.post("", function(req, res){
@@ -113,8 +112,6 @@ router.post("", function(req, res){
         date_of_birth: req.body.caregiverDateOfBirth,
     }).then(function(item){
 
-
-
     }).catch(function (err) {
         console.log(err)
         res.json({
@@ -125,6 +122,5 @@ router.post("", function(req, res){
     });
 
 });
-
 
 module.exports=router;

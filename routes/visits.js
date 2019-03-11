@@ -62,12 +62,12 @@ router.post("/addVisit", function(req, res) {
     console.log("Inside add visit");
     const visit = Visit.create({
         patient_id: req.body.patientID,
-        diagnosis_id: req.body.diagnosisID,
         user_id: req.body.userID,
         timestamp: Date.now()
     }).then(function (visit) {
         console.log(req.body);
         console.log(visit);
+        visit.addDiagnosis(req.body.diagnosisID);
         const notes = Notes.create({
             description: req.body.note,
             visit_id: visit.id,

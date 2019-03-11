@@ -85,7 +85,7 @@
                         <th>Patient ID</th>
                         <th>Symptom ID</th>
                         <th>Diagnosis ID</th>
-                        <th>User ID</th>
+                        <th>User name</th>
                         <th>Timestamp</th>
                         <%
                         }%>
@@ -95,7 +95,7 @@
                         <td><%= records[i].id %></td>
                         <td><%= records[i].patient_id %></td>
                         <td><%= records[i].symptoms_sheet_id %></td>
-                        <td><%= records[i].diagnosis_id %></td>
+                        <td><%= records[i].symptoms_sheet_id%></td>
                         <td><%= records[i].AMEDUser.name%></td>
                         <td><%= records[i].timestamp %></td>
                     </tr>
