@@ -4,7 +4,6 @@ var path = require('path');
 var bodyParser = require('body-parser');
 var mysql = require('mysql');
 var con = require('./connect');
-var router = require('./router');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var sessionChecker = require('./scripts/sessionChecker');
@@ -18,7 +17,7 @@ app.use(cookieParser());
 // initialize express-session to allow us track the logged-in user across sessions.
 app.use(session({
     key: 'user_sid',
-    secret: 'somerandonstuffs',
+    secret: 'otroligthemligaord',
     resave: false,
     saveUninitialized: false,
     cookie: {
