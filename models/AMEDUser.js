@@ -5,6 +5,7 @@ const DataTypes = require('sequelize/lib/data-types');
 const db = require('../connect.js');
 
 
+
 var AMEDUser = db.define('AMEDUser', {
     ID: {
         type: DataTypes.INTEGER(10),

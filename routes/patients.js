@@ -5,6 +5,8 @@ const Patient = require('../models/Patient');
 const AMEDUser = require('../models/AMEDUser');
 const Village = require('../models/Village');
 const Visit = require('../models/Visit');
+
+
 router.get('/', (req, res) =>
 // Gets all patients
 Patient.findAll().then(result => {
@@ -84,7 +86,7 @@ router.get('/:id', function(req, res) {
         {where: {national_id: req.params.id}}).then(patient => {
         console.log(patient);
         Visit.findAll(
-            {where: {patient_id: patient.ID}
+            {where: {patient_id: patient.ID}, include:[{model: AMEDUser}]
             }).then(records => {
             res.render('records', {
                 result: patient,
@@ -94,6 +96,5 @@ router.get('/:id', function(req, res) {
         });
     });
 });
-
 
 module.exports=router;

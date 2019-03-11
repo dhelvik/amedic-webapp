@@ -38,15 +38,6 @@ const operatorsAliases = {
     $col: Op.col
 };
 
-
-var mysql = require('mysql');
-var con = mysql.createConnection({
-        host: "amedic-mysqldbserver.mysql.database.azure.com",
-        user: "mysqldbuser@amedic-mysqldbserver",
-        password: "Grupp2122",
-        database: "AMEDIC_DB"
-    });
-
 const db = new Sequelize('AMEDIC_DB', 'mysqldbuser@amedic-mysqldbserver', 'Grupp2122', {
     host: "amedic-mysqldbserver.mysql.database.azure.com",
     dialect: "mysql",
@@ -56,9 +47,11 @@ const db = new Sequelize('AMEDIC_DB', 'mysqldbuser@amedic-mysqldbserver', 'Grupp
         acquire: 30000,
         idle: 100000
     }
-
 });
 
-
-//module.exports = con;
 module.exports = db;
+
+const Visit = require('./models/Visit.js');
+const AMEDUser = require('./models/AMEDUser.js');
+AMEDUser.hasMany(Visit, {foreignKey:'user_id', sourceKey:'ID'});
+Visit.belongsTo(AMEDUser, {foreignKey: 'user_id', targetKey:'ID'});
