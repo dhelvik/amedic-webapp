@@ -29,7 +29,6 @@ var Notes = db.define('Notes', {
     },
     health_expert_id: {
         type: DataTypes.INTEGER(10),
-        allowNull: false,
         unique: true,
         references: {
             model: 'AMEDUser',
