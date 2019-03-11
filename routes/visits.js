@@ -61,15 +61,18 @@ router.post('/addNote', function (req, res) {
 router.post("/addVisit", function(req, res) {
     console.log("Inside add visit");
     const visit = Visit.create({
-        patient_id: req.body.patientID || 2,
-        diagnosis_id: req.body.diagnosisID || 1,
-        user_id: req.body.userID || 1
-    }).then(function (item) {
+        patient_id: req.body.patientID,
+        diagnosis_id: req.body.diagnosisID,
+        user_id: req.body.userID,
+        timestamp: Date.now()
+    }).then(function (visit) {
+        console.log(req.body);
+        console.log(visit);
         const notes = Notes.create({
             description: req.body.note,
-            visit_id: visit.visit_id,
+            visit_id: visit.id,
+            timestamp: Date.now()
         }).then(function (item) {
-            console.log(notes);
             res.json({
                 Message: "Created item.",
                 Status: 200,

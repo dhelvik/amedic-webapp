@@ -15,7 +15,6 @@ var Visit = db.define('Visit', {
     },
     patient_id: {
       type: DataTypes.INTEGER(10).UNSIGNED,
-      allowNull: false,
         unique: true,
       references: {
         model: 'Patient',
@@ -24,7 +23,6 @@ var Visit = db.define('Visit', {
     },
     diagnosis_id: {
       type: DataTypes.INTEGER(10).UNSIGNED,
-      allowNull: false,
         unique: true,
         references: {
         model: 'Diagnosis',
@@ -33,7 +31,6 @@ var Visit = db.define('Visit', {
     },
     user_id: {
       type: DataTypes.INTEGER(10).UNSIGNED,
-      allowNull: false,
         unique: true,
         references: {
         model: 'AMED_User',
@@ -42,7 +39,6 @@ var Visit = db.define('Visit', {
     },
     symptoms_sheet_id: {
       type: DataTypes.INTEGER(10).UNSIGNED,
-      allowNull: false,
         unique: true,
         references: {
         model: 'Symptoms_Sheet',
