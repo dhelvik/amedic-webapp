@@ -46,6 +46,9 @@ const db = new Sequelize('AMEDIC_DB', 'mysqldbuser@amedic-mysqldbserver', 'Grupp
         min:0,
         acquire: 30000,
         idle: 100000
+    },
+    define: {
+        freezeTableName: true
     }
 });
 
@@ -53,5 +56,13 @@ module.exports = db;
 
 const Visit = require('./models/Visit.js');
 const AMEDUser = require('./models/AMEDUser.js');
+const Diagnosis = require('./models/Diagnosis.js');
+const DiagnosisVisit = require('./models/Diagnosis_Visit.js');
+const Patient = require('./models/Patient.js');
 AMEDUser.hasMany(Visit, {foreignKey:'user_id', sourceKey:'ID'});
 Visit.belongsTo(AMEDUser, {foreignKey: 'user_id', targetKey:'ID'});
+Patient.hasMany(Visit, {foreignKey:'patient_id', sourceKey:'ID'});
+Visit.belongsTo(Patient, {foreignKey: 'patient_id', targetKey:'ID'});
+Visit.belongsToMany(Diagnosis, {through: { model: DiagnosisVisit}, foreignKey: 'visit_id' });
+Diagnosis.belongsToMany(Visit, {through: { model: DiagnosisVisit}, foreignKey: 'diagnosis_id' });
+
