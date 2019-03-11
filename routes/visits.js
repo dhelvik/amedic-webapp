@@ -17,7 +17,7 @@ router.get('/:id', function (req, res) {
             result.push(notes);
             Symptoms.findOne({where: {ID: visit.symptoms_sheet_id}, raw: true}).then(symptoms => {
                 result.push(symptoms);
-                Diagnosis.findOne({where: {ID: visit.diagnosis_id}, raw: true}).then(diagnosis => {
+                Diagnosis.findOne({where: {ID: 1}, raw: true}).then(diagnosis => {
                     result.push(diagnosis);
                     Patient.findOne({where: {ID: visit.patient_id}, raw: true}).then(patientInfo => {
 
