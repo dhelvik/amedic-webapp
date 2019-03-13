@@ -1,30 +1,46 @@
 <div>
     <nav class="navbar navbar-default">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar2">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="/" style="padding: 0px"><img
-                            src="http://amedic.org/wp-content/uploads/2018/11/cropped-dark_logo_transparent.png"
-                            style="height: 100%; width: auto" alt="AMedic">
-                </a>
-                <span class="navbar-brand" style="margin-left: 5px">Admin
+
+        <a class="navbar-brand pull-left" href="/" style="padding: 0px"><img
+                    src="http://amedic.org/wp-content/uploads/2018/11/cropped-dark_logo_transparent.png"
+                    style="height: 100%; width: auto" alt="AMedic">
+        </a>
+        <span class="navbar-brand" style="margin-left: 5px">Admin
                 </span>
-            </div>
-            <div id="navbar2" class="navbar-collapse collapse">
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="/users">Users</a></li>
-                    <li><a href="/healthFacilities"> Health Facilites</a></li>
-                    <li><a href="/districts">Districts and Villages</a></li>
-                    <li><a href="/logout">Log out</a></li>
-                </ul>
-            </div>
-            <!--/.nav-collapse -->
+
+        <div class="navbar-header navbar-right" style="margin-right: 0px">
+            <ul class="nav pull-right">
+                <% if(user){ %>
+                    <li class="navbar-text pull-left"><%= user.login_id %></li>
+                <% } %>
+                <li class="dropdown pull-left">
+                    <a href="#" data-toggle="dropdown" style="color:#777; margin-top: 5px;"
+                       class="dropdown-toggle"><span
+                                class="glyphicon glyphicon-user"></span><b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="/logout" title="Logout">Logout </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="pull-right">
+                    <!-- Required bootstrap placeholder for the collapsed menu -->
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar2">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </li>
+            </ul>
+
         </div>
-        <!--/.container-fluid -->
+        <div class="collapse navbar-collapse" id="navbar2">
+            <ul class="nav navbar-nav">
+                <li><a href="/users">Users</a></li>
+                <li><a href="/healthFacilities"> Health Facilites</a></li>
+                <li><a href="/districts">Districts and Villages</a></li>
+            </ul>
+        </div>
     </nav>
 </div>
