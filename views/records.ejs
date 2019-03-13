@@ -2,21 +2,16 @@
 <html lang="en">
 <% include head.ejs %>
 <body>
-<div class="container">
+<div class="container-fluid">
     <% include nav.ejs %>
 
     <div class="col-md-5 ">
-
         <div class="panel panel-default" >
             <div class="panel-heading"><h4>Patient</h4></div>
             <div class="panel-body">
-
                 <div class="box box-info">
-
-
                     <div class="col-sm-6">
                         <h4 style="color:#00b1b1;"><%= result.name %></h4></span>
-
                     </div>
                     <div class="clearfix"></div>
                     <hr style="margin:5px 0 5px 0;">
@@ -59,11 +54,7 @@
                     <div class="col-sm-5 col-xs-6 tital ">
 
                     </div>
-
-
                 </div>
-
-
             </div>
             <div class="panel-footer">
                 <button type="button" class="glyphicon glyphicon-pencil btn-lg btn-info"></button>
@@ -169,8 +160,6 @@
         var $this = $(this);
         var row = $this.closest("tr");
         var id = row.find('td:first').text();
-
-
         var requestSite = '/visits/'+id;
         location.replace(requestSite);
     });
@@ -180,8 +169,6 @@
             url: "/Visits/getVisits",
             data:
                 $('#addVisitForm').serialize()
-
-
             ,
             success: function (result) {
                 fetchVisits();
@@ -199,7 +186,7 @@ function addVisit(){
         type: "POST",
         url: "/visits/addVisit",
         data:
-            $('#addVisitForm').serialize()
+            $('#addVisitForm').serialize() + "&patient_id=" + "<%=result.ID%>"
         ,
         success: function (result) {
             alert("gick bra");

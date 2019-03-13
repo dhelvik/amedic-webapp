@@ -11,7 +11,7 @@ router.get('/:id', function (req, res) {
     Visit.findOne(
         {where: {ID: req.params.id}}).then(visit => {
         var result = [];
-        var moreResult=[];
+        var moreResult = [];
         result.push(visit);
         Notes.findAll({where: {visit_id: req.params.id}}).then(notes => {
             result.push(notes);
@@ -23,9 +23,9 @@ router.get('/:id', function (req, res) {
 
                         result.push(patientInfo);
 
-                    res.render('visit', {
-                        result: result,
-                    });
+                        res.render('visit', {
+                            result: result,
+                        });
                     });
                 });
             });
@@ -58,36 +58,44 @@ router.post('/addNote', function (req, res) {
     });
 });
 //addVisit
-router.post("/addVisit", function(req, res) {
-    console.log("Inside add visit");
-    const visit = Visit.create({
-        patient_id: req.body.patientID,
-        user_id: req.body.userID,
-        timestamp: Date.now()
-    }).then(function (visit) {
-        console.log(req.body);
-        console.log(visit);
-        visit.addDiagnosis(req.body.diagnosisID);
-        const notes = Notes.create({
-            description: req.body.note,
-            visit_id: visit.id,
+router.post("/addVisit", function (req, res) {
+    if (req.session.user) {
+        const visit = Visit.create({
+            patient_id: req.body.patient_id,
+            user_id: req.session.user.ID,
             timestamp: Date.now()
-        }).then(function (item) {
-            res.json({
-                Message: "Created item.",
-                Status: 200,
-            });
-        }).catch(function (err) {
-            console.log(err)
-            res.json({
-                Error: err,
-                Status: 500
+        }).then(function (visit) {
+            console.log(req.body);
+            console.log(visit);
+            visit.addDiagnosis(req.body.diagnosisID);
+            const notes = Notes.create({
+                description: req.body.note,
+                visit_id: visit.id,
+                timestamp: Date.now()
+            }).then(function (item) {
+                res.json({
+                    Message: "Created item.",
+                    Status: 200,
+                });
+            }).catch(function (err) {
+                console.log(err)
+                res.json({
+                    Error: err,
+                    Status: 500
+
+                });
 
             });
 
         });
+    } else {
+        Console.log("No logged in user");
+        res.json({
+            Error: "User missing",
+            Status: 500
 
-    });
+        });
+    }
 });
 
 module.exports = router;
