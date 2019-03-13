@@ -10,18 +10,17 @@ const AMEDUser = require('../models/AMEDUser.js')
 //TEST AV NY SIDA
 router.get('/:id', function (req, res) {
     Visit.findOne(
-        {where: {ID: req.params.id},
-            include:[
+        {
+            where: {ID: req.params.id},
+            include: [
                 {model: AMEDUser},
                 {model: Diagnosis},
                 {model: Notes},
                 {model: Symptoms},
                 {model: Patient}
-                ]
+            ]
         }).then(visit => {
-            console.log(visit)
         var result = [];
-        var moreResult = [];
         result.push(visit);
         Notes.findAll({where: {visit_id: req.params.id}}).then(notes => {
             result.push(notes);
@@ -46,27 +45,35 @@ router.get('/:id', function (req, res) {
 });
 
 router.post('/addNote', function (req, res) {
-    const newNote = Notes.create({
-        description: req.body.description,
-        timestamp: req.body.timestamp,
-        visit_id: req.body.visit_id,
-        health_expert_id: req.body.health_expert_id,
+    if (req.session.user) {
+        console.log(req.body);
+        const newNote = Notes.create({
+            description: req.body.description,
+            timestamp: Date.now(),
+            visit_id: req.body.visit_id,
+            health_expert_id: req.session.user.ID,
+        }).then(function (item) {
+            console.log(item);
+            res.json({
+                Message: "Note added.",
+                Status: 200,
+                Item: newNote
+            });
+        }).catch(function (err) {
+            res.json({
+                Error: err,
+                Status: 500
 
-
-    }).then(function (item) {
-        console.log(newNote);
-        res.json({
-            Message: "Created item.",
-            Status: 200,
-            Item: newNote
+            });
         });
-    }).catch(function (err) {
+    } else {
+        console.log("No logged in user");
         res.json({
-            Error: err,
+            Error: "User missing",
             Status: 500
 
         });
-    });
+    }
 });
 //addVisit
 router.post("/addVisit", function (req, res) {
@@ -95,7 +102,7 @@ router.post("/addVisit", function (req, res) {
             });
         });
     } else {
-        Console.log("No logged in user");
+        console.log("No logged in user");
         res.json({
             Error: "User missing",
             Status: 500

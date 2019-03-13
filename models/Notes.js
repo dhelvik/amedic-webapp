@@ -14,7 +14,7 @@ var Notes = db.define('Notes', {
       allowNull: true
     },
     timestamp: {
-      type: DataTypes.TIME,
+      type: DataTypes.DATE,
       allowNull: true,
       unique: true,
     },

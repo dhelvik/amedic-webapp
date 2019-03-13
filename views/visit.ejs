@@ -45,7 +45,7 @@
             <% patient = result[4] %>
             <div class="panel panel-info">
                 <div class="panel-heading" style="min-height:10px"><h4>Visit <span
-                                id="visitId">  <%= result[0].timestamp %> | </span><span
+                                id="visitDate">  <%= result[0].timestamp %> | </span><span
                                 id="nationalId"><%= patient.national_id %> | </span><%= patient.name %>
                     </h4></div>
 
@@ -112,24 +112,18 @@
                                 </tr>
 
                                 <% }
-
-
                                 } %>
-
                             </table>
                         </div>
-
-
                     </div>
                 </div>
                 <div class="panel-footer">
                 </div>
             </div>
         </div>
-        <!--------------------------------------------------------------DIAGNOSIS COL---------------------------------------->
+        <!---------------DIAGNOSIS COL-------------------->
         <div class="col-lg-2">
             <div class="panel panel-danger">
-
                 <div class="panel-heading"><h4>Diagnosis</h4></div>
                 <div class="panel-body" style="min-height: 200px">
                     <div class="box box-info">
@@ -147,7 +141,6 @@
                         <div class="col-sm-7 col-xs-6 "><%= diagnosis.name %></div>
                         <div class="clearfix"></div>
                         <div class="bot-border"></div>
-
 
                         <div class="col-sm-5 col-xs-6 tital ">Description</div>
                         <div class="col-sm-7"> <%= diagnosis.description %></div>
@@ -167,7 +160,7 @@
                 </div>
             </div>
         </div>
-        <!----------------------------------------------------------------------------------TREATMENT COL--------------->
+        <!---------------TREATMENT COL--------------->
 
         <div class="col-lg-2">
             <div class="panel panel-success">
@@ -211,7 +204,7 @@
         </div>
 
 
-        <!---------------------------------------------------BREAK--------------------------------------------->
+        <!--------------BREAK------------------>
 
 
         <div class="col-lg-12">
@@ -236,8 +229,7 @@
                                     <td class="hidden"><%= notes[i].description %></td>
                                     <td>
                                         <button type="button" class="btn" id="showNote"/>
-                                        <span
-                                                class=" glyphicon glyphicon-menu-down"></span>
+                                        <span class=" glyphicon glyphicon-menu-down"></span>
                                     </td>
                                 </tr>
                             <% } %>
@@ -358,19 +350,13 @@
 
     $('#submitNote').on('click', function (e) {
         e.preventDefault();
-        const newDate = new Date(Date.now());
-        const sendDate = moment(newDate).format('YYYY/MM/DD hh:mm:ss SSS');
-        const Note = {
-            "description": $('#noteTextArea').val(),
-            "timestamp": sendDate,
-            "visit_id": $('#visitId').text(),
-            "health_expert_id": "1",
-        }
-
         $.ajax({
             method: 'post',
             url: '/visits/addNote',
-            data: Note,
+            data: {
+                "description": $('#noteTextArea').val(),
+                "visit_id": "<%= visit.id%>"
+            },
             dataType: 'json',
             success: function (result) {
                 if (result.status = 200) {
