@@ -9,12 +9,12 @@
     }
     .my-custom-scrollbar {
         position: relative;
-        height: 600px;
+        height: 500px;
         overflow: auto;
     }
     .notes-scrollbar {
         position: relative;
-        height: 500px;
+        height: 600px;
         overflow: auto;
     }
     .table-wrapper-scroll-y {
@@ -24,11 +24,16 @@
         background:	#FEF7E4;
        color:white;
     }
+    .noteColor {
+        color:black;
+    }
+
+
 </style>
 <body>
 
 
-<div class="container">
+<div class="container-fluid">
     <% include nav.ejs %>
     <div class="row">
         <div class ="col-sm-12 no-border">
@@ -48,50 +53,13 @@
 
 <div class="row">
 
-    <div class="col-md-5">
 
-        <div class="panel panel-warning">
 
-            <div class="panel-heading"><h4>Notes</h4></div>
-            <div class="panel-body" style="min-height: 300px">
-
-                <div class="table-wrapper-scroll-y notes-scrollbar table-responsive">
-                <table class="table">
-                    <tr>
-                        <th>Note</th>
-                        <th>Timestamp</th>
-                        <th>Description</th>
-                    </tr>
-                    <% notes = result[1];
-                    for(var i = 0; i < notes.length; i++){ %>
-                        <tr>
-                            <td><%= notes[i].ID %></td>
-                            <td> <%= notes[i].timestamp%></td>
-                            <td><%= notes[i].description %></td>
-                        </tr>
-                    <% } %>
-
-                </table>
-                </div>
-            </div>
-            <div class="panel-footer panel-custom">
-                <button type="button" class="btn btn-success btn-lg" id="showTextArea"><span
-                            class="glyphicon glyphicon-plus"></span>
-                </button>
-                <div class="form-group">
-                    <label id="noteLabel" for="note">Note:</label>
-                    <textarea class="form-control" rows="10" id="noteTextArea"></textarea>
-                </div>
-                <button type="button" class="btn btn-primary" id="submitNote" >Submit</button>
-            </div>
-        </div>
-    </div>
-
-      <div class =" col-sm-4">
+      <div class =" col-lg-4 col-lg-offset-2">
 
           <div class="panel panel-primary">
               <div class="panel-heading"><h4>Symptoms</h4></div>
-              <div class="panel-body" style="min-height: 400px">
+              <div class="panel-body" style="min-height: 500px">
                   <div class="box box-info">
                       <!-- Denna kod skall användas om vi vill ha den i KOLUMNER
                     <% symptom = result[2];
@@ -154,12 +122,12 @@
               </div>
           </div>
       </div>
-<!--------------------------------------------------------------Break---------------------------------------->
-    <div class ="col-md-3">
+<!--------------------------------------------------------------DIAGNOSIS COL---------------------------------------->
+    <div class ="col-lg-2">
         <div class="panel panel-danger">
 
             <div class="panel-heading"><h4>Diagnosis</h4></div>
-            <div class="panel-body" style="min-height: 300px">
+            <div class="panel-body" style="min-height: 200px">
                 <div class="box box-info">
                     <div class="clearfix"></div>
                     <hr style="margin:5px 0 5px 0;">
@@ -195,12 +163,13 @@
             </div>
         </div>
     </div>
-<!----------------------------------------------------------------------------------Break--------------->
-    <div class = "col-md-3">
+<!----------------------------------------------------------------------------------TREATMENT COL--------------->
+
+    <div class = "col-lg-2">
         <div class="panel panel-success">
 
             <div class="panel-heading"><h4>Treatment</h4></div>
-            <div class="panel-body" style="min-height: 230px">
+            <div class="panel-body" style="min-height: 200px">
                 <div class="box box-info">
                     <div class="clearfix"></div>
                     <hr style="margin:5px 0 5px 0;">
@@ -241,7 +210,47 @@
     <!---------------------------------------------------BREAK--------------------------------------------->
 
 
+    <div class="col-lg-12">
 
+        <div class="panel panel-warning">
+
+            <div class="panel-heading"><h4>Notes</h4></div>
+            <div class="panel-body" style="min-height: 400px">
+
+                <div class="table-wrapper-scroll-y notes-scrollbar table-responsive">
+                    <table class="table" id="notesTable">
+                        <tr id="">
+                            <th>Note</th>
+                            <th>Timestamp</th>
+                            <th id="noteDescription">Description</th>
+                        </tr>
+                        <% notes = result[1];
+                        for(var i = 0; i < notes.length; i++){ %>
+                            <tr>
+                                <td><%= notes[i].ID %></td>
+                                <td> <%= notes[i].timestamp%></td>
+                                <td class="hidden"><%= notes[i].description %></td>
+                                <td><button type="button" class="btn" id="showNote"/><span
+                                                class=" glyphicon glyphicon-menu-down"></span>
+                                </td>
+                            </tr>
+                        <% } %>
+
+                    </table>
+                </div>
+            </div>
+            <div class="panel-footer panel-custom">
+                <button type="button" class="btn btn-success btn-lg" id="showTextArea"><span
+                            class="glyphicon glyphicon-plus"></span>
+                </button>
+                <div class="form-group">
+                    <label id="noteLabel" for="note"><span class="noteColor"> Note: </span></label>
+                    <textarea class="form-control" rows="10" id="noteTextArea"></textarea>
+                </div>
+                <button type="button" class="btn btn-primary" id="submitNote" >Submit</button>
+            </div>
+        </div>
+    </div>
 
 
 
@@ -321,6 +330,9 @@
 </div>
 <script>
     $(document).ready(function(){
+        // HIDE/SHOW ADD NOTE TEXTBOX
+
+
         $("#noteLabel").hide();
         $("#submitNote").hide();
         $("#noteTextArea").hide();
@@ -329,7 +341,20 @@
             $("#noteLabel").slideToggle("slow");
             $("#submitNote").slideToggle("slow");
         });
+
     });
+
+
+    $(document).on("click", "#notesTable tr", function () {
+        var $this = $(this);
+        var row = $this.closest("tr");
+        var name = row.find('td:first').text();
+
+
+    });
+
+
+
 
     $('#submitNote').on('click', function(e){
         e.preventDefault();

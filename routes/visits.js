@@ -17,7 +17,7 @@ router.get('/:id', function (req, res) {
             result.push(notes);
             Symptoms.findOne({where: {ID: visit.symptoms_sheet_id}, raw: true}).then(symptoms => {
                 result.push(symptoms);
-                Diagnosis.findOne({where: {ID: visit.diagnosis_id}, raw: true}).then(diagnosis => {
+                Diagnosis.findOne({where: {ID: 1}, raw: true}).then(diagnosis => {
                     result.push(diagnosis);
                     Patient.findOne({where: {ID: visit.patient_id}, raw: true}).then(patientInfo => {
 
@@ -62,12 +62,12 @@ router.post("/addVisit", function(req, res) {
     console.log("Inside add visit");
     const visit = Visit.create({
         patient_id: req.body.patientID,
-        diagnosis_id: req.body.diagnosisID,
         user_id: req.body.userID,
         timestamp: Date.now()
     }).then(function (visit) {
         console.log(req.body);
         console.log(visit);
+        visit.addDiagnosis(req.body.diagnosisID);
         const notes = Notes.create({
             description: req.body.note,
             visit_id: visit.id,

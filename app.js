@@ -73,11 +73,6 @@ app.use('/healthFacilities', require('./routes/healthFacilities'));
 //Routes Index
 app.use('/', require('./routes/index'));
 
-// Routes HSA visits
-app.use('/HSA_Visits', require('./routes/HSA_Visits'));
-
-//Routes HSA
-app.use('/HSAs', require('./routes/HSAs'));
 //Routes Visits
 app.use('/visits', require('./routes/visits'));
 
