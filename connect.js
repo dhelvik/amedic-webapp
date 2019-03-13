@@ -59,10 +59,15 @@ const AMEDUser = require('./models/AMEDUser.js');
 const Diagnosis = require('./models/Diagnosis.js');
 const DiagnosisVisit = require('./models/Diagnosis_Visit.js');
 const Patient = require('./models/Patient.js');
+const Notes = require('./models/Notes.js');
+const SymptomsSheet = require('./models/SymptomsSheet.js')
 AMEDUser.hasMany(Visit, {foreignKey:'user_id', sourceKey:'ID'});
 Visit.belongsTo(AMEDUser, {foreignKey: 'user_id', targetKey:'ID'});
 Patient.hasMany(Visit, {foreignKey:'patient_id', sourceKey:'ID'});
 Visit.belongsTo(Patient, {foreignKey: 'patient_id', targetKey:'ID'});
 Visit.belongsToMany(Diagnosis, {through: { model: DiagnosisVisit}, foreignKey: 'visit_id' });
 Diagnosis.belongsToMany(Visit, {through: { model: DiagnosisVisit}, foreignKey: 'diagnosis_id' });
+Visit.hasMany(Notes, {foreignKey:'visit_id', sourceKey:'id'});
+Notes.belongsTo(Visit, {foreignKey:'visit_id', targetKey:'id'});
+Visit.belongsTo(SymptomsSheet, {foreignKey:'symptoms_sheet_id', targetKey:'ID'});
 

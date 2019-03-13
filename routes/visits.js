@@ -6,10 +6,20 @@ const Symptoms = require('../models/SymptomsSheet');
 const Diagnosis = require('../models/Diagnosis');
 const Treatment = require('../models/Treatment');
 const Patient = require('../models/Patient');
+const AMEDUser = require('../models/AMEDUser.js')
 //TEST AV NY SIDA
 router.get('/:id', function (req, res) {
     Visit.findOne(
-        {where: {ID: req.params.id}}).then(visit => {
+        {where: {ID: req.params.id},
+            include:[
+                {model: AMEDUser},
+                {model: Diagnosis},
+                {model: Notes},
+                {model: Symptoms},
+                {model: Patient}
+                ]
+        }).then(visit => {
+            console.log(visit)
         var result = [];
         var moreResult = [];
         result.push(visit);
@@ -24,7 +34,8 @@ router.get('/:id', function (req, res) {
                         result.push(patientInfo);
 
                         res.render('visit', {
-                            result: result,
+                            visit: visit,
+                            result: result
                         });
                     });
                 });
@@ -65,8 +76,6 @@ router.post("/addVisit", function (req, res) {
             user_id: req.session.user.ID,
             timestamp: Date.now()
         }).then(function (visit) {
-            console.log(req.body);
-            console.log(visit);
             visit.addDiagnosis(req.body.diagnosisID);
             const notes = Notes.create({
                 description: req.body.note,
@@ -82,11 +91,8 @@ router.post("/addVisit", function (req, res) {
                 res.json({
                     Error: err,
                     Status: 500
-
                 });
-
             });
-
         });
     } else {
         Console.log("No logged in user");
