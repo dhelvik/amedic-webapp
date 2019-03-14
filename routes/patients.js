@@ -24,31 +24,59 @@ router.get('/', (req, res) =>
 router.get('/register', (req, res) =>
     res.render('registerPatient')
 );
+
 //register patient
 router.post('/register', function (req, res) {
-    const newPatient = Patient.create({
+    Patient.create({
         name: req.body.name + " " + req.body.lastName,
         national_id: req.body.nationalID,
         mobile_no: req.body.mobileNo,
         sex: req.body.sex,
-        date_of_birth: req.body.dateOfBirth,
+        date_of_birth: req.body.dateOfBirth ,
         village_name: req.body.villageName
-    }).then(function (item) {
-        console.log(newPatient);
+
+    }).then(patient => {
+        if (req.body.caregiverName) {
+            Caregiver.create({
+                name: req.body.caregiverName,
+                national_id: req.body.caregiverNationalId,
+                relation_to_patient: req.body.relation,
+                date_of_birth: req.body.caregiverDateOfBirth,
+                mobile_no: req.body.caregiverMobileNo
+            }).then(caregiver => {
+                console.log(patient);
+                console.log(caregiver);
+                Caregiver_Patient.create({
+                    patient_id: patient.ID,
+                    caregiver_id: caregiver.ID
+                });
+                res.json({
+                    message: "Patient & Cargiver added.",
+                    status: 200,
+
+                });
+            });
+        }
+        else{
         res.json({
-            Message: "Created item.",
-            Status: 200,
-            Item: newPatient
+            message: "Patient added.",
+            status: 200,
+
         });
-    }).catch(function (err) {
+        }
+
+
+    }).catch((err) => {
         console.log(err)
         res.json({
-            Error: err,
-            Status: 500
-        });
-    });
+            error: err,
+            status: 500
 
+        });
+
+    });
 });
+
 //Find specific patient
 router.post('/', function (req, res) {
     var result = [];

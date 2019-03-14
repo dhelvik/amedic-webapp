@@ -36,9 +36,9 @@ color:red;
         </div>
             <div class="form-group">
                 <label for="caregiver" style="display:block;">Caregiver <span class="colorChange">* </span></label>
-                <input type="radio" name="caregiver" value="Yes">
+                <input type="radio" name="caregiver" value="Yes" required>
                 <label for="Yes">Yes</label>
-                <input type="radio" name="caregiver" value="No">
+                <input type="radio" name="caregiver" value="No" required>
                 <label for="No">No</label>
 
             </div>
@@ -50,7 +50,7 @@ color:red;
             </div>
                 <div class="form-group">
                     <label for="caregiverNationalID">Caregiver National ID<span class="colorChange">* </span></label>
-                    <input class="form-control caregiver" id="caregiverNationalID" name="caregiverNationalID" placeholder="National ID" >
+                    <input class="form-control caregiver" id="caregiverNationalID" name="caregiverNationalId" placeholder="National ID" >
                 </div>
                 <div class="form-group">
                     <label for="relation">Relation to patient <span class="colorChange">* </span></label>
@@ -147,17 +147,21 @@ color:red;
                 data: $('#registerPatientForm').serialize(),
                 dataType:'json',
                 success: function(result){
-                    if(result.status=200){
-                        alert('success');
-                        $("#registerPatientForm")[0].reset();
-                        location.href = newID;
-                    }else {
-                        alert('error');
+                    if(result.status === 200){
+                        alert(result.message);
+                        $('#registerPatientForm').trigger("reset");
+                        $('#registerCaregiver').hide();
+
                     }
-                    alert(result.message);
+                    else{
+                        alert(result.status);
+                        console.log(result);
+                    }
                 },
                 error: function(xhr, status, error){
                     alert(status.message);
+                    alert("Error");
+
                 }
             });
 
