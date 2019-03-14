@@ -61,7 +61,7 @@
             <div class="panel-footer">
                 <button class="btn btn-space btn-info btn-lg" onclick="unlockFields()"><span
                             class="glyphicon glyphicon-pencil"></span></button>
-                <button class="btn btn-space btn-success btn-edit btn-lg" onclick="savePatient()" disabled="true"><span
+                <button class="btn btn-space btn-success btn-edit btn-lg btnSaveUser" onclick="savePatient()" disabled="true"><span
                             class="glyphicon glyphicon-ok"></span></button>
 
             </div>
@@ -212,7 +212,7 @@
         $(".editable").css('border', '1px solid darkgray');
         $(".editable").css('box-shadow', '1px 1px 1px 0 lightgray inset');
         $('.editable').css('padding', '3px 4px');
-        $(".btn-success").prop('disabled', false);
+        $(".btnSaveUser").prop('disabled', false);
         $(".btn-info").prop('disabled', true);
         $("#villageName").prop('disabled', false);
 
@@ -242,7 +242,7 @@
         $(".editable").css('border', '');
         $(".editable").css('box-shadow', '');
         $('.editable').css('padding', '');
-        $(".btn-success").prop('disabled', true);
+        $(".btnSaveUser").prop('disabled', true);
         $(".btn-info").prop('disabled', false);
         $("#villageName").prop('disabled', true);
 
