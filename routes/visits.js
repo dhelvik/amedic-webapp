@@ -14,7 +14,7 @@ router.get('/:id', function (req, res) {
             where: {ID: req.params.id},
             include: [
                 {model: AMEDUser},
-                {model: Diagnosis},
+                {model: Diagnosis, include: {model: Treatment}},
                 {model: Notes},
                 {model: Symptoms},
                 {model: Patient}

@@ -43,6 +43,7 @@ var Visit = db.define('Visit', {
     }
   }, {
     tableName: 'Visit',
-    timestamps : false
-  });
+    timestamps : false,
+    freezeTableName: true
+});
 module.exports = Visit;

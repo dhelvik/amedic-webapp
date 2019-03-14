@@ -23,6 +23,7 @@ var Diagnosis = db.define('Diagnosis', {
     }
   }, {
     tableName: 'Diagnosis',
-    timestamps: false
+    timestamps: false,
+    freezeTableName: true
   });
 module.exports = Diagnosis;
