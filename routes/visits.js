@@ -15,11 +15,12 @@ router.get('/:id', function (req, res) {
             include: [
                 {model: AMEDUser},
                 {model: Diagnosis, include: {model: Treatment}},
-                {model: Notes},
+                {model: Notes, include: {model:AMEDUser}},
                 {model: Symptoms},
                 {model: Patient}
-            ]
+            ],
         }).then(visit => {
+            console.log(visit);
         var result = [];
         result.push(visit);
         Notes.findAll({where: {visit_id: req.params.id}}).then(notes => {

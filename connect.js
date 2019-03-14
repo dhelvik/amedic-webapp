@@ -71,6 +71,7 @@ Visit.belongsToMany(Diagnosis, {through: { model: DiagnosisVisit}, foreignKey: '
 Diagnosis.belongsToMany(Visit, {through: { model: DiagnosisVisit}, foreignKey: 'diagnosis_id' });
 Visit.hasMany(Notes, {foreignKey:'visit_id', sourceKey:'id'});
 Notes.belongsTo(Visit, {foreignKey:'visit_id', targetKey:'id'});
+Notes.belongsTo(AMEDUser, {foreignKey:'health_expert_id', targetKey:'ID'});
 Visit.belongsTo(SymptomsSheet, {foreignKey:'symptoms_sheet_id', targetKey:'ID'});
 Treatment.belongsToMany(Diagnosis, {through: { model: TreatmentDiagnosis}, foreignKey: 'treatment_id' });
 Diagnosis.belongsToMany(Treatment, {through: { model: TreatmentDiagnosis}, foreignKey: 'diagnosis_id' });
