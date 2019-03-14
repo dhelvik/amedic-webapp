@@ -32,7 +32,7 @@ router.post('/register', function (req, res) {
         national_id: req.body.nationalID,
         mobile_no: req.body.mobileNo,
         sex: req.body.sex,
-        date_of_birth: req.body.dateOfBirth ,
+        date_of_birth: req.body.dateOfBirth,
         village_name: req.body.villageName
 
     }).then(patient => {
@@ -56,13 +56,12 @@ router.post('/register', function (req, res) {
 
                 });
             });
-        }
-        else{
-        res.json({
-            message: "Patient added.",
-            status: 200,
+        } else {
+            res.json({
+                message: "Patient added.",
+                status: 200,
 
-        });
+            });
         }
 
 

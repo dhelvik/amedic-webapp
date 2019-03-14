@@ -1,16 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-<% include head.ejs%>
+<% include head.ejs %>
 <style type="text/css">
-.colorChange {
-color:red;
-}
+    .colorChange {
+        color: red;
+    }
+
+    #registerCaregiver {
+        border: 1px solid #33333347;
+        padding: 8px 80px 8px 8px;
+        margin-bottom: 10px;
+    }
 
 </style>
 
 <body>
 <div class="container">
-    <% include nav.ejs%>
+    <% include nav.ejs %>
     <form id="registerPatientForm" style="padding-bottom:2em;">
         <div class="form-group">
             <label for="inputFirstName">First Name <span class="colorChange">* </span></label>
@@ -22,11 +28,13 @@ color:red;
         </div>
         <div class="form-group">
             <label for="inputNationalId">National ID <span class="colorChange">* </span></label>
-            <input type="number" class="form-control" id="inputNationalId" name="nationalID" placeholder="YYMMDD-XXXX"required>
+            <input type="number" class="form-control" id="inputNationalId" name="nationalID" placeholder="YYMMDD-XXXX"
+                   required>
         </div>
         <div class="form-group">
             <label for="inputMobileNo">Mobile Number <span class="colorChange">* </span></label>
-            <input type="number" class="form-control" id="inputMobileNo" name="mobileNo" placeholder="070000000" required>
+            <input type="number" class="form-control" id="inputMobileNo" name="mobileNo" placeholder="070000000"
+                   required>
         </div>
 
 
@@ -34,36 +42,39 @@ color:red;
             <label for="inputDateOfBirth">Date Of Birth <span class="colorChange">* </span></label>
             <input class="form-control" id="inputDateOfBirth" name="dateOfBirth" placeholder="YYMMDD-XXXX" required>
         </div>
-            <div class="form-group">
-                <label for="caregiver" style="display:block;">Caregiver <span class="colorChange">* </span></label>
-                <input type="radio" name="caregiver" value="Yes" required>
-                <label for="Yes">Yes</label>
-                <input type="radio" name="caregiver" value="No" required>
-                <label for="No">No</label>
+        <div class="form-group">
+            <label for="caregiver" style="display:block;">Caregiver <span class="colorChange">* </span></label>
+            <input type="radio" name="caregiver" value="Yes" required>
+            <label for="Yes">Yes</label>
+            <input type="radio" name="caregiver" value="No" required>
+            <label for="No">No</label>
 
-            </div>
-        <div id="registerCaregiver" style="display:none;margin-left:5%" >
+        </div>
+        <div id="registerCaregiver" style="display:none;margin-left:5%">
 
             <div class="form-group">
                 <label for="caregiverName">Caregiver Name <span class="colorChange">* </span></label>
-                <input class="form-control caregiver" id="caregiverName" name="caregiverName" placeholder="Name" >
+                <input class="form-control caregiver" id="caregiverName" name="caregiverName" placeholder="Name">
             </div>
-                <div class="form-group">
-                    <label for="caregiverNationalID">Caregiver National ID<span class="colorChange">* </span></label>
-                    <input class="form-control caregiver" id="caregiverNationalID" name="caregiverNationalId" placeholder="National ID" >
-                </div>
-                <div class="form-group">
-                    <label for="relation">Relation to patient <span class="colorChange">* </span></label>
-                    <input class="form-control caregiver" id="relation" name="relation" placeholder="Relation" >
-                </div>
-                <div class="form-group">
-                    <label for="caregiverDateOfBirth">Date Of Birth <span class="colorChange">* </span></label>
-                    <input class="form-control caregiver" id="caregiverDateOfBirth" name="caregiverDateOfBirth" placeholder="YYMMDD-XXXX" >
-                </div>
-                <div class="form-group">
-                    <label for="caregiverMobileNo">Date Of Birth <span class="colorChange">* </span></label>
-                    <input class="form-control caregiver" id="caregiverMobileNo" name="caregiverMobileNo" placeholder="Mobile No" >
-                </div>
+            <div class="form-group">
+                <label for="caregiverNationalID">Caregiver National ID<span class="colorChange">* </span></label>
+                <input class="form-control caregiver" id="caregiverNationalID" name="caregiverNationalId"
+                       placeholder="National ID">
+            </div>
+            <div class="form-group">
+                <label for="relation">Relation to patient <span class="colorChange">* </span></label>
+                <input class="form-control caregiver" id="relation" name="relation" placeholder="Relation">
+            </div>
+            <div class="form-group">
+                <label for="caregiverDateOfBirth">Date Of Birth <span class="colorChange">* </span></label>
+                <input class="form-control caregiver" id="caregiverDateOfBirth" name="caregiverDateOfBirth"
+                       placeholder="YYMMDD-XXXX">
+            </div>
+            <div class="form-group">
+                <label for="caregiverMobileNo">Date Of Birth <span class="colorChange">* </span></label>
+                <input class="form-control caregiver" id="caregiverMobileNo" name="caregiverMobileNo"
+                       placeholder="Mobile No">
+            </div>
 
         </div>
         <div class="form-group">
@@ -73,7 +84,7 @@ color:red;
                 <option>Female</option>
             </select>
         </div>
-        <div class ="form-group">
+        <div class="form-group">
             <label for="inputDistrict"> District <span class="colorChange">* </span> </label>
             <select name="districtName" id="districtsDropdown" class="form-control" required>
             </select>
@@ -93,14 +104,14 @@ color:red;
 
 </div>
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         $.ajax({
             type: "GET",
             url: "/districts/getDistricts",
             success: function (result) {
                 console.log(result[0].name);
                 const districtsDropDown = $("#districtsDropdown");
-                $.each(result, function(idx, element){
+                $.each(result, function (idx, element) {
                     districtsDropDown.append("<option value=element.name>" + element.name + "</option>");
                 });
 
@@ -114,10 +125,10 @@ color:red;
 
     });
 
-    $('#districtsDropdown').on('change', function (){
-    var districtName = $(this).children('#districtsDropdown option:selected').text(); /// fixa denna skiten
+    $('#districtsDropdown').on('change', function () {
+        var districtName = $(this).children('#districtsDropdown option:selected').text(); /// fixa denna skiten
         console.log(districtName);
-       $(villageDropdown).empty();
+        $(villageDropdown).empty();
         $.ajax({
             type: "POST",
             url: "/villages/findVillages",
@@ -136,41 +147,39 @@ color:red;
     });
 
 
-
-    $('#registerPatientForm').submit(function(e){
+    $('#registerPatientForm').submit(function (e) {
         e.preventDefault();
         const newID = $('#inputNationalId').val();
 
-            $.ajax({
-                method:'post',
-                url:'/patients/register',
-                data: $('#registerPatientForm').serialize(),
-                dataType:'json',
-                success: function(result){
-                    if(result.status === 200){
-                        alert(result.message);
-                        $('#registerPatientForm').trigger("reset");
-                        $('#registerCaregiver').hide();
+        $.ajax({
+            method: 'post',
+            url: '/patients/register',
+            data: $('#registerPatientForm').serialize(),
+            dataType: 'json',
+            success: function (result) {
+                if (result.status === 200) {
+                    alert(result.message);
+                    $('#registerPatientForm').trigger("reset");
+                    $('#registerCaregiver').hide();
 
-                    }
-                    else{
-                        alert(result.status);
-                        console.log(result);
-                    }
-                },
-                error: function(xhr, status, error){
-                    alert(status.message);
-                    alert("Error");
-
+                } else {
+                    alert(result.status);
+                    console.log(result);
                 }
-            });
+            },
+            error: function (xhr, status, error) {
+                alert(status.message);
+                alert("Error");
+
+            }
+        });
 
     });
 
-    $(document).ready(function(){
-        var date_input=$('input[id="inputDateOfBirth"]'); //our date input has the name "date"
-        var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
-        var care_giver_date_input=$('input[id="caregiverDateOfBirth"]');
+    $(document).ready(function () {
+        var date_input = $('input[id="inputDateOfBirth"]'); //our date input has the name "date"
+        var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
+        var care_giver_date_input = $('input[id="caregiverDateOfBirth"]');
         date_input.datepicker({
             format: 'mm/dd/yyyy',
             container: container,
@@ -188,15 +197,14 @@ color:red;
     });
 
 
-    $('input[type=radio][name=caregiver]').change(function() {
+    $('input[type=radio][name=caregiver]').change(function () {
         if (this.value == 'Yes') {
-           $('#registerCaregiver').show();
-            $(".caregiver").prop('required',true);
+            $('#registerCaregiver').show();
+            $(".caregiver").prop('required', true);
 
-        }
-        else if (this.value == 'No') {
+        } else if (this.value == 'No') {
             $('#registerCaregiver').hide();
-            $(".caregiver").prop('required',false);
+            $(".caregiver").prop('required', false);
 
         }
     });</script>
