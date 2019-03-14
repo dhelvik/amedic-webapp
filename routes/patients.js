@@ -77,7 +77,7 @@ router.post('/updatePatient', function (req, res) {
             //national_id: req.body.nationalID,
             mobile_no: req.body.mobileNo,
             //sex: req.body.sex,
-            //village_name: req.body.villageName,
+            village_name: req.body.villageName,
             //date_of_birth: req.body.dateOfBirth
         },
         {

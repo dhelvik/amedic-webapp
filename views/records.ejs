@@ -43,7 +43,9 @@
 
                     <div class="col-sm-5 col-xs-6 tital ">Village Name:</div>
                     <div class="col-sm-7">
-                        <span id="villageName"><%= result.village_name %></span></div>
+                        <select id="villageName"  disabled="true">
+                            <option><%= result.village_name %></option>
+                        </select></div>
 
 
                     <div class="col-sm-5 col-xs-6 tital ">
@@ -207,7 +209,26 @@
         $('.editable').css('padding', '3px 4px');
         $(".btn-success").prop('disabled', false);
         $(".btn-info").prop('disabled', true);
+        $("#villageName").prop('disabled', false);
 
+        $.ajax({
+            type: "POST",
+            url: "/villages/getVillages",
+            success: function (result) {
+               let selected =  $('#villageName').val();
+               $('#villageName').empty();
+                for (var i = 0; i < result.length; i++) {
+                    $('#villageName').append('<option value='+result[i].name+'>'+result[i].name+'</option>');
+
+                }
+                $('#villageName').val(selected);
+
+
+                },
+            error: function (result) {
+
+            }
+        });
 
     }
 
@@ -218,6 +239,7 @@
         $('.editable').css('padding', '');
         $(".btn-success").prop('disabled', true);
         $(".btn-info").prop('disabled', false);
+        $("#villageName").prop('disabled', true);
 
     }
 
@@ -228,7 +250,8 @@
             data: {
                 name: $('#name').text(),
                 mobileNo: $('#mobileNo').text(),
-                id: $('#patientId').text()
+                id: $('#patientId').text(),
+                villageName: $('#villageName').val()
 
 
             }
