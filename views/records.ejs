@@ -1,12 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <% include head.ejs %>
+
+<style>
+    .col-sm-7{
+        margin-bottom:5px;
+    }
+</style>
 <body>
 <div class="container-fluid">
     <% include nav.ejs %>
 
     <div class="col-md-5 ">
-        <div class="panel panel-default" >
+        <div class="panel panel-default">
             <div class="panel-heading"><h4>Patient</h4></div>
             <div class="panel-body">
                 <div class="box box-info">
@@ -15,24 +21,36 @@
                     </div>
                     <div class="clearfix"></div>
                     <hr style="margin:5px 0 5px 0;">
+                    <span id="patientId" hidden="true"><%= result.ID %></span>
 
-                    <div class="col-sm-5 col-xs-6 tital ">National ID:</div>
-                    <div class="col-sm-7 col-xs-6 "><%= result.national_id %></div>
+                    <div class="col-sm-5 col-xs-6  ">National ID:</div>
+                    <div class="col-sm-7 col-xs-6 ">
+                        <span id="nationalId"><%= result.national_id %></span>
+
+                    </div>
 
                     <div class="col-sm-5 col-xs-6 tital ">Name:</div>
-                    <div class="col-sm-7 col-xs-6 "><%= result.name %></div>
+                    <div class="col-sm-7 col-xs-6 ">
+                        <span id="name" class="editable"><%= result.name %></span></div>
 
                     <div class="col-sm-5 col-xs-6 tital ">Date Of Birth:</div>
-                    <div class="col-sm-7"><%= result.date_of_birth %></div>
+                    <div class="col-sm-7">
+                        <span id="dateOfBirth"> <%= result.date_of_birth %></span>
+                    </div>
 
-                    <div class="col-sm-5 col-xs-6 tital ">Sex:</div>
-                    <div class="col-sm-7"><%= result.sex %></div>
+                    <div class="col-sm-5 col-xs-6 tital">Sex:</div>
+                    <div class="col-sm-7">
+                        <span id="sex"><%= result.sex %></span></div>
 
-                    <div class="col-sm-5 col-xs-6 tital ">Mobile Number:</div>
-                    <div class="col-sm-7"><%= result.mobile_no %></div>
+                    <div class="col-sm-5 col-xs-6 tital">Mobile Number:</div>
+                    <div class="col-sm-7">
+                        <span id="mobileNo" class="editable"><%= result.mobile_no %></span></div>
 
                     <div class="col-sm-5 col-xs-6 tital ">Village Name:</div>
-                    <div class="col-sm-7"><%= result.village_name %></div>
+                    <div class="col-sm-7">
+                        <select id="villageName"  disabled="true">
+                            <option><%= result.village_name %></option>
+                        </select></div>
 
 
                     <div class="col-sm-5 col-xs-6 tital ">
@@ -41,7 +59,11 @@
                 </div>
             </div>
             <div class="panel-footer">
-                <button type="button" class="glyphicon glyphicon-pencil btn-lg btn-info"></button>
+                <button class="btn btn-space btn-info btn-lg" onclick="unlockFields()"><span
+                            class="glyphicon glyphicon-pencil"></span></button>
+                <button class="btn btn-space btn-success btn-edit btn-lg" onclick="savePatient()" disabled="true"><span
+                            class="glyphicon glyphicon-ok"></span></button>
+
             </div>
 
         </div>
@@ -55,32 +77,33 @@
             <div class="panel-body" style="min-height: 300px">
                 <table id="VisitsTable" class="table table-hover">
                     <tr>
-                        <%if(records.length>0){ %>
-                        <th>Rec ID</th>
-                        <th>Patient ID</th>
-                        <th>Symptom ID</th>
-                        <th>Diagnosis ID</th>
-                        <th>User name</th>
-                        <th>Timestamp</th>
+                        <% if(records.length > 0){ %>
+                            <th>Rec ID</th>
+                            <th>Patient ID</th>
+                            <th>Symptom ID</th>
+                            <th>Diagnosis ID</th>
+                            <th>User name</th>
+                            <th>Timestamp</th>
                         <%
-                        }%>
+                        } %>
                     </tr>
                     <% for(var i = 0; i < records.length;i++){ %>
-                    <tr>
-                        <td><%= records[i].id %></td>
-                        <td><%= records[i].patient_id %></td>
-                        <td><%= records[i].symptoms_sheet_id %></td>
-                        <td><%= records[i].symptoms_sheet_id%></td>
-                        <td><%= records[i].AMEDUser.name%></td>
-                        <td><%= records[i].timestamp %></td>
-                    </tr>
+                        <tr>
+                            <td><%= records[i].id %></td>
+                            <td><%= records[i].patient_id %></td>
+                            <td><%= records[i].symptoms_sheet_id %></td>
+                            <td><%= records[i].symptoms_sheet_id %></td>
+                            <td><%= records[i].AMEDUser.name %></td>
+                            <td><%= records[i].timestamp %></td>
+                        </tr>
                     <% } %>
 
                 </table>
             </div>
-        <div class="panel-footer">
-            <button class="glyphicon glyphicon-plus btn-success btn-lg" data-toggle="modal" data-target="#addVisit"></button>
-        </div>
+            <div class="panel-footer">
+                <button class="glyphicon glyphicon-plus btn-success btn-lg" data-toggle="modal"
+                        data-target="#addVisit"></button>
+            </div>
         </div>
         <!-- Dialog Modal --->
         <!-- Modal -->
@@ -107,7 +130,7 @@
                             <div class="form-group">
                                 <label for="inputTreatment">Treatment <span class="colorChange">*</span></label>
                                 <select class="form-control" name="treatmentID" id="inputTreatment"
-                                       required>
+                                        required>
                                     <option value="1">Treatment 1</option>
                                     <option value="2">Treatment 2</option>
                                     <option value="3">Treatment 3</option>
@@ -123,31 +146,30 @@
                         </form>
 
 
-
-
                     </div>
                     <div class="modal-footer">
                         <button type="button" onclick="addVisit()" class="btn btn-success" data-dismiss="modal"
-                                >Save
+                        >Save
                         </button>
                         <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
                     </div>
                 </div>
 
             </div>
+        </div>
     </div>
-</div>
 </div>
 
 <script>
-    $(document).on("dblclick","#VisitsTable tr", function () {
+    $(document).on("dblclick", "#VisitsTable tr", function () {
         var $this = $(this);
         var row = $this.closest("tr");
         var id = row.find('td:first').text();
-        var requestSite = '/visits/'+id;
+        var requestSite = '/visits/' + id;
         location.replace(requestSite);
     });
-    function fetchVisits(){
+
+    function fetchVisits() {
         $.ajax({
             type: "POST",
             url: "/Visits/getVisits",
@@ -164,25 +186,100 @@
         });
     }
 
-function addVisit(){
+    function addVisit() {
         alert("here");
-    $.ajax({
-        type: "POST",
-        url: "/visits/addVisit",
-        data:
-            $('#addVisitForm').serialize() + "&patient_id=" + "<%=result.ID%>"
-        ,
-        success: function (result) {
-            alert("gick bra");
+        $.ajax({
+            type: "POST",
+            url: "/visits/addVisit",
+            data:
+                $('#addVisitForm').serialize() + "&patient_id=" + "<%= result.ID %>"
+            ,
+            success: function (result) {
+                alert("gick bra");
 
-        },
-        error: function (result, err, status) {
-            alert(err);
-            alert(status.message);
+            },
+            error: function (result, err, status) {
+                alert(err);
+                alert(status.message);
 
-        }
-    });
-}
+            }
+        });
+    }
+
+    function unlockFields() {
+
+        $(".editable").attr('contentEditable', true);
+        $(".editable").css('border', '1px solid darkgray');
+        $(".editable").css('box-shadow', '1px 1px 1px 0 lightgray inset');
+        $('.editable').css('padding', '3px 4px');
+        $(".btn-success").prop('disabled', false);
+        $(".btn-info").prop('disabled', true);
+        $("#villageName").prop('disabled', false);
+
+        $.ajax({
+            type: "POST",
+            url: "/villages/getVillages",
+            success: function (result) {
+               let selected =  $('#villageName').val();
+               $('#villageName').empty();
+                for (var i = 0; i < result.length; i++) {
+                    $('#villageName').append('<option value='+result[i].name+'>'+result[i].name+'</option>');
+
+                }
+                $('#villageName').val(selected);
+
+
+                },
+            error: function (result) {
+
+            }
+        });
+
+    }
+
+    function lockFields() {
+        $(".editable").attr('contentEditable', false);
+        $(".editable").css('border', '');
+        $(".editable").css('box-shadow', '');
+        $('.editable').css('padding', '');
+        $(".btn-success").prop('disabled', true);
+        $(".btn-info").prop('disabled', false);
+        $("#villageName").prop('disabled', true);
+
+    }
+
+    function savePatient() {
+        $.ajax({
+            type: "POST",
+            url: "/patients/updatePatient",
+            data: {
+                name: $('#name').text(),
+                mobileNo: $('#mobileNo').text(),
+                id: $('#patientId').text(),
+                villageName: $('#villageName').val()
+
+
+            }
+            ,
+            success: function (result) {
+
+                if (result.status === 200) {
+                    alert("Patient updated");
+                    lockFields();
+
+                } else {
+                    alert("Could not update patient");
+                }
+
+
+            },
+            error: function (result) {
+
+            }
+        });
+
+    }
+
 </script>
 </body>
 </html>
