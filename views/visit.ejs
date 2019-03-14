@@ -8,7 +8,7 @@
 
     }
 
-    .my-custom-scrollbar {
+    .symptoms-sheet-scrollbar {
         position: relative;
         height: 500px;
         overflow: auto;
@@ -61,7 +61,7 @@
     <div class="row">
 
 
-        <div class=" col-lg-4 col-lg-offset-2">
+        <div class=" col-lg-4 col-lg-offset-2" id="symptomsCol" >
 
             <div class="panel panel-primary">
                 <div class="panel-heading"><h4>Symptoms</h4></div>
@@ -80,8 +80,9 @@
                     <% }
                         } %>
 
+
                     -->
-                        <div class="table-wrapper-scroll-y my-custom-scrollbar table-responsive">
+                        <div class="table-wrapper-scroll-y symptoms-sheet-scrollbar table-responsive">
                             <table id="symptomsTable" class="table table-striped">
                                 <thead>
                                 <tr>
@@ -91,6 +92,8 @@
                                 </thead>
                                 <tr>
                                     <% symptom = result[2];
+
+
                                             for (var key in symptom) {
                                     if(symptom.hasOwnProperty(key) && symptom[key] == true) {
                                     %>
@@ -325,7 +328,7 @@
 <script>
     $(document).ready(function () {
         // HIDE/SHOW ADD NOTE TEXTBOX
-
+        var ele = <%=JSON.stringify(symptom)%>
 
         $("#noteLabel").hide();
         $("#submitNote").hide();
@@ -334,12 +337,16 @@
             $("#noteTextArea").slideToggle("slow");
             $("#noteLabel").slideToggle("slow");
             $("#submitNote").slideToggle("slow");
-        });
 
+        });
+        if(ele == null){
+            $('#symptomsCol').remove();
+        }
     });
 
 
     $(document).on("click", "#notesTable tr", function () {
+        console.log(val);
         var $this = $(this);
         var row = $this.closest("tr");
         var name = row.find('td:first').text();

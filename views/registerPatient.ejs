@@ -166,7 +166,14 @@ color:red;
     $(document).ready(function(){
         var date_input=$('input[id="inputDateOfBirth"]'); //our date input has the name "date"
         var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
+        var care_giver_date_input=$('input[id="caregiverDateOfBirth"]');
         date_input.datepicker({
+            format: 'mm/dd/yyyy',
+            container: container,
+            todayHighlight: true,
+            autoclose: true,
+        });
+        care_giver_date_input.datepicker({
             format: 'mm/dd/yyyy',
             container: container,
             todayHighlight: true,
