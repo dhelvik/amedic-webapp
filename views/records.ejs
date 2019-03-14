@@ -2,6 +2,11 @@
 <html lang="en">
 <% include head.ejs %>
 
+<style>
+    .col-sm-7{
+        margin-bottom:5px;
+    }
+</style>
 <body>
 <div class="container-fluid">
     <% include nav.ejs %>
@@ -18,7 +23,7 @@
                     <hr style="margin:5px 0 5px 0;">
                     <span id="patientId" hidden="true"><%= result.ID %></span>
 
-                    <div class="col-sm-5 col-xs-6 tital ">National ID:</div>
+                    <div class="col-sm-5 col-xs-6  ">National ID:</div>
                     <div class="col-sm-7 col-xs-6 ">
                         <span id="nationalId"><%= result.national_id %></span>
 
