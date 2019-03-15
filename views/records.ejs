@@ -6,6 +6,10 @@
     .col-sm-7 {
         margin-bottom: 5px;
     }
+
+    tr:not(:first-child):hover {
+        background-color: #ddd;
+    }
 </style>
 <body>
 <div class="container-fluid">
@@ -17,40 +21,39 @@
             <div class="panel-body">
                 <div class="box box-info">
                     <div class="col-sm-6">
-                        <h4 style="color:#00b1b1;"><%= result.name %></h4></span>
+                        <h4 style="color:#00b1b1;"><%= patient.name %></h4></span>
                     </div>
                     <div class="clearfix"></div>
                     <hr style="margin:5px 0 5px 0;">
-                    <span id="patientId" hidden="true"><%= result.ID %></span>
+                    <span id="patientId" hidden="true"><%= patient.ID %></span>
 
                     <div class="col-sm-5 col-xs-6  ">National ID:</div>
                     <div class="col-sm-7 col-xs-6 ">
-                        <span id="nationalId"><%= result.national_id %></span>
+                        <span id="nationalId"><%= patient.national_id %></span>
                     </div>
 
-                    <div class="col-sm-5 col-xs-6 tital ">Name:</div>
+                    <div class="col-sm-5 col-xs-6 ">Name:</div>
                     <div class="col-sm-7 col-xs-6 ">
-                        <span id="name" class="editable"><%= result.name %></span></div>
+                        <span id="name" class="editable"><%= patient.name %></span></div>
 
-                    <div class="col-sm-5 col-xs-6 tital ">Date Of Birth:</div>
+                    <div class="col-sm-5 col-xs-6 ">Date Of Birth:</div>
                     <div class="col-sm-7">
-                        <span id="dateOfBirth"> <%= result.date_of_birth %></span>
+                        <span id="dateOfBirth"> <%= patient.date_of_birth %></span>
                     </div>
 
-                    <div class="col-sm-5 col-xs-6 tital">Sex:</div>
+                    <div class="col-sm-5 col-xs-6">Sex:</div>
                     <div class="col-sm-7">
-                        <span id="sex"><%= result.sex %></span></div>
+                        <span id="sex"><%= patient.sex %></span></div>
 
                     <div class="col-sm-5 col-xs-6 tital">Mobile Number:</div>
                     <div class="col-sm-7">
-                        <span id="mobileNo" class="editable"><%= result.mobile_no %></span></div>
+                        <span id="mobileNo" class="editable"><%= patient.mobile_no %></span></div>
 
-                    <div class="col-sm-5 col-xs-6 tital ">Village Name:</div>
+                    <div class="col-sm-5 col-xs-6">Village Name:</div>
                     <div class="col-sm-7">
                         <select id="villageName" disabled="true">
-                            <option><%= result.village_name %></option>
+                            <option><%= patient.village_name %></option>
                         </select></div>
-
 
 
                     <div class="col-sm-5 col-xs-6 tital ">
@@ -71,33 +74,37 @@
 
     </div>
     <div class="col-md-7 ">
-
         <div class="panel panel-default">
-
             <div class="panel-heading"><h4>Visits</h4></div>
             <div class="panel-body" style="min-height: 300px">
-                <table id="VisitsTable" class="table table-hover">
+                <table id="VisitsTable" class="table">
                     <tr>
-                        <% if(records.length > 0){ %>
-                            <th>Rec ID</th>
-                            <th>Patient ID</th>
-                            <th>Symptom ID</th>
-                            <th>Diagnosis ID</th>
-                            <th>User name</th>
+                        <% if(visits != undefined){ %>
                             <th>Timestamp</th>
+                            <th>HSA/HE Name</th>
+                            <th>Diagnoses</th>
                         <%
                         } %>
                     </tr>
-                    <% for(var i = 0; i < records.length;i++){ %>
-                        <tr>
-                            <td><%= records[i].id %></td>
-                            <td><%= records[i].patient_id %></td>
-                            <td><%= records[i].symptoms_sheet_id %></td>
-                            <td><%= records[i].symptoms_sheet_id %></td>
-                            <td><%= records[i].AMEDUser.name %></td>
-                            <td><%= records[i].timestamp %></td>
-                        </tr>
-                    <% } %>
+                    <% visits.forEach(function(visit) { %>
+                    <tr onclick="window.location.href ='/visits/<%= visit.id %>'">
+                        <td class="col-md-2">
+                            <%= moment(visit.timestamp).format("YYYY-MM-DD HH:mm") %>
+                        </td>
+                        <td class="col-md-2">
+                            <%= visit.AMEDUser.name %>
+                        </td>
+                        <% var diagStr = "";
+                            visit.Diagnoses.forEach(function (diagnosis) {
+                                diagStr += diagnosis.name + ", ";
+                            });
+                            diagStr = diagStr.slice(0, -2);
+                        %>
+                        <td class="col-md-8">
+                            <%= diagStr %>
+                        </td>
+                    </tr>
+                    <% }); %>
 
                 </table>
             </div>
@@ -166,9 +173,9 @@
             <div class="panel-heading"><h4>Caregivers</h4></div>
             <div class="panel-body">
                 <div class="box box-info">
-                    <%for(var i = 0; i < result.CareGivers.length; i++){%>
-                    <span><%=result.CareGivers[i].name%></span>
-                    <%}%>
+                    <% for(var i = 0; i < patient.CareGivers.length; i++){ %>
+                        <span><%= patient.CareGivers[i].name %></span>
+                    <% } %>
                 </div>
             </div>
         </div>
@@ -177,14 +184,6 @@
 </div>
 
 <script>
-    $(document).on("dblclick", "#VisitsTable tr", function () {
-        var $this = $(this);
-        var row = $this.closest("tr");
-        var id = row.find('td:first').text();
-        var requestSite = '/visits/' + id;
-        window.location.href = requestSite;
-    });
-
     function fetchVisits() {
         $.ajax({
             type: "POST",
@@ -208,7 +207,7 @@
             type: "POST",
             url: "/visits/addVisit",
             data:
-                $('#addVisitForm').serialize() + "&patient_id=" + "<%= result.ID %>"
+                $('#addVisitForm').serialize() + "&patient_id=" + "<%= patient.ID %>"
             ,
             success: function (result) {
                 alert("gick bra");
