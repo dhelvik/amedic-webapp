@@ -131,18 +131,22 @@ router.get('/:id', sessionChecker, function (req, res) {
     console.log(req.params.id);
     Patient.findOne(
         {where: {national_id: req.params.id}}).then(patient => {
-        console.log(patient);
         Visit.findAll(
             {
                 where: {patient_id: patient.ID}, include: [{model: AMEDUser}, {model: Diagnosis}]
-            }).then(records => {
-            console.log(JSON.stringify(records));
+            }).then(visits => {
             res.render('records', {
-                result: patient,
-                records: records
+                patient: patient,
+                visits: visits
             });
             res.end();
-        }).catch();
+        }).catch(function (err) {
+            console.log(err)
+            res.json({
+                Error: err,
+                Status: 500
+            });
+        });
     });
 });
 

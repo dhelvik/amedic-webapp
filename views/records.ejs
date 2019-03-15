@@ -3,8 +3,8 @@
 <% include head.ejs %>
 
 <style>
-    .col-sm-7{
-        margin-bottom:5px;
+    .col-sm-7 {
+        margin-bottom: 5px;
     }
 </style>
 <body>
@@ -26,7 +26,6 @@
                     <div class="col-sm-5 col-xs-6  ">National ID:</div>
                     <div class="col-sm-7 col-xs-6 ">
                         <span id="nationalId"><%= result.national_id %></span>
-
                     </div>
 
                     <div class="col-sm-5 col-xs-6 tital ">Name:</div>
@@ -48,7 +47,7 @@
 
                     <div class="col-sm-5 col-xs-6 tital ">Village Name:</div>
                     <div class="col-sm-7">
-                        <select id="villageName"  disabled="true">
+                        <select id="villageName" disabled="true">
                             <option><%= result.village_name %></option>
                         </select></div>
 
@@ -61,7 +60,8 @@
             <div class="panel-footer">
                 <button class="btn btn-space btn-info btn-lg" onclick="unlockFields()"><span
                             class="glyphicon glyphicon-pencil"></span></button>
-                <button class="btn btn-space btn-success btn-edit btn-lg btnSaveUser" onclick="savePatient()" disabled="true"><span
+                <button class="btn btn-space btn-success btn-edit btn-lg btnSaveUser" onclick="savePatient()"
+                        disabled="true"><span
                             class="glyphicon glyphicon-ok"></span></button>
 
             </div>
@@ -220,16 +220,16 @@
             type: "POST",
             url: "/villages/getVillages",
             success: function (result) {
-               let selected =  $('#villageName').val();
-               $('#villageName').empty();
+                let selected = $('#villageName').val();
+                $('#villageName').empty();
                 for (var i = 0; i < result.length; i++) {
-                    $('#villageName').append('<option value='+result[i].name+'>'+result[i].name+'</option>');
+                    $('#villageName').append('<option value=' + result[i].name + '>' + result[i].name + '</option>');
 
                 }
                 $('#villageName').val(selected);
 
 
-                },
+            },
             error: function (result) {
 
             }
