@@ -10,9 +10,9 @@ const Caregiver = require('../models/CareGiver');
 const Note = require('../models/Notes');
 
 const Caregiver_Patient = require('../models/CareGiver_Patient');
+const sessionChecker = require('../scripts/sessionChecker.js');
 
-
-router.get('/', (req, res) =>
+router.get('/', sessionChecker, (req, res) =>
 // Gets all patients
         Patient.findAll().then(result => {
             res.render('showPatient', {
@@ -21,12 +21,12 @@ router.get('/', (req, res) =>
         })
 );
 
-router.get('/register', (req, res) =>
+router.get('/register', sessionChecker, (req, res) =>
     res.render('registerPatient')
 );
 
 //register patient
-router.post('/register', function (req, res) {
+router.post('/register', sessionChecker, function (req, res) {
     Patient.create({
         name: req.body.name + " " + req.body.lastName,
         national_id: req.body.nationalID,
@@ -77,7 +77,7 @@ router.post('/register', function (req, res) {
 });
 
 //Find specific patient
-router.post('/', function (req, res) {
+router.post('/', sessionChecker, function (req, res) {
     var result = [];
     Patient.findOne({where: {national_id: req.body.id}}).then(Patient => {
         if (Patient != null) {
@@ -91,14 +91,14 @@ router.post('/', function (req, res) {
 
 });
 //Delete Patient
-router.post('/deletePatient', function (req, res) {
+router.post('/deletePatient', sessionChecker, function (req, res) {
     Patient.destroy({
         where: {id: req.body.id}
     })
 
 })
 //Update Patient
-router.post('/updatePatient', function (req, res) {
+router.post('/updatePatient', sessionChecker, function (req, res) {
     Patient.update({
             name: req.body.name,
             //national_id: req.body.nationalID,
@@ -127,7 +127,7 @@ router.post('/updatePatient', function (req, res) {
 });
 
 //get records
-router.get('/:id', function (req, res) {
+router.get('/:id', sessionChecker, function (req, res) {
     console.log(req.params.id);
     Patient.findOne(
         {where: {national_id: req.params.id}, include: {model: Caregiver}}).then(patient => {
@@ -137,7 +137,7 @@ router.get('/:id', function (req, res) {
             return;
         }
 
-    Visit.findAll(
+        Visit.findAll(
             {
                 where: {patient_id: patient.ID}, include: [{model: AMEDUser}, {model: Diagnosis}]
             }).then(records => {
@@ -147,13 +147,23 @@ router.get('/:id', function (req, res) {
                 records: records,
             });
         })
-        }).catch();
-    });
+    }).catch();
+});
 
 
 //Caregiver
 router.post("/createCaregiver", function (req, res) {
     Caregiver.create({
+        name: req.body.name + " " + req.body.caregiverName,
+        national_id: req.body.caregiverNationalID,
+        mobile_no: req.body.caregiverMobileNo,
+        relation_to_patientt: req.body.relationToPatient,
+        date_of_birth: req.body.caregiverDateOfBirth,
+    });
+});
+
+router.post("", sessionChecker, function (req, res) {
+    const caregiver = Caregiver.create({
         name: req.body.name + " " + req.body.caregiverName,
         national_id: req.body.caregiverNationalID,
         mobile_no: req.body.caregiverMobileNo,

@@ -1,8 +1,11 @@
 const express = require ('express');
 const router = express.Router();
 const HealthFacility = require('../models/HealthFacility');
-const Village = require('../models/Village')
-router.get('/', function(req, res){
+const Village = require('../models/Village');
+const sessionCheckerAdmin = require('../scripts/sessionCheckerAdmin.js');
+
+
+router.get('/',sessionCheckerAdmin, function(req, res){
     HealthFacility.findAll().then(result=>{
         res.render('showHealthFacility', {
             result: result
@@ -10,7 +13,7 @@ router.get('/', function(req, res){
     })
 })
 
-router.get('/registerHealthFacility', function(req, res){
+router.get('/registerHealthFacility',sessionCheckerAdmin, function(req, res){
     Village.findAll().then(result=>{
         res.render('registerHealthFacility',{
             result: result
@@ -18,7 +21,7 @@ router.get('/registerHealthFacility', function(req, res){
     })
 
 });
-router.post('/registerHealthFacility', function(req, res){
+router.post('/registerHealthFacility',sessionCheckerAdmin, function(req, res){
     console.log(req.body.villageName);
 
 
@@ -44,7 +47,7 @@ router.post('/registerHealthFacility', function(req, res){
 
 
 });
-router.post('/getHealthFacilities', function(req, res){
+router.post('/getHealthFacilities',sessionCheckerAdmin, function(req, res){
     HealthFacility.findAll().then(result=>{
         res.send(result);
         res.end;
@@ -57,7 +60,7 @@ router.post('/getHealthFacilities', function(req, res){
 
 });
 
-//Ajax request to find AMEDUser like
+//Ajax request to find HealthFacility like
 router.post('/findHFSLike', function (req, res) {
     HealthFacility.findAll({
         where: {

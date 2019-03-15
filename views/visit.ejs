@@ -43,8 +43,8 @@
 
             <div class="panel panel-info">
                 <div class="panel-heading" style="min-height:10px">
-                    <h4>Visit
-                        <span id="visitDate"> <%= visit.timestamp %> | </span>
+                    <h4>
+                        <span id="visitDate"> <%= moment(visit.timestamp).format("YYYY-MM-DD") %> | </span>
                         <span id="nationalId"> <%= visit.Patient.national_id %> | </span>
                         <%= visit.Patient.name %>
                     </h4>
@@ -72,7 +72,9 @@
                                 </thead>
                                 <tr>
                                     <% for (var symptom in visit.SymptomsSheet.dataValues) if (visit.SymptomsSheet.dataValues.hasOwnProperty(symptom)) { %>
-                                        <td><b> <%= symptom + ": " %> </b></td>
+                                    <% var str = symptom.replace(/_/g, " ").replace("days", "(days)");
+                                        str = str.charAt(0).toUpperCase() + str.slice(1)%>
+                                        <td><b> <%= str + ": " %> </b></td>
                                         <td> <%= visit.SymptomsSheet[symptom] %></td>
                                 </tr>
                                 <% } %>
@@ -84,21 +86,21 @@
                 <h3>Diagnoses</h3>
             <% }
             var i = 0;
-            visit.Diagnoses.forEach(function(obj) { %>
+            visit.Diagnoses.forEach(function(diagnosis) { %>
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                            <a data-toggle="collapse" href="#diagCollapse<%= i %>"><%= obj.name %></a>
+                            <a data-toggle="collapse" href="#diagCollapse<%= i %>"><%= diagnosis.name %></a>
                         </h4>
                     </div>
                     <div id="diagCollapse<%= i %>" class="panel-collapse collapse">
-                        <div class="panel-body"><%= obj.description %>
+                        <div class="panel-body"><%= diagnosis.description %>
                         </div>
-                        <%if(obj.Treatments != undefined){%>
+                        <%if(diagnosis.Treatments != undefined){%>
 
                         <div class="panel-body">
                             <% var j = 0;
-                            obj.Treatments.forEach(function(treatment) { %>
+                            diagnosis.Treatments.forEach(function(treatment) { %>
                                 <div class="panel">
                                         <h4 >
                                             <%= treatment.description %>
@@ -124,6 +126,7 @@
                     </div>
                 </div>
             <% i++;}); %>
+
         </div>
     </div>
     <div class="col-md-7">
@@ -140,7 +143,7 @@
                         <div class="panel panel-default noteMargin">
                             <div class="container-fluid panel-heading " style="padding-top: 0;padding-bottom: 0">
                                 <span class="pull-left text-muted"><%= note.AMEDUser.login_id %></span>
-                                <span class="pull-right text-muted"><%= note.timestamp %></span>
+                                <span class="pull-right text-muted"><%= moment(note.timestamp).format("YYYY-MM-DD HH:mm") %></span>
                             </div>
                             <div class="panel-body">
                                 <%= note.description%>

@@ -3,10 +3,11 @@ const router = express.Router();
 const db = require('../connect');
 const Patient = require('../models/Patient');
 const AMEDUser = require('../models/AMEDUser');
+const sessionCheckerAdmin = require('../scripts/sessionCheckerAdmin.js');
 
 //Gets all users and routes to /user
 
-router.get('/', (req, res) =>
+router.get('/', sessionCheckerAdmin, (req, res) =>
 
     AMEDUser.findAll().then(result => {
         res.render('showUsers', {
@@ -15,12 +16,12 @@ router.get('/', (req, res) =>
     })
 )
 //Routes to users/register
-router.get('/register', function (req, res) {
+router.get('/register', sessionCheckerAdmin, function (req, res) {
     res.render('registerUser');
 });
 
 //Ajax Request to register AMEDUser
-router.post('/register', function (req, res) {
+router.post('/register', sessionCheckerAdmin, function (req, res) {
     var user = AMEDUser.create({
         name: req.body.name,
         password: req.body.password,
@@ -52,7 +53,7 @@ router.post('/register', function (req, res) {
 });
 
 //Ajax request to find AMEDUser like
-router.post('/findUserLike', function (req, res) {
+router.post('/findUserLike', sessionCheckerAdmin, function (req, res) {
     AMEDUser.findAll({
         where: {
             $or: {
@@ -75,7 +76,7 @@ router.post('/findUserLike', function (req, res) {
 });
 
 //Ajax request to find User Profile
-router.post('/findUser', function (req, res) {
+router.post('/findUser', sessionCheckerAdmin, function (req, res) {
     AMEDUser.findOne({
         where: {
             ID: req.body.id
@@ -88,8 +89,9 @@ router.post('/findUser', function (req, res) {
 });
 
 //Ajax request update user
-router.post('/updateUser', function (req, res) {
-    console.log(req.body.userName + req.body.userRole);
+
+router.post('/updateUser', sessionCheckerAdmin, function (req, res) {
+    console.log(req.body.userName+req.body.userRole);
     AMEDUser.update({
             name: req.body.userName,
             role: req.body.userRole,
@@ -117,21 +119,12 @@ router.post('/updateUser', function (req, res) {
 });
 
 //Ajax request to delete user
-router.post('/removeUser', function (req, res) {
-    AMEDUser.destroy({
-        where: {id: req.body.id}
-    }).then(function () {
-        res.json({
-            status: 200,
-        });
-    }).catch(function (err) {
-        console.log(err)
-        res.json({
-            error: err,
-            status: 500
-        });
 
-    });
+router.post('/removeUser', sessionCheckerAdmin, function(req, res){
+AMEDUser.destroy({
+   where: {id: req.body.id}
+});
+    res.end();
 });
 
 module.exports = router;

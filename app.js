@@ -7,6 +7,8 @@ var con = require('./connect');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var sessionChecker = require('./scripts/sessionChecker');
+var moment = require('moment');
+app.locals.moment = moment;
 //configure app
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -21,7 +23,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: {
-        expires: 600000
+        maxAge: 600000
     }
 }));
 
