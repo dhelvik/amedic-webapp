@@ -12,7 +12,7 @@ const Note = require('../models/Notes');
 const Caregiver_Patient = require('../models/CareGiver_Patient');
 const sessionChecker = require('../scripts/sessionChecker.js');
 
-router.get('/',sessionChecker, (req, res) =>
+router.get('/', sessionChecker, (req, res) =>
 // Gets all patients
         Patient.findAll().then(result => {
             res.render('showPatient', {
@@ -21,36 +21,63 @@ router.get('/',sessionChecker, (req, res) =>
         })
 );
 
-router.get('/register',sessionChecker, (req, res) =>
+router.get('/register', sessionChecker, (req, res) =>
     res.render('registerPatient')
 );
+
 //register patient
-router.post('/register',sessionChecker, function (req, res) {
-    const newPatient = Patient.create({
+router.post('/register', sessionChecker, function (req, res) {
+    Patient.create({
         name: req.body.name + " " + req.body.lastName,
         national_id: req.body.nationalID,
         mobile_no: req.body.mobileNo,
         sex: req.body.sex,
         date_of_birth: req.body.dateOfBirth,
         village_name: req.body.villageName
-    }).then(function (item) {
-        console.log(newPatient);
-        res.json({
-            Message: "Created item.",
-            Status: 200,
-            Item: newPatient
-        });
-    }).catch(function (err) {
+
+    }).then(patient => {
+        if (req.body.caregiverName) {
+            Caregiver.create({
+                name: req.body.caregiverName,
+                national_id: req.body.caregiverNationalId,
+                relation_to_patient: req.body.relation,
+                date_of_birth: req.body.caregiverDateOfBirth,
+                mobile_no: req.body.caregiverMobileNo
+            }).then(caregiver => {
+                console.log(patient);
+                console.log(caregiver);
+                Caregiver_Patient.create({
+                    patient_id: patient.ID,
+                    caregiver_id: caregiver.ID
+                });
+                res.json({
+                    message: "Patient & Cargiver added.",
+                    status: 200,
+
+                });
+            });
+        } else {
+            res.json({
+                message: "Patient added.",
+                status: 200,
+
+            });
+        }
+
+
+    }).catch((err) => {
         console.log(err)
         res.json({
-            Error: err,
-            Status: 500
-        });
-    });
+            error: err,
+            status: 500
 
+        });
+
+    });
 });
+
 //Find specific patient
-router.post('/',sessionChecker, function (req, res) {
+router.post('/', sessionChecker, function (req, res) {
     var result = [];
     Patient.findOne({where: {national_id: req.body.id}}).then(Patient => {
         if (Patient != null) {
@@ -64,14 +91,14 @@ router.post('/',sessionChecker, function (req, res) {
 
 });
 //Delete Patient
-router.post('/deletePatient',sessionChecker, function (req, res) {
+router.post('/deletePatient', sessionChecker, function (req, res) {
     Patient.destroy({
         where: {id: req.body.id}
     })
 
 })
 //Update Patient
-router.post('/updatePatient',sessionChecker, function (req, res) {
+router.post('/updatePatient', sessionChecker, function (req, res) {
     Patient.update({
             name: req.body.name,
             //national_id: req.body.nationalID,
@@ -100,7 +127,7 @@ router.post('/updatePatient',sessionChecker, function (req, res) {
 });
 
 //get records
-router.get('/:id',sessionChecker, function (req, res) {
+router.get('/:id', sessionChecker, function (req, res) {
     console.log(req.params.id);
     Patient.findOne(
         {where: {national_id: req.params.id}}).then(patient => {
@@ -120,7 +147,7 @@ router.get('/:id',sessionChecker, function (req, res) {
 });
 
 //Caregiver
-router.post("",sessionChecker, function (req, res) {
+router.post("", sessionChecker, function (req, res) {
     const caregiver = Caregiver.create({
         name: req.body.name + " " + req.body.caregiverName,
         national_id: req.body.caregiverNationalID,
