@@ -6,46 +6,30 @@ const Symptoms = require('../models/SymptomsSheet');
 const Diagnosis = require('../models/Diagnosis');
 const Treatment = require('../models/Treatment');
 const Patient = require('../models/Patient');
-const AMEDUser = require('../models/AMEDUser.js')
+const AMEDUser = require('../models/AMEDUser.js');
+const sessionChecker = require('../scripts/sessionChecker.js');
 //TEST AV NY SIDA
-router.get('/:id', function (req, res) {
+router.get('/:id', sessionChecker, function (req, res) {
     Visit.findOne(
         {
             where: {ID: req.params.id},
             include: [
                 {model: AMEDUser},
                 {model: Diagnosis, include: {model: Treatment}},
-                {model: Notes, include: {model:AMEDUser}},
+                {model: Notes, include: {model: AMEDUser}},
                 {model: Symptoms},
                 {model: Patient}
-            ],
+            ], order: [[{model: Notes}, 'timestamp', 'DESC']]
         }).then(visit => {
-            console.log(visit);
-        var result = [];
-        result.push(visit);
-        Notes.findAll({where: {visit_id: req.params.id}}).then(notes => {
-            result.push(notes);
-            Symptoms.findOne({where: {ID: visit.symptoms_sheet_id}, raw: true}).then(symptoms => {
-                result.push(symptoms);
-                Diagnosis.findOne({where: {ID: 1}, raw: true}).then(diagnosis => {
-                    result.push(diagnosis);
-                    Patient.findOne({where: {ID: visit.patient_id}, raw: true}).then(patientInfo => {
-
-                        result.push(patientInfo);
-
-                        res.render('visit', {
-                            visit: visit,
-                            result: result
-                        });
-                    });
-                });
-            });
+        res.render('visit', {
+            visit: visit,
         });
-
     });
+
+
 });
 
-router.post('/addNote', function (req, res) {
+router.post('/addNote', sessionChecker, function (req, res) {
     if (req.session.user) {
         console.log(req.body);
         const newNote = Notes.create({
@@ -77,7 +61,7 @@ router.post('/addNote', function (req, res) {
     }
 });
 //addVisit
-router.post("/addVisit", function (req, res) {
+router.post("/addVisit", sessionChecker, function (req, res) {
     if (req.session.user) {
         const visit = Visit.create({
             patient_id: req.body.patient_id,

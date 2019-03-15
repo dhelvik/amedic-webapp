@@ -2,19 +2,22 @@ const express = require('express');
 const router = express.Router();
 const District = require('../models/District');
 const Village = require('../models/Village');
+const sessionChecker = require('../scripts/sessionChecker.js');
+const sessionCheckerAdmin = require('../scripts/sessionCheckerAdmin.js');
 
-router.get('/', (req, res) =>
+
+router.get('/', sessionCheckerAdmin, (req, res) =>
         res.render('districts')
     );
 
 
-router.get('/getDistricts', (req, res) =>
+router.get('/getDistricts', sessionChecker, (req, res) =>
     District.findAll().then(result => {
         res.send(result);
     })
 );
 
-router.post('/addDistrict', function(req, res) {
+router.post('/addDistrict', sessionCheckerAdmin, function(req, res) {
     const newDistrict = District.create({
         name: req.body.name
 
