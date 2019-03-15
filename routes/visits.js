@@ -60,6 +60,12 @@ router.post('/addNote', sessionChecker, function (req, res) {
         });
     }
 });
+//get all Diagnoses
+router.post('/getDiagnoses', sessionChecker, (req, res) =>
+    Diagnosis.findAll().then(result => {
+        res.send(result);
+    })
+);
 //addVisit
 router.post("/addVisit", sessionChecker, function (req, res) {
     if (req.session.user) {
@@ -68,11 +74,18 @@ router.post("/addVisit", sessionChecker, function (req, res) {
             user_id: req.session.user.ID,
             timestamp: Date.now()
         }).then(function (visit) {
-            visit.addDiagnosis(req.body.diagnosisID);
+            console.log(req.body);
+            console.log(req.body.diagnoses + "hejsan");
+            var diagnoses = JSON.parse(req.body.diagnoses)
+            console.log(diagnoses);
+            for (i = 0; i < diagnoses.length; i++) {
+                visit.addDiagnosis(diagnoses[i]);
+            }
             const notes = Notes.create({
                 description: req.body.note,
                 visit_id: visit.id,
-                timestamp: Date.now()
+                timestamp: Date.now(),
+                health_expert_id: req.session.user.ID
             }).then(function (item) {
                 res.json({
                     message: "Created item.",

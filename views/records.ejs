@@ -87,23 +87,23 @@
                         } %>
                     </tr>
                     <% visits.forEach(function(visit) { %>
-                    <tr onclick="window.location.href ='/visits/<%= visit.id %>'">
-                        <td class="col-md-2">
-                            <%= moment(visit.timestamp).format("YYYY-MM-DD HH:mm") %>
-                        </td>
-                        <td class="col-md-2">
-                            <%= visit.AMEDUser.name %>
-                        </td>
-                        <% var diagStr = "";
-                            visit.Diagnoses.forEach(function (diagnosis) {
-                                diagStr += diagnosis.name + ", ";
-                            });
-                            diagStr = diagStr.slice(0, -2);
-                        %>
-                        <td class="col-md-8">
-                            <%= diagStr %>
-                        </td>
-                    </tr>
+                        <tr onclick="window.location.href ='/visits/<%= visit.id %>'">
+                            <td class="col-md-2">
+                                <%= moment(visit.timestamp).format("YYYY-MM-DD HH:mm") %>
+                            </td>
+                            <td class="col-md-2">
+                                <%= visit.AMEDUser.name %>
+                            </td>
+                            <% var diagStr = "";
+                                visit.Diagnoses.forEach(function (diagnosis) {
+                                    diagStr += diagnosis.name + ", ";
+                                });
+                                diagStr = diagStr.slice(0, -2);
+                            %>
+                            <td class="col-md-8">
+                                <%= diagStr %>
+                            </td>
+                        </tr>
                     <% }); %>
 
                 </table>
@@ -118,7 +118,7 @@
         <!-- Dialog Modal --->
         <!-- Modal -->
         <div id="addVisit" class="modal fade" role="dialog">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-lg">
 
                 <!-- Modal content-->
                 <div class="modal-content">
@@ -126,35 +126,26 @@
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <h4 class="modal-title">Add Visit</h4>
                     </div>
-                    <div class="modal-body">
-                        <form id="addVisitForm">
-                            <div class="form-group">
-                                <label for="inputDiagnosis">Diagnosis <span class="colorChange">*</span> </label>
-                                <select class="form-control" name="diagnosisID" id="inputName" required>
-                                    <option value="1">Diagnosis 1</option>
-                                    <option value="2">Diagnosis 2</option>
-                                    <option value="3">Diagnosis 3</option>
+                    <div>
+                        <div class="col-md-6" id="allDiagnoses">
+                            <h2>Add diagnoses</h2>
+                            <input class="form-control" id="myInput" type="text" placeholder="Search..">
+                            <br>
 
-                                </select>
+                            <ul class="list-group hover" id="myList">
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <div>
+                                <h2>Chosen diagnoses</h2>
+                                <ul class="list-group" id="chosenDiagnoses">
+                                </ul>
                             </div>
-                            <div class="form-group">
-                                <label for="inputTreatment">Treatment <span class="colorChange">*</span></label>
-                                <select class="form-control" name="treatmentID" id="inputTreatment"
-                                        required>
-                                    <option value="1">Treatment 1</option>
-                                    <option value="2">Treatment 2</option>
-                                    <option value="3">Treatment 3</option>
-
-                                </select>
+                            <div>
+                                <h2>Note</h2>
+                                <textarea class="form-control" rows="6" id="noteTextArea"></textarea>
                             </div>
-
-                            <div class="form-group">
-                                <label for="inputMobileNo">Note <span class="colorChange">*</span></label>
-                                <textarea class="form-control" name="note" id="inputNote" required></textarea>
-
-                            </div>
-                        </form>
-
+                        </div>
 
                     </div>
                     <div class="modal-footer">
@@ -184,6 +175,46 @@
 </div>
 
 <script>
+    $(document).ready(function () {
+        $("#myInput").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#myList li").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+    $("#addVisit").on('shown.bs.modal', function (e) {
+        $.ajax({
+            type: "POST",
+            url: "/visits/getDiagnoses",
+            success: function (result) {
+                $("#myList").empty();
+                result.forEach(function (diagnosis) {
+                    $("#myList").append('<a href="#" onclick = addDiagnosis(id) id=' + diagnosis.ID + ' class="list-group-item">' + diagnosis.name + '</a>');
+                });
+
+            },
+            error: function (err) {
+                console.log(err);
+                throw err;
+            }
+
+        });
+
+    });
+
+    function addDiagnosis(id){
+        var a = document.getElementById(id);
+        $("#chosenDiagnoses").append(a);
+        a.onclick=function(){removeDiagnosis(id);}
+    }
+
+    function removeDiagnosis(id){
+        var a = document.getElementById(id);
+        $("#myList").append(a);
+        a.onclick=function(){addDiagnosis(id);}
+    }
+
     function fetchVisits() {
         $.ajax({
             type: "POST",
@@ -202,16 +233,20 @@
     }
 
     function addVisit() {
-        alert("here");
+        var diagnoses = [];
+        $('#chosenDiagnoses a').each(function () {
+            diagnoses.push(this.id);
+        });
         $.ajax({
             type: "POST",
             url: "/visits/addVisit",
-            data:
-                $('#addVisitForm').serialize() + "&patient_id=" + "<%= patient.ID %>"
-            ,
+            data: {
+                patient_id: "<%=patient.ID%>",
+                diagnoses: JSON.stringify(diagnoses),
+                note:$('#noteTextArea').val()
+            },
             success: function (result) {
-                alert("gick bra");
-
+                location.reload(true);
             },
             error: function (result, err, status) {
                 alert(err);

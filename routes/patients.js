@@ -128,10 +128,8 @@ router.post('/updatePatient', sessionChecker, function (req, res) {
 
 //get records
 router.get('/:id', sessionChecker, function (req, res) {
-    console.log(req.params.id);
     Patient.findOne(
         {where: {national_id: req.params.id}, include: {model: Caregiver}}).then(patient => {
-        console.log(patient);
         if (!patient) {
             res.render('pageNotFound');
             return;
