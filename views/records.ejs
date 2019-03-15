@@ -172,9 +172,9 @@
     <div class="panel panel-default">
         <div class="panel-heading"><h4>Caregivers</h4></div>
         <div class="panel-body">
-
+            <% for(var i = 0; i < patient.CareGivers.length; i++){ %>
             <h4>
-                <% for(var i = 0; i < patient.CareGivers.length; i++){ %>
+
                 <a data-toggle="collapse" href="#collapse<%= i %>"><%= patient.CareGivers[i].name %></a>
             </h4>
 
