@@ -109,7 +109,6 @@
             type: "GET",
             url: "/districts/getDistricts",
             success: function (result) {
-                console.log(result[0].name);
                 const districtsDropDown = $("#districtsDropdown");
                 $.each(result, function (idx, element) {
                     districtsDropDown.append("<option value=element.name>" + element.name + "</option>");
@@ -160,7 +159,8 @@
                 if (result.status === 200) {
                     alert(result.message);
                     $('#registerPatientForm').trigger("reset");
-                    $('#registerCaregiver').hide();
+                    location.href = newID;
+
 
                 } else {
                     alert(result.status);

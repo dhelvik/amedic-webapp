@@ -226,9 +226,15 @@
                     id: id
                 },
                 success: function (result) {
+                    if(result.status ===200){
                     $('#textChange').text("Health Facility deleted");
                     alert("Health Facility deleted successfully");
+                        $('#healthFacilityName').val("");
+                        $('#healthFacilityVillageName').val("");
                     fetchHealthFacilities();
+                    } else{
+                        alert("Could not delete Health Facility");
+                    }
 
 
                 },
@@ -268,13 +274,13 @@
                 dataType: 'json',
                 success: function (result) {
                     if (result.status = 200) {
-                        alert('success');
+                        alert('Health Facility added');
                         $("#registerHealthFacility")[0].reset();
                         $('#addHealthFacility').modal('hide');
                         fetchHealthFacilities();
 
                     } else {
-                        alert('error');
+                        alert('Could not add Health Facility');
                     }
                 },
                 error: function (xhr, status, error) {

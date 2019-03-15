@@ -56,22 +56,22 @@ router.post('/addNote', function (req, res) {
         }).then(function (item) {
             console.log(item);
             res.json({
-                Message: "Note added.",
-                Status: 200,
-                Item: newNote
+                message: "Note added.",
+                status: 200,
+                item: newNote
             });
         }).catch(function (err) {
             res.json({
-                Error: err,
-                Status: 500
+                error: err,
+                status: 500
 
             });
         });
     } else {
         console.log("No logged in user");
         res.json({
-            Error: "User missing",
-            Status: 500
+            error: "User missing",
+            status: 500
 
         });
     }
@@ -91,22 +91,22 @@ router.post("/addVisit", function (req, res) {
                 timestamp: Date.now()
             }).then(function (item) {
                 res.json({
-                    Message: "Created item.",
-                    Status: 200,
+                    message: "Created item.",
+                    status: 200,
                 });
             }).catch(function (err) {
                 console.log(err)
                 res.json({
-                    Error: err,
-                    Status: 500
+                    error: err,
+                    status: 500
                 });
             });
         });
     } else {
         console.log("No logged in user");
         res.json({
-            Error: "User missing",
-            Status: 500
+            error: "User missing",
+            status: 500
 
         });
     }

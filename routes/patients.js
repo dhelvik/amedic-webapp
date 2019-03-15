@@ -119,8 +119,8 @@ router.post('/updatePatient', function (req, res) {
         }).catch((err) => {
         console.log(err)
         res.json({
-            Error: err,
-            Status: 500
+            error: err,
+            status: 500
 
         });
     });
@@ -130,25 +130,30 @@ router.post('/updatePatient', function (req, res) {
 router.get('/:id', function (req, res) {
     console.log(req.params.id);
     Patient.findOne(
-        {where: {national_id: req.params.id}}).then(patient => {
+        {where: {national_id: req.params.id}, include: {model: Caregiver}}).then(patient => {
         console.log(patient);
-        Visit.findAll(
+        if (!patient) {
+            res.render('pageNotFound');
+            return;
+        }
+
+    Visit.findAll(
             {
                 where: {patient_id: patient.ID}, include: [{model: AMEDUser}, {model: Diagnosis}]
             }).then(records => {
             console.log(JSON.stringify(records));
             res.render('records', {
                 result: patient,
-                records: records
+                records: records,
             });
-            res.end();
+        })
         }).catch();
     });
-});
+
 
 //Caregiver
-router.post("", function (req, res) {
-    const caregiver = Caregiver.create({
+router.post("/createCaregiver", function (req, res) {
+    Caregiver.create({
         name: req.body.name + " " + req.body.caregiverName,
         national_id: req.body.caregiverNationalID,
         mobile_no: req.body.caregiverMobileNo,
@@ -159,8 +164,8 @@ router.post("", function (req, res) {
     }).catch(function (err) {
         console.log(err)
         res.json({
-            Error: err,
-            Status: 500
+            error: err,
+            status: 500
 
         });
     });
