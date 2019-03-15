@@ -119,8 +119,8 @@ router.post('/updatePatient', sessionChecker, function (req, res) {
         }).catch((err) => {
         console.log(err)
         res.json({
-            Error: err,
-            Status: 500
+            error: err,
+            status: 500
 
         });
     });
@@ -130,7 +130,12 @@ router.post('/updatePatient', sessionChecker, function (req, res) {
 router.get('/:id', sessionChecker, function (req, res) {
     console.log(req.params.id);
     Patient.findOne(
-        {where: {national_id: req.params.id}}).then(patient => {
+        {where: {national_id: req.params.id}, include: {model: Caregiver}}).then(patient => {
+        console.log(patient);
+        if (!patient) {
+            res.render('pageNotFound');
+            return;
+        }
         Visit.findAll(
             {
                 where: {patient_id: patient.ID}, include: [{model: AMEDUser}, {model: Diagnosis}]
@@ -150,7 +155,18 @@ router.get('/:id', sessionChecker, function (req, res) {
     });
 });
 
+
 //Caregiver
+router.post("/createCaregiver", function (req, res) {
+    Caregiver.create({
+        name: req.body.name + " " + req.body.caregiverName,
+        national_id: req.body.caregiverNationalID,
+        mobile_no: req.body.caregiverMobileNo,
+        relation_to_patientt: req.body.relationToPatient,
+        date_of_birth: req.body.caregiverDateOfBirth,
+    });
+});
+
 router.post("", sessionChecker, function (req, res) {
     const caregiver = Caregiver.create({
         name: req.body.name + " " + req.body.caregiverName,
@@ -163,8 +179,8 @@ router.post("", sessionChecker, function (req, res) {
     }).catch(function (err) {
         console.log(err)
         res.json({
-            Error: err,
-            Status: 500
+            error: err,
+            status: 500
 
         });
     });

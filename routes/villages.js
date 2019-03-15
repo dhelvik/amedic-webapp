@@ -23,14 +23,14 @@ router.post('/addVillage',sessionCheckerAdmin, function(req, res) {
     }).then(function(item){
         console.log(newVillage);
         res.json({
-            Message : "Created item.",
-            Status : 200,
-            Item : newVillage
+            message : "Created item.",
+            status : 200,
+            item : newVillage
         });
     }).catch(function(err){
         res.json({
-            Error : err,
-            Status : 500
+            error : err,
+            status : 500
 
         });
     });
@@ -40,10 +40,20 @@ router.post('/removeVillage',sessionCheckerAdmin, function(req,res){
     const name = req.body.name;
     Village.destroy({
         where:{name:name}
+    }).then(function () {
+        res.json({
+            status: 200,
+        });
+    }).catch(function (err) {
+        res.json({
+            error: err,
+            status: 500
+        });
+
     });
-    res.end();
 
 });
+
 
 router.post('/getVillages',sessionCheckerAdmin, function(req, res){
     Village.findAll().then(result=>{

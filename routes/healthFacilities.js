@@ -32,15 +32,15 @@ router.post('/registerHealthFacility',sessionCheckerAdmin, function(req, res){
         console.log(healthFacility);
         res.json({
 
-            Message : "Created item.",
-            Status : 200,
-            Item : healthFacility
+            message : "Created item.",
+            status : 200,
+            item : healthFacility
         });
     }).catch(function (err) {
         console.log(err)
         res.json({
-            Error : err,
-            Status : 500
+            error : err,
+            status : 500
 
         });
     });
@@ -51,6 +51,11 @@ router.post('/getHealthFacilities',sessionCheckerAdmin, function(req, res){
     HealthFacility.findAll().then(result=>{
         res.send(result);
         res.end;
+    }).catch( err => {
+        res.json({
+            error: err,
+            status: 500
+        })
     })
 
 });
@@ -73,9 +78,14 @@ router.post('/findHFSLike', function (req, res) {
 
         }
     }).then(result => {
-            res.send(result);
-        }
-    )
+        res.send(result);
+
+    }).catch( err => {
+        res.json({
+            error: err,
+            status: 500
+        });
+    });
 });
 
 //Ajax request to find Health Facility
@@ -88,15 +98,28 @@ router.post('/findHealthFacility', function (req, res) {
         res.send(result);
 
 
-    })
+    }).catch( err => {
+        res.json({
+            error: err,
+            status: 500
+        });
+    });
 });
 
 //Ajax request to delete user
 router.post('/removeHealthFacility', function(req, res){
     HealthFacility.destroy({
         where: {name: req.body.id}
+    }).then(() => {
+        res.send({
+            status: 200
+            });
+    }).catch( err => {
+        res.json({
+            error: err,
+            status: 500
+        });
     });
-    res.end();
 });
 
 

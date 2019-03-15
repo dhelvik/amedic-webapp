@@ -63,6 +63,7 @@ const Notes = require('./models/Notes.js');
 const SymptomsSheet = require('./models/SymptomsSheet.js');
 const Treatment = require('./models/Treatment.js');
 const TreatmentDiagnosis = require('./models/Treatment_Diagnosis.js');
+
 const Caregiver = require('./models/CareGiver.js');
 const CaregiverPatient = require('./models/CareGiver_Patient.js');
 
@@ -78,5 +79,6 @@ Notes.belongsTo(AMEDUser, {foreignKey:'health_expert_id', targetKey:'ID'});
 Visit.belongsTo(SymptomsSheet, {foreignKey:'symptoms_sheet_id', targetKey:'ID'});
 Treatment.belongsToMany(Diagnosis, {through: { model: TreatmentDiagnosis}, foreignKey: 'treatment_id' });
 Diagnosis.belongsToMany(Treatment, {through: { model: TreatmentDiagnosis}, foreignKey: 'diagnosis_id' });
+
 Caregiver.belongsToMany(Patient, {through: { model: CaregiverPatient}, foreignKey: 'caregiver_id' });
 Patient.belongsToMany(Caregiver, {through: { model: CaregiverPatient}, foreignKey: 'patient_id' });

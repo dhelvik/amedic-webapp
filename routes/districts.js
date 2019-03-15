@@ -24,14 +24,14 @@ router.post('/addDistrict', sessionCheckerAdmin, function(req, res) {
     }).then(function(item){
         console.log(newDistrict.name);
         res.json({
-            Message : "Created item.",
-            Status : 200,
-            Item : newDistrict
+            message : "Created item.",
+            status : 200,
+            item : newDistrict
         });
     }).catch(function(err){
         res.json({
-            Error : err,
-            Status : 500
+            error : err,
+            status : 500
 
         });
     });

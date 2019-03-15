@@ -102,7 +102,7 @@
                         </div>
                         <div class="form-group">
                             <label for="inputDateOfBirth">Date of Birth <span class="colorChange">*</span></label>
-                            <input type="date" class="form-control" name="dateOfBirth" id="inputDateOfBirth"
+                            <input class="form-control" name="dateOfBirth" id="inputDateOfBirth"
                                    placeholder="Date of birth"
                                    required>
                         </div>
@@ -462,7 +462,11 @@
                 }
                 ,
                 success: function (result) {
+                    if(result.status===200){
                     fetchUsers();
+                    } else{
+                        alert("Could not update User");
+                    }
 
                 },
                 error: function (result) {
@@ -483,10 +487,14 @@
                 id: id
             },
             success: function (result) {
+                if(result.status === 200){
                 $('#textChange').text("User deleted");
                 alert("User deleted successfully");
                 fetchUsers();
-
+                }
+                else{
+                    alert(result.error);
+                }
 
             },
             error: function (err) {
@@ -525,13 +533,13 @@
                 dataType: 'json',
                 success: function (result) {
                     if (result.status = 200) {
-                        alert('success');
+                        alert("User added");
                         $("#registerUserForm")[0].reset();
                         $('#addUser').modal('hide');
                         fetchUsers();
 
                     } else {
-                        alert('error');
+                        alert(result.error);
                     }
                 },
                 error: function (xhr, status, error) {
@@ -550,6 +558,20 @@
     });
 
     $(document).ready(function() {
+
+        $(document).ready(function () {
+            var date_input = $('input[id="inputDateOfBirth"]'); //our date input has the name "date"
+            var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
+            date_input.datepicker({
+                format: 'mm/dd/yyyy',
+                container: container,
+                todayHighlight: true,
+                autoclose: true,
+            });
+
+
+        });
+
         $.ajax({
             method: 'post',
             url: '/healthFacilities/getHealthFacilities',

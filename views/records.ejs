@@ -52,6 +52,7 @@
                         </select></div>
 
 
+
                     <div class="col-sm-5 col-xs-6 tital ">
 
                     </div>
@@ -105,6 +106,8 @@
                         data-target="#addVisit"></button>
             </div>
         </div>
+
+
         <!-- Dialog Modal --->
         <!-- Modal -->
         <div id="addVisit" class="modal fade" role="dialog">
@@ -157,6 +160,19 @@
 
             </div>
         </div>
+    </div>
+    <div class="col-md-5 ">
+        <div class="panel panel-default">
+            <div class="panel-heading"><h4>Caregivers</h4></div>
+            <div class="panel-body">
+                <div class="box box-info">
+                    <%for(var i = 0; i < result.CareGivers.length; i++){%>
+                    <span><%=result.CareGivers[i].name%></span>
+                    <%}%>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 

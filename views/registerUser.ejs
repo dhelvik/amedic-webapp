@@ -55,9 +55,9 @@
                        alert('success');
                        $("#registerUserForm")[0].reset();
                    }else {
-                       alert('error');
+                       alert(result.error);
                    }
-                    alert(result.message);
+
                 },
                 error: function(xhr, status, error){
                     alert(status.message);

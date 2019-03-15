@@ -37,15 +37,15 @@ router.post('/register', sessionCheckerAdmin, function (req, res) {
         health_facility_name: req.body.healthFacility
     }).then(function (item) {
         res.json({
-            Message: "Created item.",
-            Status: 200,
-            Item: user
+            message: "Created item.",
+            status: 200,
+            item: user
         });
     }).catch(function (err) {
         console.log(err)
         res.json({
-            Error: err,
-            Status: 500
+            error: err,
+            status: 500
 
         });
     });
@@ -89,22 +89,37 @@ router.post('/findUser', sessionCheckerAdmin, function (req, res) {
 });
 
 //Ajax request update user
+
 router.post('/updateUser', sessionCheckerAdmin, function (req, res) {
     console.log(req.body.userName+req.body.userRole);
     AMEDUser.update({
-        name: req.body.userName,
-        role: req.body.userRole,
-        hsa_flag : req.body.hsaFlag,
-        health_expert_flag : req.body.heFlag,
-        admin_flag: req.body.adminFlag
-    },
-    {
-        where: {
-            login_id : req.body.userLoginID}});
-    res.end();
+            name: req.body.userName,
+            role: req.body.userRole,
+            hsa_flag: req.body.hsaFlag,
+            health_expert_flag: req.body.heFlag,
+            admin_flag: req.body.adminFlag
+        },
+        {
+            where: {
+                login_id: req.body.userLoginID
+            }
+        })
+        .then(function () {
+            res.json({
+                status: 200,
+            });
+        }).catch(function (err) {
+        console.log(err)
+        res.json({
+            error: err,
+            status: 500
+        });
+
+    });
 });
 
 //Ajax request to delete user
+
 router.post('/removeUser', sessionCheckerAdmin, function(req, res){
 AMEDUser.destroy({
    where: {id: req.body.id}

@@ -62,129 +62,7 @@
            location.replace(requestSite);
        });
 
-              /*  $('#HSAVisits').empty();
-    /*  $('#HSAVisits').empty();
 
-      $('#exampleModal').modal('toggle');
-
-      $.ajax({
-          type: "POST",
-          url: "/HSA_Visits",
-          data: {
-              id: id
-
-          },
-          success: function (result) {
-
-              if (!$.trim(result)) {
-
-              } else {
-                  $('#HSAVisits').append('<tr>\n' +
-                      '            <th>Patient ID</th>\n' +
-                      '            <th>Symptom ID</th>\n' +
-                      '            <th>Diagnosis ID</th>\n' +
-                      '            <th>Timestamp</th>\n' +
-                      '        </tr>');
-                  $.each(result, function (index, value) {
-                      $('#HSAVisits').append('<tr><td>' + value.patientID + '</td><td>' + value.symptomID + '</td><td>' + value.diagnosisID + '</td><td>' + value.timestamp + '</td></tr>');
-
-                  });
-              }
-          },
-          error: function (result) {
-              alert('hej');
-          }
-      });
-
-
-});
-
-*/
-    function deleteRow() {
-        var id = $(this).parent().siblings().filter(":first").text();
-        deletePatient(id);
-    }
-
-    function deletePatient(id) {
-        var confirmation = confirm("Are you sure you want to remove patient?");
-        if (confirmation == true) {
-            $.ajax({
-                type: "POST",
-                url: "/patients/deletePatient",
-                data: {
-                    id: id
-
-                },
-                success: function (result) {
-                    alert("Borttagen");
-
-                },
-                error: function (result) {
-                    alert('hej');
-                }
-            });
-        } else {
-            return;
-        }
-    }
-
-    /*  function editRow() {
-          if ($(this).html() == 'Edit') {
-              $(this).removeClass('btn-info');
-              $(this).addClass('btn-success');
-              $(this).parent().siblings().find('select').prop("disabled", false);
-
-              $(this).parent().siblings(".editable").attr("contenteditable", "true");
-          } else {
-              $(this).parent().siblings().find('select').prop("disabled", true);
-
-              $(this).addClass('btn-info');
-              $(this).removeClass('btn-success');
-              $(this).parent().siblings().attr("contenteditable", "false");
-              var id = $(this).parent().siblings().filter(":first").text();
-              var name = $(this).parent().siblings().filter(":nth(1)").text();
-              var nationalID = $(this).parent().siblings().filter(":nth(2)").text();
-              var mobileNo = $(this).parent().siblings().filter(":nth(3)").text();
-              var sex = $(this).parent().siblings().filter(":nth(4)").text();
-              var villageName = $(this).parent().siblings().find('select').val();
-
-              var dateOfBirth = $(this).parent().siblings().filter(":nth(6)").text();
-
-
-              // GET from select           var sex = $(this).parent().siblings().find('select').val();
-
-
-              updatePatient(id, name, nationalID, mobileNo, sex, villageName, dateOfBirth);
-
-          }
-          $(this).html($(this).html() == 'Edit' ? 'Save' : 'Edit')
-
-      }
-  */
-
-    /*
-      function updatePatient(id, name, nationalID, mobileNo, sex, villageName, dateOfBirth) {
-          $.ajax({
-              type: "POST",
-              url: "/patients/updatePatient",
-              data: {
-                  id: id,
-                  name: name,
-                  nationalID: nationalID,
-                  mobileNo: mobileNo,
-                  sex: sex,
-                  villageName: villageName,
-                  dateOfBirth: dateOfBirth
-              },
-              success: function (result) {
-              },
-              error: function (result) {
-
-              }
-          });
-      }
-
-  */
     function findPatient(id) {
         $.ajax({
             type: "POST",
@@ -221,7 +99,7 @@
 
             },
             error: function (result) {
-
+                alert(result.error);
             }
         });
 
@@ -242,8 +120,7 @@
             }
         }
     })
-    $(document).on('click', '.btn-danger', deleteRow);
-    //  $(document).on('click', '.btnEdit', editRow);
+
 </script>
 </body>
 </html>
