@@ -12,7 +12,7 @@
     }
 </style>
 <body>
-<div class="container-fluid">
+< class="container-fluid">
     <% include nav.ejs %>
 
     <div class="col-md-5 ">
@@ -168,19 +168,41 @@
             </div>
         </div>
     </div>
-    <div class="col-md-5 ">
-        <div class="panel panel-default">
-            <div class="panel-heading"><h4>Caregivers</h4></div>
-            <div class="panel-body">
-                <div class="box box-info">
-                    <% for(var i = 0; i < patient.CareGivers.length; i++){ %>
-                        <span><%= patient.CareGivers[i].name %></span>
-                    <% } %>
-                </div>
-            </div>
-        </div>
+<div class="panel-group col-md-5">
+    <div class="panel panel-default">
+        <div class="panel-heading"><h4>Caregivers</h4></div>
+        <div class="panel-body">
 
+            <h4>
+                <% for(var i = 0; i < patient.CareGivers.length; i++){ %>
+                <a data-toggle="collapse" href="#collapse<%= i %>"><%= patient.CareGivers[i].name %></a>
+            </h4>
+
+        <div id="collapse<%= i %>" class="panel-collapse collapse">
+                <div class="col-sm-5 col-xs-6  ">Name:</div>
+                <div class="col-sm-7 col-xs-6 ">
+                    <span><%= patient.CareGivers[i].name %></span>
+                </div>
+                <div class="col-sm-5 col-xs-6  ">Relation:</div>
+                <div class="col-sm-7 col-xs-6 ">
+                    <span><%= patient.CareGivers[i].relation_to_patient%></span>
+                </div>
+                <div class="col-sm-5 col-xs-6  ">Mobile Number:</div>
+                <div class="col-sm-7 col-xs-6 ">
+                    <span><%= patient.CareGivers[i].mobile_no%></span>
+                </div>
+
+
+            </div>
+            <% } %>
+        </div>
     </div>
+</div>
+</div>
+
+
+
+
 </div>
 
 <script>
