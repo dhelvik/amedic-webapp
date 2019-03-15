@@ -182,7 +182,7 @@
         var row = $this.closest("tr");
         var id = row.find('td:first').text();
         var requestSite = '/visits/' + id;
-        location.replace(requestSite);
+        window.location.href = requestSite;
     });
 
     function fetchVisits() {
