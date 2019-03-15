@@ -154,25 +154,23 @@ router.get('/:id', sessionChecker, function (req, res) {
 });
 
 
-//Caregiver
-router.post("/createCaregiver", function (req, res) {
-    Caregiver.create({
-        name: req.body.name + " " + req.body.caregiverName,
-        national_id: req.body.caregiverNationalID,
-        mobile_no: req.body.caregiverMobileNo,
-        relation_to_patientt: req.body.relationToPatient,
-        date_of_birth: req.body.caregiverDateOfBirth,
-    });
-});
+//Register caregiver
 
-router.post("", sessionChecker, function (req, res) {
-    const caregiver = Caregiver.create({
-        name: req.body.name + " " + req.body.caregiverName,
-        national_id: req.body.caregiverNationalID,
-        mobile_no: req.body.caregiverMobileNo,
-        relation_to_patientt: req.body.relationToPatient,
+router.post("/registerCaregiver", sessionChecker, function (req, res) {
+    Caregiver.create({
+        name: req.body.caregiverName,
+        national_id: req.body.caregiverNationalId,
+        relation_to_patient: req.body.relation,
         date_of_birth: req.body.caregiverDateOfBirth,
-    }).then(function (item) {
+        mobile_no: req.body.caregiverMobileNo
+    }).then(function (caregiver) {
+        Caregiver_Patient.create({
+            caregiver_id: caregiver.ID,
+            patient_id: req.body.patient_id
+        });
+        res.json({
+            status: 200,
+        })
 
     }).catch(function (err) {
         console.log(err)
