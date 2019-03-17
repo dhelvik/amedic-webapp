@@ -2,6 +2,9 @@
 <html lang="en">
 <% include head.ejs %>
 <body>
+<style>
+    a {margin-left:1em;}
+</style>
 <% include loginHeader.ejs %>
 <div class="container">
     <div class="col-md-6 col-md-offset-3">
@@ -16,6 +19,7 @@
             <span class="error text-danger" id="loginError"></span>
         </div>
         <button type="submit" class="btn btn-primary">Sign in</button>
+        <a href="/forgot">Click here to reset your password.</a>
     </form>
     </div>
 </div>

@@ -89,6 +89,11 @@ app.get('/logout', (req, res) => {
     }
 });
 
+app.use('/forgot', require('./routes/forgot'));
+
+app.post('/forgot', (req, res) => {
+
+})
 //Routes Districts
 app.use('/districts',require('./routes/districts'));
 
