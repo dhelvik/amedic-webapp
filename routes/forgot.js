@@ -31,7 +31,7 @@ router.post('/', (req, res) => {
             email: user.email
         };
 
-        var secret = 'hemligheter';
+        var secret = user.password;
         var token = jwt.encode(payload, secret);
 
         console.log(token);
@@ -82,27 +82,44 @@ router.post('/', (req, res) => {
         res.send({
             error: err,
 
-        })
-    })
+        });
+    });
 });
 
 router.get('/:id/:token', (req, res) => {
 
-    var secret = 'hemligheter';
-    var payload = jwt.decode(req.params.token, secret);
 
-    res.render('resetPassword',
-        {
-            id: payload.userId,
-            token: req.params.token
+    AMEDUser.findOne({
+        where: {
+            ID: req.params.id,
+        }
+    }).then((user) => {
+        const secret = user.password;
+        var payload = jwt.decode(req.params.token, secret);
+        console.log(payload);
+        res.render('resetPassword',
+            {
+                id: payload.userId,
+                token: req.params.token
+
+            });
+
+    }).catch((err) => {
+        res.send({
+            error: err,
+            message: 'Reset link expired'
+
 
         });
+    });
 
-});
+    });
+
+
 
 router.post('/resetPassword', (req, res) => {
 
-    AMEDUser.find({
+    AMEDUser.findOne({
         where: {
             ID: req.body.id
         }
@@ -113,7 +130,7 @@ router.post('/resetPassword', (req, res) => {
         res.render('forgot', {
             message: "Password has been reset."
         });
-    }).catch(err => {
+    }).catch((err) => {
         res.send({
             error: err,
             status: 500
