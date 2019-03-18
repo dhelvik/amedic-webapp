@@ -68,11 +68,13 @@ var AMEDUser = db.define('AMEDUser', {
             const salt = bcrypt.genSaltSync();
             user.password = bcrypt.hashSync(user.password, salt);
         },
+        /*
         beforeUpdate: (user) => {
             console.log(user);
             const salt = bcrypt.genSaltSync();
             user.password = bcrypt.hashSync(user.password, salt);
         }
+        */
     },
     tableName: 'AMED_User',
     timestamps: false
