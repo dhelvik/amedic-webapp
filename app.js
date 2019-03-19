@@ -13,6 +13,11 @@ app.locals.moment = moment;
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
+//Used for linking CSS
+app.use(express.static(__dirname + "/"));
+
+
+
 // initialize cookie-parser to allow us access the cookies stored in the browser.
 app.use(cookieParser());
 
@@ -60,6 +65,9 @@ app.use(function(req, res, next) {
 });*/
 
 //***ROUTES****
+
+//Routes Index
+app.use('/', require('./routes/index'));
 //ROUTES PATIENT
 app.use('/patients', require('./routes/patients'));
 
@@ -72,8 +80,7 @@ app.use('/login', require('./routes/login'));
 // ROUTES HEALTHFACILITIES
 app.use('/healthFacilities', require('./routes/healthFacilities'));
 
-//Routes Index
-app.use('/', require('./routes/index'));
+
 
 //Routes Visits
 app.use('/visits', require('./routes/visits'));
@@ -91,9 +98,6 @@ app.get('/logout', (req, res) => {
 
 app.use('/forgot', require('./routes/forgot'));
 
-app.post('/forgot', (req, res) => {
-
-})
 //Routes Districts
 app.use('/districts',require('./routes/districts'));
 
