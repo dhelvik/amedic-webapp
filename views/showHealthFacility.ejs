@@ -2,6 +2,14 @@
 <html lang="en">
 <% include head.ejs %>
 <body>
+<style>
+  /*  tr:not(:first-child)::selection {
+        background-color: black;
+    }*/
+    tr:not(:first-child):hover {
+        background-color: #ddd;
+    }
+</style>
 <div class="container">
     <% include adminNav.ejs %>
     <div class="col-md-5">

@@ -97,6 +97,9 @@ router.get('/:id/:token', (req, res) => {
         const secret = user.password;
         var payload = jwt.decode(req.params.token, secret);
         console.log(payload);
+
+        //Makes sure user can't press back and re-use the JWT Token to reset password
+        res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
         res.render('resetPassword',
             {
                 id: payload.userId,
@@ -125,12 +128,14 @@ router.post('/resetPassword', (req, res) => {
         }
     }).then((model) => {
         model.password = req.body.password;
-        model.save();
+        const hashedUser = model.hashPassword();
+        hashedUser.save();
     }).then(() => {
         res.render('forgot', {
             message: "Password has been reset."
         });
     }).catch((err) => {
+        console.log(err);
         res.send({
             error: err,
             status: 500

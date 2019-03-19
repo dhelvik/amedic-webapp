@@ -77,10 +77,15 @@ var AMEDUser = db.define('AMEDUser', {
         */
     },
     tableName: 'AMED_User',
-    timestamps: false
+    timestamps: false,
+
 });
 
-
+AMEDUser.prototype.hashPassword = function(){
+    const salt = bcrypt.genSaltSync();
+    this.password = bcrypt.hashSync(this.password, salt);
+    return this;
+}
 
 module.exports = AMEDUser;
 
