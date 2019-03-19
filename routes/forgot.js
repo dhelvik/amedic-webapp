@@ -128,8 +128,8 @@ router.post('/resetPassword', (req, res) => {
         }
     }).then((model) => {
         model.password = req.body.password;
-        const hashedUser = model.hashPassword();
-        hashedUser.save();
+        model.hashPassword();
+        model.save();
     }).then(() => {
         res.render('forgot', {
             message: "Password has been reset."

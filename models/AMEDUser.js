@@ -84,7 +84,7 @@ var AMEDUser = db.define('AMEDUser', {
 AMEDUser.prototype.hashPassword = function(){
     const salt = bcrypt.genSaltSync();
     this.password = bcrypt.hashSync(this.password, salt);
-    return this;
+    return;
 }
 
 module.exports = AMEDUser;
