@@ -26,9 +26,10 @@ app.use(session({
     key: 'user_sid',
     secret: 'otroligthemligaord',
     resave: false,
+    rolling: true,
     saveUninitialized: false,
     cookie: {
-        maxAge: 600000
+        maxAge: 3600000
     }
 }));
 
@@ -80,6 +81,8 @@ app.use('/login', require('./routes/login'));
 // ROUTES HEALTHFACILITIES
 app.use('/healthFacilities', require('./routes/healthFacilities'));
 
+// ROUTES PROFILE
+app.use('/profile', require('./routes/profile'));
 
 
 //Routes Visits

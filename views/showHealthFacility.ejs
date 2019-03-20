@@ -3,11 +3,14 @@
 <% include head.ejs %>
 <body>
 <style>
-  /*  tr:not(:first-child)::selection {
-        background-color: black;
-    }*/
+    /*  tr:not(:first-child)::selection {
+          background-color: black;
+      }*/
     tr:not(:first-child):hover {
         background-color: #ddd;
+    }
+    .panel-body{
+        min-height: 550px;
     }
 </style>
 <div class="container">
@@ -39,9 +42,9 @@
 
                             </tr>
                             <% for (var i = 0; i < result.length;i++){ %>
-                            <tr>
-                                <td><%= result[i].name %></td>
-                                <td><%= result[i].village_name %></td>
+                                <tr>
+                                    <td><%= result[i].name %></td>
+                                    <td><%= result[i].village_name %></td>
                             <tr>
                                 <% } %>
                             </tr>
@@ -51,7 +54,8 @@
             </div>
             <div class="panel-footer">
 
-                <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#addHealthFacility"><span
+                <button type="button" class="btn btn-success btn-lg" data-toggle="modal"
+                        data-target="#addHealthFacility"><span
                             class="glyphicon glyphicon-plus"></span>
                 </button>
 
@@ -61,20 +65,20 @@
         </div>
     </div>
     <div class="col-md-7 ">
-
         <div class="panel panel-default">
             <div class="panel-heading"><h4>Health Facility</h4></div>
             <div class="panel-body">
-
                 <div class="box box-info">
                     <form id="healthFacilityForm">
                         <div class="form-group">
                             <label for="healthFacilityName">Name</label>
-                            <input id="healthFacilityName" name="name" class="form-control editable" type="text" disabled="true">
+                            <input id="healthFacilityName" name="name" class="form-control editable" type="text"
+                                   disabled="true">
                         </div>
                         <div class="form-group">
                             <label for="healthFacilityVillageName">Village Name</label>
-                            <input id="healthFacilityVillageName" name="villageName" class="form-control" type="text" disabled="true">
+                            <input id="healthFacilityVillageName" name="villageName" class="form-control" type="text"
+                                   disabled="true">
                         </div>
 
 
@@ -113,23 +117,23 @@
                             </div>
                             <div class="form-group">
                                 <label for="inputNationalID">Village<span class="colorChange">*</span></label>
-                               <select id="inputVillageName" name="villageName" class="form-control">
+                                <select id="inputVillageName" name="villageName" class="form-control">
 
-                               </select>
+                                </select>
                             </div>
 
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                    </form>
-                </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+                    </div>
 
-                <div class="modal-footer">
+                    <div class="modal-footer">
 
+
+                    </div>
 
                 </div>
 
             </div>
-
-        </div>
         </div>
     </div>
 
@@ -162,141 +166,141 @@
     </div>
 </div>
 
-    <script>
-        function fetchHealthFacilities() {
-            var searchText = $('#searchText').val();
+<script>
+    function fetchHealthFacilities() {
+        var searchText = $('#searchText').val();
 
 
-            $.ajax({
-                type: "POST",
-                url: "/healthFacilities/findHFSLike",
-                data: {
-                    searchText: searchText
-                },
-                success: function (result) {
-                    if (!$.trim(result)) {
-                    } else {
-                        $('#healthFacilitiesTable tbody').empty();
-                        $('#healthFacilitiesTable tbody').append('<tr>\n' +
-                            '            <th>Name</th>\n' +
-                            '            <th>Village</th>\n' +
-                            '</tr>')
-                        for (var i = 0; i < result.length; i++) {
+        $.ajax({
+            type: "POST",
+            url: "/healthFacilities/findHFSLike",
+            data: {
+                searchText: searchText
+            },
+            success: function (result) {
+                if (!$.trim(result)) {
+                } else {
+                    $('#healthFacilitiesTable tbody').empty();
+                    $('#healthFacilitiesTable tbody').append('<tr>\n' +
+                        '            <th>Name</th>\n' +
+                        '            <th>Village</th>\n' +
+                        '</tr>')
+                    for (var i = 0; i < result.length; i++) {
 
-                            $('#healthFacilitiesTable tbody').append('<tr><td>' + result[i].name + '<td>' + result[i].village_name + '</td></tr>');
-                        }
-
+                        $('#healthFacilitiesTable tbody').append('<tr><td>' + result[i].name + '<td>' + result[i].village_name + '</td></tr>');
                     }
 
-                },
-                error: function (result) {
-
                 }
-            });
 
-        }
+            },
+            error: function (result) {
 
-        $(document).on("click", "#healthFacilitiesTable tr:not(:first-child)", function () {
-            var $this = $(this);
-            var row = $this.closest("tr");
-            var id = row.find('td:first').text();
-
-            $(".user").prop('disabled', true);
-            $(".btn-info").prop('disabled', false);
-            $(".btn-danger").prop('disabled', false);
-            $.ajax({
-                type: "POST",
-                url: "/healthFacilities/findHealthFacility",
-                data: {
-                    id: id
-                },
-                success: function (result) {
-
-                    $('#healthFacilityName').val(result.name);
-                    $('#healthFacilityVillageName').val(result.village_name);
-
-                },
-                error: function (result) {
-
-                }
-            });
-
+            }
         });
 
-        function removeHealthFacility() {
-            var id = $('#healthFacilityName').val();
+    }
 
-            $('.btn-danger').prop('disabled', false);
-            $.ajax({
-                method: "POST",
-                url: "/healthFacilities/removeHealthFacility",
-                data: {
-                    id: id
-                },
-                success: function (result) {
-                    if(result.status ===200){
+    $(document).on("click", "#healthFacilitiesTable tr:not(:first-child)", function () {
+        var $this = $(this);
+        var row = $this.closest("tr");
+        var id = row.find('td:first').text();
+
+        $(".user").prop('disabled', true);
+        $(".btn-info").prop('disabled', false);
+        $(".btn-danger").prop('disabled', false);
+        $.ajax({
+            type: "POST",
+            url: "/healthFacilities/findHealthFacility",
+            data: {
+                id: id
+            },
+            success: function (result) {
+
+                $('#healthFacilityName').val(result.name);
+                $('#healthFacilityVillageName').val(result.village_name);
+
+            },
+            error: function (result) {
+
+            }
+        });
+
+    });
+
+    function removeHealthFacility() {
+        var id = $('#healthFacilityName').val();
+
+        $('.btn-danger').prop('disabled', false);
+        $.ajax({
+            method: "POST",
+            url: "/healthFacilities/removeHealthFacility",
+            data: {
+                id: id
+            },
+            success: function (result) {
+                if (result.status === 200) {
                     $('#textChange').text("Health Facility deleted");
                     alert("Health Facility deleted successfully");
-                        $('#healthFacilityName').val("");
-                        $('#healthFacilityVillageName').val("");
+                    $('#healthFacilityName').val("");
+                    $('#healthFacilityVillageName').val("");
                     fetchHealthFacilities();
-                    } else{
-                        alert("Could not delete Health Facility");
-                    }
+                } else {
+                    alert("Could not delete Health Facility");
+                }
 
 
-                },
-                error: function (err) {
-                    console.log(err);
-                    throw err();
+            },
+            error: function (err) {
+                console.log(err);
+                throw err();
+
+            }
+        });
+
+    }
+
+    $(document).ready(function () {
+        $.ajax({
+            method: 'post',
+            url: '/villages/getVillages',
+            dataType: 'json',
+            success: function (result) {
+                for (var i = 0; i < result.length; i++) {
+                    $('#inputVillageName').append('<option>' + result[i].name + '</option>');
 
                 }
-            });
+            },
+            error: function (xhr, status, error) {
+                alert(status.message);
+            }
+        });
+    });
+    $('#registerHealthFacility').submit(function (e) {
+        e.preventDefault();
 
-        }
+        $.ajax({
+            method: 'post',
+            url: '/healthFacilities/registerHealthFacility',
+            data:
+                $('#registerHealthFacility').serialize(),
+            dataType: 'json',
+            success: function (result) {
+                if (result.status = 200) {
+                    alert('Health Facility added');
+                    $("#registerHealthFacility")[0].reset();
+                    $('#addHealthFacility').modal('hide');
+                    fetchHealthFacilities();
 
-        $(document).ready(function() {
-            $.ajax({
-                method: 'post',
-                url: '/villages/getVillages',
-                dataType: 'json',
-                success: function (result) {
-                    for (var i = 0; i < result.length; i++) {
-                        $('#inputVillageName').append('<option>'+result[i].name+'</option>');
-
-                    }
-                },
-                error: function (xhr, status, error) {
-                    alert(status.message);
+                } else {
+                    alert('Could not add Health Facility');
                 }
-            });
+            },
+            error: function (xhr, status, error) {
+                alert(status.message);
+            },
+
         });
-        $('#registerHealthFacility').submit(function (e) {
-            e.preventDefault();
-
-            $.ajax({
-                method: 'post',
-                url: '/healthFacilities/registerHealthFacility',
-                data:
-                    $('#registerHealthFacility').serialize(),
-                dataType: 'json',
-                success: function (result) {
-                    if (result.status = 200) {
-                        alert('Health Facility added');
-                        $("#registerHealthFacility")[0].reset();
-                        $('#addHealthFacility').modal('hide');
-                        fetchHealthFacilities();
-
-                    } else {
-                        alert('Could not add Health Facility');
-                    }
-                },
-                error: function (xhr, status, error) {
-                    alert(status.message);
-                },
-
-            });
-        });
-    </script>
+    });
+</script>
 </body>
 </html>

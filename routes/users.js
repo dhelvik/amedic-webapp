@@ -20,6 +20,8 @@ router.get('/register', sessionCheckerAdmin, function (req, res) {
     res.render('registerUser');
 });
 
+
+
 //Ajax Request to register AMEDUser
 router.post('/register', sessionCheckerAdmin, function (req, res) {
     var user = AMEDUser.create({

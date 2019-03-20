@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<% include head.ejs %>
+<body>
+<div class="container">
+    <% include nav.ejs %>
+
+    <div class="panel panel-default">
+        <div class="panel-heading"><h4><%= user.login_id %></h4></div>
+        <div class="panel-body">
+            <div class="box box-info">
+                <form id="userForm">
+                    <div class="form-group">
+                        <label for="userName">Name</label>
+                        <input id="userName" name="userName" class="form-control" type="text" disabled="true">
+                    </div>
+                    <div class="form-group">
+                        <label for="userEmail">Email</label>
+                        <input id="userEmail" class="form-control user" type="text" disabled="true">
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <button class="btn btn-space btn-info btn-lg" onclick="unlockFields()"><span
+                        class="glyphicon glyphicon-pencil"></span></button>
+            <button class="btn btn-space btn-success btn-edit btn-lg" onclick="saveUser()" disabled="true"><span
+                        class="glyphicon glyphicon-ok"></span></button>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading"><h4>Change password</h4></div>
+        <form id="passwordForm">
+            <div class="panel-body">
+                <div class="box box-info">
+                    <div class="form-group">
+                        <label for="oldPassword">Current password</label>
+                        <input id="oldPassword" class="form-control" type="password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="newPassword">New password</label>
+                        <input id="newPassword" class="form-control" type="password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="newPassword2">New password again</label>
+                        <input id="newPassword2" class="form-control" type="password" required>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <button type="submit" class="btn btn-space btn-success btn-lg"><span
+                            class="glyphicon glyphicon-ok"></span></button>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    function unlockFields() {
+        $(".user").prop('disabled', false);
+        $(".btn-edit").prop('disabled', false);
+        $(".btn-info").prop('disabled', true);
+    }
+
+    function saveUser() {
+        $(".user").prop('disabled', true);
+        $(".btn-edit").prop('disabled', true);
+        $(".btn-info").prop('disabled', false);
+        $.ajax({
+            type: "POST",
+            url: "/users/updateUser",
+            data: {
+                userName: $('#userName').val(),
+                userRole: $('#userRole').val(),
+                userLoginID: $('#userLoginID').val(),
+                heFlag: heFlag,
+                hsaFlag: hsaFlag,
+                adminFlag: adminFlag,
+
+
+            }
+            ,
+            success: function (result) {
+                if (result.status === 200) {
+                    fetchUsers();
+                } else {
+                    alert("Could not update User");
+                }
+
+            },
+            error: function (result) {
+
+            }
+        });
+
+    }
+</script>
+</body>
+</html>

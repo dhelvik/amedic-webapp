@@ -3,8 +3,8 @@
 <% include head.ejs %>
 <style>
 
-    .panel-body{
-        min-height: 350px;
+    .panel-body {
+        min-height: 550px;
     }
 
     tr:not(:first-child):hover {
@@ -15,7 +15,7 @@
 <div class="container">
     <% include adminNav.ejs %>
 
-    <div class="col-md-6 " >
+    <div class="col-md-5 ">
 
         <div class="panel panel-default">
             <div class="panel-heading"><h4>Districts</h4></div>
@@ -51,84 +51,71 @@
                     <span class="glyphicon glyphicon-plus"></span>
                 </button>
             </div>
-
-
         </div>
-
-
     </div>
-
-
-
-<div class="col-md-6" >
-
-    <div class="panel panel-default" >
-        <div class="panel-heading">
-            <h4>Villages in:
-                <span id="selectedDistrict">No district selected </span>
-            </h4>
-        </div>
-        <div class="panel-body">
-
-            <div class="box box-info">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Village Name" id="searchTextVillage">
-                    <div class="input-group-btn">
-                        <button class="btn btn-primary" type="submit" id="searchButton">
-                            <span class="glyphicon glyphicon-search"></span>
-                        </button>
+    <div class="col-md-7">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4>Villages in:
+                    <span id="selectedDistrict">No district selected </span>
+                </h4>
+            </div>
+            <div class="panel-body">
+                <div class="box box-info">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Village Name" id="searchTextVillage">
+                        <div class="input-group-btn">
+                            <button class="btn btn-primary" type="submit" id="searchButton">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="table-wrapper-scroll-y">
+                        <table id="villagesTable" class="table">
+                            <tr>
+                                <th>Name</th>
+                            </tr>
+                            <tr>
+                            </tr>
+                        </table>
                     </div>
                 </div>
-                <div class="table-wrapper-scroll-y">
-
-                    <table id="villagesTable" class="table">
-                        <tr>
-                            <th>Name</th>
-                        </tr>
-                        <tr>
-                        </tr>
-                    </table>
-                </div>
+            </div>
+            <div class="panel-footer">
+                <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#addVillage">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </button>
+                <button type="button" class="btn btn-danger btn-lg" disabled="true" data-toggle="modal"
+                        data-target="#deleteVillageModal"><span class="glyphicon glyphicon-trash"></span>
+                </button>
             </div>
         </div>
-                <div class="panel-footer">
-                    <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#addVillage">
-                        <span class="glyphicon glyphicon-plus"></span>
-                    </button>
-                    <button type="button" class="btn btn-danger btn-lg" disabled="true" data-toggle="modal"
-                            data-target="#deleteVillageModal"><span class="glyphicon glyphicon-trash"></span>
-                    </button>
+    </div>
 
+    <!-- Dialog Deletion Modal --->
+    <!-- Modal delete -->
+    <div id="deleteVillageModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Delete Village</h4>
                 </div>
-
-
-
-    </div>
-</div>
-
-<!-- Dialog Deletion Modal --->
-<!-- Modal delete -->
-<div id="deleteVillageModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Delete Village</h4>
+                <div class="modal-body">
+                    <p> Are you sure you want to delete the selected village?<br> Selected village: <b><span
+                                    id="villageName"></span> </b></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" onclick="removeVillage()" class="btn btn-danger" data-dismiss="modal">Yes
+                    </button>
+                    <button type="button" class="btn btn-info" data-dismiss="modal">No</button>
+                </div>
             </div>
-            <div class="modal-body">
-                <p> Are you sure you want to delete the selected village?<br> Selected village: <b><span
-                                id="villageName"></span> </b></p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" onclick="removeVillage()" class="btn btn-danger" data-dismiss="modal">Yes</button>
-                <button type="button" class="btn btn-info" data-dismiss="modal">No</button>
-            </div>
+
         </div>
-
     </div>
-</div>
 
 
     <!-- Modal -->
@@ -169,32 +156,30 @@
     </div>
 </div>
 
-    <!-- Modal -->
-    <div id="addDistrict" class="modal fade" role="dialog">
-        <div class="modal-dialog">
+<!-- Modal -->
+<div id="addDistrict" class="modal fade" role="dialog">
+    <div class="modal-dialog">
 
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Add District</h4>
-                </div>
-                <div class="modal-body">
-                    <form id="registerDistrictForm" style="padding-bottom:2em;">
-                        <div class="form-group">
-                            <label for="inputDistrictName">District <span class="colorChange">* </span></label>
-                            <input class="form-control" id="inputDistrictNameModal" name="name" required>
-                        </div>
-                        <input id="registerDistrictFormSubmit" type="submit" class="btn btn-primary" value="Add">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add District</h4>
+            </div>
+            <div class="modal-body">
+                <form id="registerDistrictForm" style="padding-bottom:2em;">
+                    <div class="form-group">
+                        <label for="inputDistrictName">District <span class="colorChange">* </span></label>
+                        <input class="form-control" id="inputDistrictNameModal" name="name" required>
+                    </div>
+                    <input id="registerDistrictFormSubmit" type="submit" class="btn btn-primary" value="Add">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
 
-                    </form>
-                </div>
+                </form>
+            </div>
 
-                <div class="modal-footer">
+            <div class="modal-footer">
 
-
-                </div>
 
             </div>
 
@@ -202,169 +187,171 @@
 
     </div>
 
-    <script>
-        $('#registerDistrictFormSubmit').on('click', function (e) {
-            e.preventDefault();
-            $.ajax({
-                method: 'post',
-                url: '/districts/addDistrict',
-                data: $('#registerDistrictForm').serialize(),
-                dataType: 'json',
-                success: function (result) {
-                    if (result.status = 200) {
-                        $("#registerDistrictForm")[0].reset();
-                        alert('District added');
-                    } else {
-                        alert('error');
-                    }
-                    alert(result.message);
-                },
-                error: function (xhr, status, error) {
-                    alert(status.message);
+</div>
+
+<script>
+    $('#registerDistrictFormSubmit').on('click', function (e) {
+        e.preventDefault();
+        $.ajax({
+            method: 'post',
+            url: '/districts/addDistrict',
+            data: $('#registerDistrictForm').serialize(),
+            dataType: 'json',
+            success: function (result) {
+                if (result.status = 200) {
+                    $("#registerDistrictForm")[0].reset();
+                    alert('District added');
+                } else {
+                    alert('error');
                 }
-            });
+                alert(result.message);
+            },
+            error: function (xhr, status, error) {
+                alert(status.message);
+            }
         });
+    });
 
-        $(document).on("click", "#districtsTable tr", function () {
-            var $this = $(this);
-            var row = $this.closest("tr");
-            var name = row.find('td:first').text();
-            $("#selectedDistrict").text(name);
-            tableReload(name);
-        });
+    $(document).on("click", "#districtsTable tr", function () {
+        var $this = $(this);
+        var row = $this.closest("tr");
+        var name = row.find('td:first').text();
+        $("#selectedDistrict").text(name);
+        tableReload(name);
+    });
 
-        $('#registerVillageFormSubmit').on('click', function (e) {
-            var districtName = $("#selectedDistrict").text();
-            console.log(districtName);
-            e.preventDefault();
-            $.ajax({
-                method: 'post',
-                url: '/villages/addVillage',
-                data: $('#registerVillageForm').serialize(),
-                dataType: 'json',
-                success: function (result) {
-                    if (result.status = 200) {
-                        $("#registerVillageForm")[0].reset();
-                        alert('Village added')
-                        tableReload(districtName);
-                    } else {
-                        alert('error');
-                    }
-
-                },
-                error: function (xhr, status, error) {
-                    alert(status.message);
-                }
-            });
-        });
-
-
-        $(document).ready(function () {
-            districtsTableLoad();
-        });
-
-        $(document).on("click", "#villagesTable tr", function () {
-            var $this = $(this);
-            var row = $this.closest("tr");
-            var name = row.find('td:first').text();
-            $(".btn-danger").prop('disabled', false);
-            $("#villageName").text(name);
-
-        });
-
-        function removeVillage() {
-            var districtName = $("#selectedDistrict").text();
-            var name = $("#villageName").text();
-            $.ajax({
-                type: "POST",
-                url: "/villages/removeVillage",
-                data: {name: name},
-                success: function (data) {
-                    alert("Village: " + name + "successfully removed");
+    $('#registerVillageFormSubmit').on('click', function (e) {
+        var districtName = $("#selectedDistrict").text();
+        console.log(districtName);
+        e.preventDefault();
+        $.ajax({
+            method: 'post',
+            url: '/villages/addVillage',
+            data: $('#registerVillageForm').serialize(),
+            dataType: 'json',
+            success: function (result) {
+                if (result.status = 200) {
+                    $("#registerVillageForm")[0].reset();
+                    alert('Village added')
                     tableReload(districtName);
-
-                }
-            });
-        }
-
-
-        function tableReload(districtName) {
-            $("#villagesTable td").remove();
-            $.ajax({
-                type: "POST",
-                url: "/villages/findVillages",
-                format: "json",
-                data: {districtName: districtName},
-                success: function (result) {
-                    console.log(name);
-                    var table = $("#villagesTable");
-                    $.each(result, function (idx, element) {
-                        table.append("<tr><td>" + element.name + "</td></tr>");
-                    });
-                    $('#inputDistrictName').text(districtName);
-                    $('#inputDistrictName').val(districtName);
-
-                },
-                error: function (err) {
-                    console.log(err);
-                    throw err;
+                } else {
+                    alert('error');
                 }
 
-            });
-
-        }
-
-        function districtsTableLoad() {
-            $.ajax({
-                type: "GET",
-                url: "/districts/getDistricts",
-                format: "json",
-                success: function (result) {
-                    var table = $("#districtsTable");
-                    $.each(result, function (idx, element) {
-                        table.append("<tr><td>" + element.name + "</td></tr>");
-                    });
-                },
-                error: function (err) {
-                    console.log(err);
-                    throw err;
-                }
-
-            });
-
-        }
+            },
+            error: function (xhr, status, error) {
+                alert(status.message);
+            }
+        });
+    });
 
 
-        // Search Village Jquery Script
-        $(document).ready(function () {
-            $("#searchTextVillage").on("keyup", function () {
-                var value = $(this).val().toLowerCase();
-                $("#villagesTable tr").filter(function () {
-                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    $(document).ready(function () {
+        districtsTableLoad();
+    });
+
+    $(document).on("click", "#villagesTable tr", function () {
+        var $this = $(this);
+        var row = $this.closest("tr");
+        var name = row.find('td:first').text();
+        $(".btn-danger").prop('disabled', false);
+        $("#villageName").text(name);
+
+    });
+
+    function removeVillage() {
+        var districtName = $("#selectedDistrict").text();
+        var name = $("#villageName").text();
+        $.ajax({
+            type: "POST",
+            url: "/villages/removeVillage",
+            data: {name: name},
+            success: function (data) {
+                alert("Village: " + name + "successfully removed");
+                tableReload(districtName);
+
+            }
+        });
+    }
+
+
+    function tableReload(districtName) {
+        $("#villagesTable td").remove();
+        $.ajax({
+            type: "POST",
+            url: "/villages/findVillages",
+            format: "json",
+            data: {districtName: districtName},
+            success: function (result) {
+                console.log(name);
+                var table = $("#villagesTable");
+                $.each(result, function (idx, element) {
+                    table.append("<tr><td>" + element.name + "</td></tr>");
                 });
-            });
+                $('#inputDistrictName').text(districtName);
+                $('#inputDistrictName').val(districtName);
+
+            },
+            error: function (err) {
+                console.log(err);
+                throw err;
+            }
+
         });
 
-        // Search District Jquery Script
-        $(document).ready(function () {
-            $("#searchText").on("keyup", function () {
-                var value = $(this).val().toLowerCase();
-                $("#districtsTable tr").filter(function () {
-                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    }
+
+    function districtsTableLoad() {
+        $.ajax({
+            type: "GET",
+            url: "/districts/getDistricts",
+            format: "json",
+            success: function (result) {
+                var table = $("#districtsTable");
+                $.each(result, function (idx, element) {
+                    table.append("<tr><td>" + element.name + "</td></tr>");
                 });
-            });
+            },
+            error: function (err) {
+                console.log(err);
+                throw err;
+            }
+
         });
 
-        // Search Jquery Script
-        $(document).ready(function () {
-            $("#searchText").on("keyup", function () {
-                var value = $(this).val().toLowerCase();
-                $("#districtsTable tr").filter(function () {
-                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-                });
+    }
+
+
+    // Search Village Jquery Script
+    $(document).ready(function () {
+        $("#searchTextVillage").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#villagesTable tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
             });
         });
+    });
 
-    </script>
+    // Search District Jquery Script
+    $(document).ready(function () {
+        $("#searchText").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#districtsTable tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+
+    // Search Jquery Script
+    $(document).ready(function () {
+        $("#searchText").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#districtsTable tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+
+</script>
 </body>
 </html>
