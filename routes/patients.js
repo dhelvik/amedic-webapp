@@ -54,12 +54,13 @@ router.post('/register', sessionChecker, function (req, res) {
             });
         }
     }).catch(Sequelize.UniqueConstraintError, function(err){
+        console.log(err);
         res.json({
             message : "A patient with the same national ID already exists",
             status : 400
         });
     }).catch((err) => {
-        console.log(err)
+        console.log(err);
         res.json({
             error: err,
             status: 500,
@@ -94,8 +95,8 @@ router.post('/deletePatient', sessionChecker, function (req, res) {
     Patient.destroy({
         where: {id: req.body.id}
     })
+});
 
-})
 //Update Patient
 router.post('/updatePatient', sessionChecker, function (req, res) {
     Patient.update({
@@ -145,7 +146,7 @@ router.get('/:id', sessionChecker, function (req, res) {
             });
             res.end();
         }).catch(function (err) {
-            console.log(err)
+            console.log(err);
             res.json({
                 Error: err,
                 Status: 500
