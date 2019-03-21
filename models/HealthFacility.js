@@ -10,7 +10,7 @@ var HealthFacility = db.define('HealthFacility', {
     },
     village_name: {
       type: DataTypes.STRING(255),
-      allowNull: true,
+      allowNull: false,
       references: {
         model: 'Village',
         key: 'name'

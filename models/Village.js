@@ -10,7 +10,7 @@ var Village = db.define('Village', {
     },
     district_name: {
       type: DataTypes.STRING(255),
-      allowNull: true,
+      allowNull: false,
       references: {
         model: 'District',
         key: 'name'

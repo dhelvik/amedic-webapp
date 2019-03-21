@@ -169,7 +169,7 @@
             <div class="modal-body">
                 <form id="registerDistrictForm" style="padding-bottom:2em;">
                     <div class="form-group">
-                        <label for="inputDistrictName">District <span class="colorChange">* </span></label>
+                        <label for="inputDistrictNameModal">District <span class="colorChange">* </span></label>
                         <input class="form-control" id="inputDistrictNameModal" name="name" required>
                     </div>
                     <input id="registerDistrictFormSubmit" type="submit" class="btn btn-primary" value="Add">
@@ -177,16 +177,10 @@
 
                 </form>
             </div>
-
             <div class="modal-footer">
-
-
             </div>
-
         </div>
-
     </div>
-
 </div>
 
 <script>
@@ -200,14 +194,13 @@
             success: function (result) {
                 if (result.status === 200) {
                     $("#registerDistrictForm")[0].reset();
-                    alert('District added');
+                    showSuccess(result.message);
                 } else {
-                    alert('error');
+                    showError(result.message);
                 }
-                alert(result.message);
             },
             error: function (xhr, status, error) {
-                alert(status.message);
+                showError(status.message);
             }
         });
     });
@@ -232,15 +225,14 @@
             success: function (result) {
                 if (result.status === 200) {
                     $("#registerVillageForm")[0].reset();
-                    alert('Village added')
+                    showSuccess(result.message);
                     tableReload(districtName);
                 } else {
-                    alert('error');
+                    showError(result.message);
                 }
-
             },
             error: function (xhr, status, error) {
-                alert(status.message);
+                showError(status.message);
             }
         });
     });
@@ -266,10 +258,16 @@
             type: "POST",
             url: "/villages/removeVillage",
             data: {name: name},
-            success: function (data) {
-                alert("Village: " + name + "successfully removed");
-                tableReload(districtName);
-
+            success: function (result) {
+                if (result.status === 200) {
+                    showSuccess(result.message);
+                    tableReload(districtName);
+                }else{
+                    showError(result.message);
+                }
+            },
+            error: function (xhr, status, error) {
+                showError(status.message);
             }
         });
     }

@@ -13,12 +13,7 @@ const Caregiver_Patient = require('../models/CareGiver_Patient');
 const sessionChecker = require('../scripts/sessionChecker.js');
 
 router.get('/', sessionChecker, (req, res) =>
-// Gets all patients
-        Patient.findAll().then(result => {
-            res.render('showPatient', {
-                result
-            })
-        })
+    res.render('showPatient')
 );
 
 router.get('/register', sessionChecker, (req, res) =>
@@ -34,7 +29,6 @@ router.post('/register', sessionChecker, function (req, res) {
         sex: req.body.sex,
         date_of_birth: req.body.dateOfBirth,
         village_name: req.body.villageName
-
     }).then(patient => {
         if (req.body.caregiverName) {
             Caregiver.create({
@@ -53,24 +47,20 @@ router.post('/register', sessionChecker, function (req, res) {
                 res.json({
                     message: "Patient & Cargiver added.",
                     status: 200,
-
                 });
             });
         } else {
             res.json({
                 message: "Patient added.",
                 status: 200,
-
             });
         }
-
-
     }).catch((err) => {
         console.log(err)
         res.json({
             error: err,
-            status: 500
-
+            status: 500,
+            message: "Database error"
         });
 
     });
@@ -87,8 +77,13 @@ router.post('/', sessionChecker, function (req, res) {
         } else {
             res.end();
         }
-    })
-
+    }).catch((err) => {
+        console.log(err);
+        res.json({
+            error: err,
+            status: 500
+        });
+    });
 });
 //Delete Patient
 router.post('/deletePatient', sessionChecker, function (req, res) {
@@ -114,12 +109,14 @@ router.post('/updatePatient', sessionChecker, function (req, res) {
         })
         .then(result => {
             res.json({
-                status: 200
+                status: 200,
+                message: "Patient updated"
             });
         }).catch((err) => {
-        console.log(err)
+        console.log(err);
         res.json({
             error: err,
+            message: "Database error",
             status: 500
 
         });
@@ -169,15 +166,15 @@ router.post("/registerCaregiver", sessionChecker, function (req, res) {
             patient_id: req.body.patient_id
         });
         res.json({
+            message: "Caregiver added",
             status: 200,
         })
-
     }).catch(function (err) {
         console.log(err)
         res.json({
             error: err,
+            message: "Database error",
             status: 500
-
         });
     });
 

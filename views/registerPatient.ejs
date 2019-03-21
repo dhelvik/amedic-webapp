@@ -5,6 +5,7 @@
     .colorChange {
         color: red;
     }
+
     #registerCaregiver {
         border: 1px solid #33333347;
         padding: 8px 80px 8px 8px;
@@ -110,15 +111,11 @@
                 $.each(result, function (idx, element) {
                     districtsDropDown.append("<option value=element.name>" + element.name + "</option>");
                 });
-
             },
-            error: function (err) {
-                console.log(err);
-                throw err;
+            error: function (xhr, status, error) {
+                showError(status.message);
             }
-
         });
-
     });
 
     $('#districtsDropdown').on('change', function () {
@@ -136,7 +133,9 @@
                 $.each(result, function (idx, element) {
                     villageDropdown.append("<option>" + element.name + "</option>");
                 });
-
+            },
+            error: function (xhr, status, error) {
+                showError(status.message);
             }
         });
 
@@ -146,7 +145,6 @@
     $('#registerPatientForm').submit(function (e) {
         e.preventDefault();
         const newID = $('#inputNationalId').val();
-
         $.ajax({
             method: 'post',
             url: '/patients/register',
@@ -154,20 +152,16 @@
             dataType: 'json',
             success: function (result) {
                 if (result.status === 200) {
-                    alert(result.message);
+                    showSuccess(result.message);
                     $('#registerPatientForm').trigger("reset");
                     location.href = newID;
-
-
                 } else {
-                    alert(result.status);
+                    showError(result.message);
                     console.log(result);
                 }
             },
             error: function (xhr, status, error) {
-                alert(status.message);
-                alert("Error");
-
+                showError(status.message);
             }
         });
 

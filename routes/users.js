@@ -21,7 +21,6 @@ router.get('/register', sessionCheckerAdmin, function (req, res) {
 });
 
 
-
 //Ajax Request to register AMEDUser
 router.post('/register', sessionCheckerAdmin, function (req, res) {
     var user = AMEDUser.create({
@@ -39,19 +38,23 @@ router.post('/register', sessionCheckerAdmin, function (req, res) {
         health_facility_name: req.body.healthFacility
     }).then(function (item) {
         res.json({
-            message: "Created item.",
+            message: "User added",
             status: 200,
             item: user
+        });
+    }).catch(Sequelize.UniqueConstraintError, function (err) {
+        res.json({
+            message: "A user with the same name already exists",
+            status: 400
         });
     }).catch(function (err) {
         console.log(err)
         res.json({
             error: err,
-            status: 500
-
+            status: 500,
+            message: "Database error"
         });
     });
-
 });
 
 //Ajax request to find AMEDUser like
@@ -93,7 +96,7 @@ router.post('/findUser', sessionCheckerAdmin, function (req, res) {
 //Ajax request update user
 
 router.post('/updateUser', sessionCheckerAdmin, function (req, res) {
-    console.log(req.body.userName+req.body.userRole);
+    console.log(req.body.userName + req.body.userRole);
     AMEDUser.update({
             name: req.body.userName,
             role: req.body.userRole,
@@ -122,10 +125,10 @@ router.post('/updateUser', sessionCheckerAdmin, function (req, res) {
 
 //Ajax request to delete user
 
-router.post('/removeUser', sessionCheckerAdmin, function(req, res){
-AMEDUser.destroy({
-   where: {id: req.body.id}
-});
+router.post('/removeUser', sessionCheckerAdmin, function (req, res) {
+    AMEDUser.destroy({
+        where: {id: req.body.id}
+    });
     res.end();
 });
 

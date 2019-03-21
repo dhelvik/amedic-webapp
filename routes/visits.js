@@ -48,15 +48,14 @@ router.post('/addNote', sessionChecker, function (req, res) {
             res.json({
                 error: err,
                 status: 500
-
             });
         });
     } else {
         console.log("No logged in user");
         res.json({
             error: "User missing",
+            message: "No logged in user",
             status: 500
-
         });
     }
 });
@@ -92,9 +91,10 @@ router.post("/addVisit", sessionChecker, function (req, res) {
                     status: 200,
                 });
             }).catch(function (err) {
-                console.log(err)
+                console.log(err);
                 res.json({
                     error: err,
+                    message: "Database error",
                     status: 500
                 });
             });

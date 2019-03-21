@@ -34,9 +34,9 @@ router.get('/', (req, res) => {
         }).catch(function (err) {
             console.log(err)
             res.json({
+                message: "Database error",
                 error: err,
                 status: 500
-
             });
         });
 
