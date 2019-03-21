@@ -1,9 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../connect');
-const Patient = require('../models/Patient');
 const AMEDUser = require('../models/AMEDUser');
 const sessionCheckerAdmin = require('../scripts/sessionCheckerAdmin.js');
+const Sequelize = require('sequelize');
 
 //Gets all users and routes to /user
 

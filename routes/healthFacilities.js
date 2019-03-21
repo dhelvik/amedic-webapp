@@ -3,6 +3,8 @@ const router = express.Router();
 const HealthFacility = require('../models/HealthFacility');
 const Village = require('../models/Village');
 const sessionCheckerAdmin = require('../scripts/sessionCheckerAdmin.js');
+const Sequelize = require('sequelize');
+
 
 router.get('/',sessionCheckerAdmin, function(req, res){
     HealthFacility.findAll().then(result=>{

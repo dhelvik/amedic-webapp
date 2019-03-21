@@ -2,8 +2,7 @@ const express = require('express');
 const router = express.Router();
 const AMEDUser = require('../models/AMEDUser');
 var bcrypt = require('bcryptjs');
-var cookieParser = require('cookie-parser');
-var session = require('express-session');
+
 
 router.get('/', (req, res) => {
     if (req.session.user && req.cookies.user_sid) {

@@ -8,6 +8,8 @@ const Treatment = require('../models/Treatment');
 const Patient = require('../models/Patient');
 const AMEDUser = require('../models/AMEDUser.js');
 const sessionChecker = require('../scripts/sessionChecker.js');
+
+
 //TEST AV NY SIDA
 router.get('/:id', sessionChecker, function (req, res) {
     Visit.findOne(

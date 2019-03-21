@@ -1,16 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../connect');
 const Patient = require('../models/Patient');
 const AMEDUser = require('../models/AMEDUser');
-const Village = require('../models/Village');
 const Visit = require('../models/Visit');
 const Diagnosis = require('../models/Diagnosis');
 const Caregiver = require('../models/CareGiver');
-const Note = require('../models/Notes');
 
 const Caregiver_Patient = require('../models/CareGiver_Patient');
 const sessionChecker = require('../scripts/sessionChecker.js');
+const Sequelize = require('sequelize');
 
 router.get('/', sessionChecker, (req, res) =>
     res.render('showPatient')
