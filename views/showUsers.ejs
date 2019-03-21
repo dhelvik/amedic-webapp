@@ -532,7 +532,7 @@
 
                 dataType: 'json',
                 success: function (result) {
-                    if (result.status = 200) {
+                    if (result.status === 200) {
                         alert("User added");
                         $("#registerUserForm")[0].reset();
                         $('#addUser').modal('hide');

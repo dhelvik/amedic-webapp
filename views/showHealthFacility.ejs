@@ -285,7 +285,7 @@
                 $('#registerHealthFacility').serialize(),
             dataType: 'json',
             success: function (result) {
-                if (result.status = 200) {
+                if (result.status === 200) {
                     alert('Health Facility added');
                     $("#registerHealthFacility")[0].reset();
                     $('#addHealthFacility').modal('hide');

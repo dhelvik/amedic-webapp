@@ -92,6 +92,7 @@ app.use('/visits', require('./routes/visits'));
 //Routes logout
 app.get('/logout', (req, res) => {
     if (req.session.user && req.cookies.user_sid) {
+        req.session.destroy();
         res.clearCookie('user_sid');
         res.redirect('/login');
     } else {

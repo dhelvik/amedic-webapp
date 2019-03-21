@@ -28,6 +28,9 @@ router.post('/addVillage',sessionCheckerAdmin, function(req, res) {
             item : newVillage
         });
     }).catch(function(err){
+        console.log("ERROR");
+
+        console.log(err);
         res.json({
             error : err,
             status : 500

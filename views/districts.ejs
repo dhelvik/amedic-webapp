@@ -198,7 +198,7 @@
             data: $('#registerDistrictForm').serialize(),
             dataType: 'json',
             success: function (result) {
-                if (result.status = 200) {
+                if (result.status === 200) {
                     $("#registerDistrictForm")[0].reset();
                     alert('District added');
                 } else {
@@ -230,7 +230,7 @@
             data: $('#registerVillageForm').serialize(),
             dataType: 'json',
             success: function (result) {
-                if (result.status = 200) {
+                if (result.status === 200) {
                     $("#registerVillageForm")[0].reset();
                     alert('Village added')
                     tableReload(districtName);
