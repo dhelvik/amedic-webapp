@@ -16,13 +16,10 @@
 <div class="container">
     <% include adminNav.ejs %>
     <div class="col-md-5">
-
         <div class="panel panel-default">
             <div class="panel-heading"><h4>Search</h4></div>
             <div class="panel-body">
-
                 <div class="box box-info">
-
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="Name or Village Name" id="searchText"
                                onkeyup="fetchHealthFacilities()"/>
@@ -33,7 +30,6 @@
                         </div>
                     </div>
                     <div class="table-wrapper-scroll-y">
-
                         <table id="healthFacilitiesTable" class="table ">
                             <tr>
                                 <th>Name</th>
@@ -43,9 +39,8 @@
                                 <tr>
                                     <td><%= result[i].name %></td>
                                     <td><%= result[i].village_name %></td>
-                                <tr>
+                                </tr>
                                 <% } %>
-                            </tr>
                         </table>
                     </div>
                 </div>
