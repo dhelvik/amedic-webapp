@@ -10,7 +10,8 @@
     .panel-body {
         min-height: 550px;
     }
-    .highlight{
+
+    .highlight {
         background-color: #ddd;
     }
 </style>
@@ -249,12 +250,12 @@
             dataType: 'json',
             success: function (result) {
                 if (result.status === 200) {
-                    alert('Health Facility added');
+                    showSuccess(result.message);
                     $("#registerHealthFacility")[0].reset();
                     $('#addHealthFacility').modal('hide');
                     fetchHealthFacilities();
                 } else {
-                    alert('Could not add Health Facility');
+                    showError(result.message);
                 }
             },
             error: function (xhr, status, error) {

@@ -20,7 +20,7 @@ router.post('/registerHealthFacility',sessionCheckerAdmin, function(req, res){
     }).then(function(item){
         console.log(healthFacility);
         res.json({
-            message : "Created item.",
+            message : "Health facility added",
             status : 200,
             item : healthFacility
         });
@@ -30,7 +30,7 @@ router.post('/registerHealthFacility',sessionCheckerAdmin, function(req, res){
             status : 400
         });
     }).catch(function (err) {
-        console.log(err)
+        console.log(err);
         res.json({
             message: "Database error",
             error : err,
