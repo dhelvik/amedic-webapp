@@ -3,14 +3,14 @@
 <% include head.ejs %>
 <body>
 <style>
-    /*  tr:not(:first-child)::selection {
-          background-color: black;
-      }*/
     tr:not(:first-child):hover {
         background-color: #ddd;
     }
-    .panel-body{
+    .panel-body {
         min-height: 550px;
+    }
+    .highlight{
+        background-color: #aaa;
     }
 </style>
 <div class="container">
@@ -34,18 +34,16 @@
                     </div>
                     <div class="table-wrapper-scroll-y">
 
-                        <table id="healthFacilitiesTable" class="table  ">
+                        <table id="healthFacilitiesTable" class="table ">
                             <tr>
-
                                 <th>Name</th>
                                 <th>Village</th>
-
                             </tr>
                             <% for (var i = 0; i < result.length;i++){ %>
                                 <tr>
                                     <td><%= result[i].name %></td>
                                     <td><%= result[i].village_name %></td>
-                            <tr>
+                                <tr>
                                 <% } %>
                             </tr>
                         </table>
@@ -53,15 +51,11 @@
                 </div>
             </div>
             <div class="panel-footer">
-
                 <button type="button" class="btn btn-success btn-lg" data-toggle="modal"
                         data-target="#addHealthFacility"><span
                             class="glyphicon glyphicon-plus"></span>
                 </button>
-
-
             </div>
-
         </div>
     </div>
     <div class="col-md-7 ">
@@ -80,29 +74,20 @@
                             <input id="healthFacilityVillageName" name="villageName" class="form-control" type="text"
                                    disabled="true">
                         </div>
-
-
                     </form>
                 </div>
             </div>
             <div class="panel-footer">
-
                 <!-- Trigger the modal with a button -->
                 <button type="button" class="btn btn-space btn-danger btn-lg" data-toggle="modal"
                         data-target="#removeHealthFacility"
                         disabled="true"><span class="glyphicon glyphicon-trash"></span>
-
                 </button>
-
-
             </div>
-
-
         </div>
         <!-- Modal -->
         <div id="addHealthFacility" class="modal fade" role="dialog">
             <div class="modal-dialog">
-
                 <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-header">
@@ -118,31 +103,21 @@
                             <div class="form-group">
                                 <label for="inputNationalID">Village<span class="colorChange">*</span></label>
                                 <select id="inputVillageName" name="villageName" class="form-control">
-
                                 </select>
                             </div>
-
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </form>
                     </div>
-
                     <div class="modal-footer">
-
-
                     </div>
-
                 </div>
-
             </div>
         </div>
     </div>
-
-
     <!-- Dialog Modal --->
     <!-- Modal -->
     <div id="removeHealthFacility" class="modal fade" role="dialog">
         <div class="modal-dialog">
-
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
@@ -161,16 +136,20 @@
                     <button type="button" class="btn btn-info" data-dismiss="modal">No</button>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
 
 <script>
+    $("#healthFacilitiesTable tr:not(:first-child)").click(function() {
+        var selected = $(this).hasClass("highlight");
+        $("#healthFacilitiesTable tr").removeClass("highlight");
+        if(!selected)
+            $(this).addClass("highlight");
+    });
+
     function fetchHealthFacilities() {
         var searchText = $('#searchText').val();
-
-
         $.ajax({
             type: "POST",
             url: "/healthFacilities/findHFSLike",
@@ -189,15 +168,11 @@
 
                         $('#healthFacilitiesTable tbody').append('<tr><td>' + result[i].name + '<td>' + result[i].village_name + '</td></tr>');
                     }
-
                 }
-
             },
             error: function (result) {
-
             }
         });
-
     }
 
     $(document).on("click", "#healthFacilitiesTable tr:not(:first-child)", function () {
