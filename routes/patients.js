@@ -55,6 +55,11 @@ router.post('/register', sessionChecker, function (req, res) {
                 status: 200,
             });
         }
+    }).catch(Sequelize.UniqueConstraintError, function(err){
+        res.json({
+            message : "A patient with the same national ID already exists",
+            status : 400
+        });
     }).catch((err) => {
         console.log(err)
         res.json({
