@@ -30,7 +30,7 @@
     <div class="col-md-5 ">
         <div class="panel panel-default">
             <div class="panel-heading"><h4>Patient</h4></div>
-            <div class="panel-body">
+            <div class="panel-body"  style="min-height: 300px">
                 <div class="box box-info">
                     <div class="col-sm-6">
                         <h4 style="color:#00b1b1;"><%= patient.name %></h4></span>
@@ -66,10 +66,7 @@
                         <select id="villageName" disabled="true">
                             <option><%= patient.village_name %></option>
                         </select></div>
-
-
                     <div class="col-sm-5 col-xs-6 tital ">
-
                     </div>
                 </div>
             </div>
@@ -77,13 +74,11 @@
                 <button class="btn btn-space btn-info btn-lg" onclick="unlockFields()"><span
                             class="glyphicon glyphicon-pencil"></span></button>
                 <button class="btn btn-space btn-success btn-edit btn-lg btnSaveUser" onclick="savePatient()"
-                        disabled="true"><span
-                            class="glyphicon glyphicon-ok"></span></button>
-
+                        disabled="true">
+                    <span class="glyphicon glyphicon-ok"></span>
+                </button>
             </div>
-
         </div>
-
     </div>
     <div class="col-md-7 ">
         <div class="panel panel-default">
@@ -117,7 +112,6 @@
                             </td>
                         </tr>
                     <% }); %>
-
                 </table>
             </div>
             <div class="panel-footer">
@@ -125,13 +119,10 @@
                         data-target="#addVisit"></button>
             </div>
         </div>
-
-
         <!-- Dialog Modal --->
         <!-- Modal -->
         <div id="addVisit" class="modal fade" role="dialog">
             <div class="modal-dialog modal-lg">
-
                 <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-header">
@@ -161,7 +152,6 @@
                                 <textarea class="form-control" rows="7" id="noteTextArea"></textarea>
                             </div>
                         </div>
-
                     </div>
                     <div class="modal-footer" style="margin-top:3px">
                         <button type="button" onclick="addVisit()" class="btn btn-success" data-dismiss="modal">
@@ -170,7 +160,6 @@
                         <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -178,93 +167,96 @@
         <div class="panel panel-default">
             <div class="panel-heading"><h4>Caregivers</h4></div>
             <div class="panel-body">
-                <% for(var i = 0; i < patient.CareGivers.length; i++){ %>
-                    <h4>
-
-                        <a data-toggle="collapse" href="#collapse<%= i %>"><%= patient.CareGivers[i].name %></a>
-                    </h4>
-
-                    <div id="collapse<%= i %>" class="panel-collapse collapse">
-                        <div class="col-sm-5 col-xs-6  ">Name:</div>
-                        <div class="col-sm-7 col-xs-6 ">
-                            <span><%= patient.CareGivers[i].name %></span>
+                <%var i = 0;
+                patient.CareGivers.forEach(function(careGiver) { %>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" href="#diagCollapse<%= i %>"><%= careGiver.name %></a>
+                            </h4>
                         </div>
-                        <div class="col-sm-5 col-xs-6  ">Relation:</div>
-                        <div class="col-sm-7 col-xs-6 ">
-                            <span><%= patient.CareGivers[i].relation_to_patient %></span>
+                        <div id="diagCollapse<%= i %>" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <div class="col-sm-5 col-xs-6  ">National ID:</div>
+                                <div class="col-sm-7 col-xs-6 ">
+                                    <span><%= careGiver.national_id %></span>
+                                </div>
+                                <div class="col-sm-5 col-xs-6  ">Date of birth:</div>
+                                <div class="col-sm-7 col-xs-6 ">
+                                    <span><%= careGiver.date_of_birth %></span>
+                                </div>
+                                <div class="col-sm-5 col-xs-6  ">Relation:</div>
+                                <div class="col-sm-7 col-xs-6 ">
+                                    <span><%= careGiver.relation_to_patient %></span>
+                                </div>
+                                <div class="col-sm-5 col-xs-6  ">Mobile Number:</div>
+                                <div class="col-sm-7 col-xs-6 ">
+                                    <span><%= careGiver.mobile_no %></span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-sm-5 col-xs-6  ">Mobile Number:</div>
-                        <div class="col-sm-7 col-xs-6 ">
-                            <span><%= patient.CareGivers[i].mobile_no %></span>
-                        </div>
-
-
                     </div>
-                <% } %>
+                    <% i++;}); %>
             </div>
+
             <div class="panel-footer">
                 <button class="glyphicon glyphicon-plus btn-success btn-lg" data-toggle="modal"
                         data-target="#addCaregiver"></button>
             </div>
         </div>
-        <!-- Dialog Modal --->
-        <!-- Modal -->
-        <div id="addCaregiver" class="modal fade" role="dialog">
-            <div class="modal-dialog">
+    </div>
 
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Add Caregiver</h4>
-                    </div>
+    <!-- Dialog Modal --->
+    <!-- Modal -->
+    <div id="addCaregiver" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Add Caregiver</h4>
+                </div>
+                <form id="registerCaregiver">
                     <div class="modal-body">
-                        <form id="registerCaregiver">
-
-                            <div class="form-group">
-                                <label for="caregiverName">Caregiver Name <span class="colorChange">* </span></label>
-                                <input class="form-control caregiver" id="caregiverName" name="caregiverName"
-                                       placeholder="Name" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="caregiverNationalId">Caregiver National ID<span
-                                            class="colorChange">* </span></label>
-                                <input class="form-control caregiver" id="caregiverNationalId"
-                                       name="caregiverNationalId"
-                                       placeholder="National ID" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="relation">Relation to patient <span class="colorChange">* </span></label>
-                                <input class="form-control caregiver" id="relation" name="relation"
-                                       placeholder="Relation"
-                                       required>
-                            </div>
-                            <div class="form-group">
-                                <label for="caregiverDateOfBirth">Date Of Birth <span
-                                            class="colorChange">* </span></label>
-                                <input class="form-control caregiver" id="caregiverDateOfBirth"
-                                       name="caregiverDateOfBirth"
-                                       placeholder="MM/DD/YYYY" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="caregiverMobileNo">Mobile Number <span class="colorChange">* </span></label>
-                                <input class="form-control caregiver" id="caregiverMobileNo" name="caregiverMobileNo"
-                                       placeholder="Mobile No" required>
-                            </div>
-
+                        <div class="form-group">
+                            <label for="caregiverName">Caregiver Name <span class="colorChange">* </span></label>
+                            <input class="form-control caregiver" id="caregiverName" name="caregiverName"
+                                   placeholder="Name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="caregiverNationalId">Caregiver National ID<span
+                                        class="colorChange">* </span></label>
+                            <input class="form-control caregiver" id="caregiverNationalId"
+                                   name="caregiverNationalId"
+                                   placeholder="National ID" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="relation">Relation to patient <span class="colorChange">* </span></label>
+                            <input class="form-control caregiver" id="relation" name="relation"
+                                   placeholder="Relation"
+                                   required>
+                        </div>
+                        <div class="form-group">
+                            <label for="caregiverDateOfBirth">Date Of Birth <span
+                                        class="colorChange">* </span></label>
+                            <input class="form-control caregiver" id="caregiverDateOfBirth"
+                                   name="caregiverDateOfBirth"
+                                   placeholder="MM/DD/YYYY" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="caregiverMobileNo">Mobile Number <span class="colorChange">* </span></label>
+                            <input class="form-control caregiver" id="caregiverMobileNo" name="caregiverMobileNo"
+                                   placeholder="Mobile No" required>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Submit</button>
                         <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
-                        </form>
-
                     </div>
-
-                </div>
+                </form>
             </div>
         </div>
-
-
     </div>
 </div>
 
