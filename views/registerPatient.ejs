@@ -5,15 +5,12 @@
     .colorChange {
         color: red;
     }
-
     #registerCaregiver {
         border: 1px solid #33333347;
         padding: 8px 80px 8px 8px;
         margin-bottom: 10px;
     }
-
 </style>
-
 <body>
 <div class="container">
     <% include nav.ejs %>
@@ -205,7 +202,6 @@
         } else if (this.value == 'No') {
             $('#registerCaregiver').hide();
             $(".caregiver").prop('required', false);
-
         }
     });</script>
 
