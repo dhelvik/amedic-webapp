@@ -28,16 +28,14 @@
 </div>
 </div>
 
-
 <script>
     $(document).on("dblclick", "#patientTable tr:not(:first-child)", function () {
         var $this = $(this);
         var row = $this.closest("tr");
         var id = row.find('td:nth(2)').text();
         var requestSite = '/patients/' + id;
-        location.replace(requestSite);
+        window.location.href = requestSite;
     });
-
 
     function findPatient(id) {
         $.ajax({
@@ -74,8 +72,8 @@
                 }
 
             },
-            error: function (result) {
-                showError("Database error");
+            error: function (xhr, status, error) {
+                showError(status.message);
             }
         });
 

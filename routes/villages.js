@@ -73,8 +73,14 @@ router.post('/removeVillage',sessionCheckerAdmin, function(req,res){
 router.post('/getVillages',sessionCheckerAdmin, function(req, res){
     Village.findAll().then(result=>{
         res.send(result);
-        res.end;
-    })
+        res.end();
+    }).catch(function (err) {
+        res.json({
+            message: "Database error",
+            error: err,
+            status: 500
+        });
+    });
 });
 
 module.exports = router;

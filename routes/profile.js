@@ -30,20 +30,20 @@ router.post('/updateUser', sessionChecker, function (req, res) {
         .then(function () {
             res.json({
                 status: 200,
+                message: "User successfully updated"
             });
         }).catch(function (err) {
-        console.log(err)
+        console.log(err);
         res.json({
             error: err,
-            status: 500
+            status: 500,
+            message: "Database error",
         });
 
     });
 });
 
 router.post('/updateUserPassword', sessionChecker, function (req, res) {
-    console.log("TEST");
-    console.log(req.body);
     if (bcrypt.compareSync(req.body.oldPassword, req.session.user.password)) {
         AMEDUser.findOne({
             where: {
@@ -55,13 +55,15 @@ router.post('/updateUserPassword', sessionChecker, function (req, res) {
             newUser.save();
             req.session.user = newUser.dataValues;
             res.send({
-                status: 200
+                status: 200,
+                message: "Password updated"
             });
         }).catch((err) => {
             console.log(err);
-            res.send({
+            res.json({
                 error: err,
-                status: 500
+                status: 500,
+                message: "Database error",
             });
         });
     } else {

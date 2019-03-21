@@ -9,10 +9,10 @@
     }
 
     .symptoms-sheet-scrollbar {
-         position: relative;
-         height: 500px;
-         overflow: auto;
-     }
+        position: relative;
+        height: 500px;
+        overflow: auto;
+    }
 
     .notes-scrollbar {
         position: relative;
@@ -27,6 +27,7 @@
     .noteColor {
         color: black;
     }
+
     .noteMargin {
         margin-bottom: 6px;
     }
@@ -72,8 +73,8 @@
                                 </thead>
                                 <tr>
                                     <% for (var symptom in visit.SymptomsSheet.dataValues) if (visit.SymptomsSheet.dataValues.hasOwnProperty(symptom)) { %>
-                                    <% var str = symptom.replace(/_/g, " ").replace("days", "(days)");
-                                        str = str.charAt(0).toUpperCase() + str.slice(1)%>
+                                        <% var str = symptom.replace(/_/g, " ").replace("days", "(days)");
+                                            str = str.charAt(0).toUpperCase() + str.slice(1) %>
                                         <td><b> <%= str + ": " %> </b></td>
                                         <td> <%= visit.SymptomsSheet[symptom] %></td>
                                 </tr>
@@ -96,32 +97,32 @@
                     <div id="diagCollapse<%= i %>" class="panel-collapse collapse">
                         <div class="panel-body"><%= diagnosis.description %>
                         </div>
-                        <%if(diagnosis.Treatments != undefined){%>
+                        <% if(diagnosis.Treatments != undefined){ %>
 
                         <div class="panel-body">
                             <% var j = 0;
                             diagnosis.Treatments.forEach(function(treatment) { %>
                                 <div class="panel">
-                                        <h4 >
-                                            <%= treatment.description %>
-                                        </h4>
+                                    <h4>
+                                        <%= treatment.description %>
+                                    </h4>
                                     <table class="table" id="treatmentTable">
-                                    <tr>
-                                        <th>Treatment scheme</th>
-                                        <th>Drug</th>
-                                        <th>Administration</th>
-                                    </tr>
                                         <tr>
-                                    <td class="col-md-6"><%= treatment.treatment_Scheme %>
-                                    </td>
-                                    <td class="col-md-3"><%= treatment.drug %>
-                                    </td>
-                                    <td class="col-md-3"><%= treatment.drug_administration %>
-                                    </td>
+                                            <th>Treatment scheme</th>
+                                            <th>Drug</th>
+                                            <th>Administration</th>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-md-6"><%= treatment.treatment_Scheme %>
+                                            </td>
+                                            <td class="col-md-3"><%= treatment.drug %>
+                                            </td>
+                                            <td class="col-md-3"><%= treatment.drug_administration %>
+                                            </td>
                                         </tr>
                                     </table>
                                 </div>
-                            <%});} %>
+                            <% });} %>
                         </div>
                     </div>
                 </div>
@@ -136,23 +137,23 @@
                     Notes
                 </h4>
             </div>
-                <div class="table-wrapper-scroll-y notes-scrollbar table-responsive">
-                    <table class="table" id="notesTable">
-                        <% var i = 0;
-                        visit.Notes.forEach(function(note) { %>
+            <div class="table-wrapper-scroll-y notes-scrollbar table-responsive">
+                <table class="table" id="notesTable">
+                    <% var i = 0;
+                    visit.Notes.forEach(function(note) { %>
                         <div class="panel panel-default noteMargin">
                             <div class="container-fluid panel-heading " style="padding-top: 0;padding-bottom: 0">
                                 <span class="pull-left text-muted"><%= note.AMEDUser.login_id %></span>
                                 <span class="pull-right text-muted"><%= moment(note.timestamp).format("YYYY-MM-DD HH:mm") %></span>
                             </div>
                             <div class="panel-body">
-                                <%= note.description%>
+                                <%= note.description %>
                             </div>
 
                         </div>
-                        <% }); %>
-                    </table>
-                </div>
+                    <% }); %>
+                </table>
+            </div>
             <div class="panel-footer panel-primary">
                 <div class="form-group">
                     <label id="noteLabel" for="note"><span class="noteColor"> Note: </span></label>
@@ -178,11 +179,11 @@
                 if (result.status === 200) {
                     location.reload(true);
                 } else {
-                    alert('error');
+                    showError(result.message);
                 }
             },
             error: function (xhr, status, error) {
-                alert(status.message);
+                showError(status.message);
             }
         });
     });

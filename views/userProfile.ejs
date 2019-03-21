@@ -86,13 +86,14 @@
             },
             success: function (result) {
                 if (result.status === 200) {
+                    showSuccess(result.message);
                     location.reload();
                 } else {
-                    alert("Could not update User");
+                    showError(result.message);
                 }
             },
-            error: function (result) {
-
+            error: function (xhr, status, error) {
+                showError(status.message);
             }
         });
 
@@ -108,17 +109,18 @@
                 dataType: 'json',
                 success: function (result) {
                     if (result.status === 200) {
+                        showSuccess(result.message);
                         location.reload();
                     } else {
-                        alert(result.message);
+                        showError(result.message);
                     }
                 },
                 error: function (xhr, status, error) {
-                    alert(status.message);
+                    showError(status.message);
                 }
             });
         } else {
-            alert("Passwords doesn't match");
+            showError("Passwords doesn't match");
         }
     });
 </script>

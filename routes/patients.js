@@ -80,6 +80,7 @@ router.post('/', sessionChecker, function (req, res) {
     }).catch((err) => {
         console.log(err);
         res.json({
+            message: "Database error",
             error: err,
             status: 500
         });

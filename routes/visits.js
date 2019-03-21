@@ -46,6 +46,7 @@ router.post('/addNote', sessionChecker, function (req, res) {
             });
         }).catch(function (err) {
             res.json({
+                message: "Database error",
                 error: err,
                 status: 500
             });

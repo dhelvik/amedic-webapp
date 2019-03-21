@@ -38,7 +38,7 @@ router.post('/register', sessionCheckerAdmin, function (req, res) {
         health_facility_name: req.body.healthFacility
     }).then(function (item) {
         res.json({
-            message: "User added",
+            message: "User successfully added",
             status: 200,
             item: user
         });
@@ -64,20 +64,22 @@ router.post('/findUserLike', sessionCheckerAdmin, function (req, res) {
             $or: {
                 name: {
                     $like: '%' + req.body.searchText + '%'
-
                 },
                 login_id: {
                     $like: '%' + req.body.searchText + '%'
-
                 }
             }
-
-
         }
     }).then(result => {
             res.send(result);
         }
-    )
+    ).catch(err => {
+        res.json({
+            message: "Database error",
+            error: err,
+            status: 500
+        });
+    });
 });
 
 //Ajax request to find User Profile
@@ -88,9 +90,13 @@ router.post('/findUser', sessionCheckerAdmin, function (req, res) {
         }
     }).then(result => {
         res.send(result);
-
-
-    })
+    }).catch(function (err) {
+        res.json({
+            error: err,
+            message: "Database error",
+            status: 500
+        });
+    });
 });
 
 //Ajax request update user
@@ -112,14 +118,15 @@ router.post('/updateUser', sessionCheckerAdmin, function (req, res) {
         .then(function () {
             res.json({
                 status: 200,
+                message: "User successfully updated"
             });
         }).catch(function (err) {
-        console.log(err)
+        console.log(err);
         res.json({
             error: err,
-            status: 500
+            status: 500,
+            message: "Database error",
         });
-
     });
 });
 
@@ -128,8 +135,21 @@ router.post('/updateUser', sessionCheckerAdmin, function (req, res) {
 router.post('/removeUser', sessionCheckerAdmin, function (req, res) {
     AMEDUser.destroy({
         where: {id: req.body.id}
+    }).then(function () {
+        res.json({
+            message: "User successfully removed",
+            status: 200
+        });
+    }).catch(function (err) {
+        console.log(err);
+        res.json({
+            error: err,
+            status: 500,
+            message: "Database error",
+
+        });
+        res.end();
     });
-    res.end();
 });
 
 module.exports = router;

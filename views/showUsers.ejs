@@ -17,10 +17,12 @@
     .btn-space {
         margin-right: 1em;
     }
-    .panel-body{
+
+    .panel-body {
         min-height: 550px;
     }
-    .highlight{
+
+    .highlight {
         background-color: #aaa;
     }
 
@@ -56,13 +58,13 @@
 
                             </tr>
                             <% for (var i = 0; i < result.length;i++){ %>
-                            <tr>
-                                <td><%= result[i].ID %></td>
-                                <td><%= result[i].name %></td>
-                                <td><%= result[i].login_id %></td>
-                            </tr>
+                                <tr>
+                                    <td><%= result[i].ID %></td>
+                                    <td><%= result[i].name %></td>
+                                    <td><%= result[i].login_id %></td>
+                                </tr>
 
-                                <% } %>
+                            <% } %>
                         </table>
                     </div>
                 </div>
@@ -148,7 +150,7 @@
                             <div class="form-group">
                                 <label for="inputPassword">Health Facility <span class="colorChange">*</span></label>
                                 <select name="healthFacility" class="form-control" id="inputHealthFacility"
-                                       required>
+                                        required>
                                 </select>
                             </div>
                         </div>
@@ -220,26 +222,27 @@
                 </div>
             </div>
             <div class="panel-footer">
-                <button class="btn btn-space btn-info btn-lg" onclick="unlockFields()"  disabled="true"><span
+                <button class="btn btn-space btn-info btn-lg" onclick="unlockFields()" disabled="true"><span
                             class="glyphicon glyphicon-pencil"></span></button>
                 <button class="btn btn-space btn-success btn-edit btn-lg" onclick="saveUser()" disabled="true"><span
                             class="glyphicon glyphicon-ok"></span></button>
 
 
                 <!-- Trigger the modal with a button -->
-                <button type="button" class="btn btn-space btn-danger btn-lg" data-toggle="modal" data-target="#removeUser"
+                <button type="button" class="btn btn-space btn-danger btn-lg" data-toggle="modal"
+                        data-target="#removeUser"
                         disabled="true"><span class="glyphicon glyphicon-trash"></span>
 
                 </button>
-
-
-                </div>
 
 
             </div>
 
 
         </div>
+
+
+    </div>
     <!-- Dialog Modal --->
     <!-- Modal -->
     <div id="removeUser" class="modal fade" role="dialog">
@@ -275,8 +278,6 @@
 <script>
     function fetchUsers() {
         var searchText = $('#searchText').val();
-
-
         $.ajax({
             type: "POST",
             url: "/users/findUserLike",
@@ -293,18 +294,14 @@
                         '            <th>LoginID</th>\n' +
                         '</tr>')
                     for (var i = 0; i < result.length; i++) {
-
                         $('#usersTable tbody').append('<tr><td>' + result[i].ID + '<td>' + result[i].name + '</td><td>' + result[i].login_id + '</td></tr>');
                     }
-
                 }
-
             },
-            error: function (result) {
-
+            error: function (xhr, status, error) {
+                showError(status.message);
             }
         });
-
     }
 
     $(document).on("click", "#usersTable tr:not(:first)", function () {
@@ -322,7 +319,6 @@
                 id: id
             },
             success: function (result) {
-
                 $('#userId').val(result.ID);
                 $('#userName').val(result.name);
                 $('#userEmail').val(result.email);
@@ -331,33 +327,24 @@
 
                 if (result.hsa_flag === 1) {
                     $("#checkboxHSA").prop("checked", true);
-
                 } else {
                     $("#checkboxHSA").prop("checked", false);
-
                 }
                 if (result.health_expert_flag === 1) {
                     $("#checkboxHE").prop("checked", true);
-
                 } else {
                     $("#checkboxHE").prop("checked", false);
-
                 }
                 if (result.admin_flag === 1) {
                     $("#checkboxAdmin").prop("checked", true);
-
                 } else {
                     $("#checkboxAdmin").prop("checked", false);
-
                 }
 
-
                 $('#userLastLogin').val(result.lastLogin);
-
-
             },
-            error: function (result) {
-
+            error: function (xhr, status, error) {
+                showError(status.message);
             }
         });
 
@@ -377,7 +364,6 @@
                 id: id
             },
             success: function (result) {
-
                 $('#userId').val(result.ID);
                 $('#userName').val(result.name);
                 $('#userEmail').val(result.email);
@@ -386,45 +372,34 @@
 
                 if (result.hsa_flag === 1) {
                     $("#checkboxHSA").prop("checked", true);
-
                 } else {
                     $("#checkboxHSA").prop("checked", false);
-
                 }
                 if (result.health_expert_flag === 1) {
                     $("#checkboxHE").prop("checked", true);
-
                 } else {
                     $("#checkboxHE").prop("checked", false);
-
                 }
                 if (result.admin_flag === 1) {
                     $("#checkboxAdmin").prop("checked", true);
-
                 } else {
                     $("#checkboxAdmin").prop("checked", false);
-
                 }
-
-
                 $('#userLastLogin').val(result.lastLogin);
-
-
             },
-            error: function (result) {
-
+            error: function (xhr, status, error) {
+                showError(status.message);
             }
         });
 
     });
+
     function unlockFields() {
         if ($('#userLoginID').val() !== "") {
-
             $(".user").prop('disabled', false);
             $(".btn-edit").prop('disabled', false);
             $(".btn-info").prop('disabled', true);
         }
-
     }
 
     function saveUser() {
@@ -432,47 +407,45 @@
         $(".btn-edit").prop('disabled', true);
         $(".btn-info").prop('disabled', false);
 
-            if ($('#checkboxHE').is(':checked')) {
-                var heFlag = 1;
-            } else {
-                heFlag = 0;
-            }
-            if ($('#checkboxHSA').is(':checked')) {
-                var hsaFlag = 1;
-            } else {
-                hsaFlag = 0;
-            }
-            if ($('#checkboxAdmin').is(':checked')) {
-                var adminFlag = 1;
-            } else {
-                adminFlag = 0;
-            }
-            $.ajax({
-                type: "POST",
-                url: "/users/updateUser",
-                data: {
-                    userName: $('#userName').val(),
-                    userRole: $('#userRole').val(),
-                    userLoginID: $('#userLoginID').val(),
-                    heFlag: heFlag,
-                    hsaFlag: hsaFlag,
-                    adminFlag: adminFlag,
-
-
-                }
-                ,
-                success: function (result) {
-                    if(result.status===200){
+        if ($('#checkboxHE').is(':checked')) {
+            var heFlag = 1;
+        } else {
+            heFlag = 0;
+        }
+        if ($('#checkboxHSA').is(':checked')) {
+            var hsaFlag = 1;
+        } else {
+            hsaFlag = 0;
+        }
+        if ($('#checkboxAdmin').is(':checked')) {
+            var adminFlag = 1;
+        } else {
+            adminFlag = 0;
+        }
+        $.ajax({
+            type: "POST",
+            url: "/users/updateUser",
+            data: {
+                userName: $('#userName').val(),
+                userRole: $('#userRole').val(),
+                userLoginID: $('#userLoginID').val(),
+                heFlag: heFlag,
+                hsaFlag: hsaFlag,
+                adminFlag: adminFlag,
+            },
+            success: function (result) {
+                if (result.status === 200) {
+                    showSuccess(result.message);
                     fetchUsers();
-                    } else{
-                        alert("Could not update User");
-                    }
-
-                },
-                error: function (result) {
-
+                } else {
+                    showError(result.message);
                 }
-            });
+
+            },
+            error: function (xhr, status, error) {
+                showError(status.message);
+            }
+        });
 
     }
 
@@ -487,20 +460,16 @@
                 id: id
             },
             success: function (result) {
-                if(result.status === 200){
-                $('#textChange').text("User deleted");
-                alert("User deleted successfully");
-                fetchUsers();
+                if (result.status === 200) {
+                    $('#textChange').text("User deleted");
+                    showSuccess(result.message);
+                    fetchUsers();
+                } else {
+                    showError(result.message);
                 }
-                else{
-                    alert(result.error);
-                }
-
             },
-            error: function (err) {
-                console.log(err);
-                throw err();
-
+            error: function (xhr, status, error) {
+                showError(status.message);
             }
         });
 
@@ -533,31 +502,31 @@
                 dataType: 'json',
                 success: function (result) {
                     if (result.status === 200) {
-                        alert("User added");
+                        showSuccess(result.message);
                         $("#registerUserForm")[0].reset();
                         $('#addUser').modal('hide');
                         fetchUsers();
 
                     } else {
-                        alert(result.error);
+                        showError(result.message);
                     }
                 },
                 error: function (xhr, status, error) {
-                    alert(status.message);
+                    showError(status.message);
                 }
             });
         } else {
-            alert("Passwords doesn't match");
+            showError("Passwords doesn't match");
         }
     });
-    $("#usersTable tr:not(:first-child)").click(function() {
+    $("#usersTable tr:not(:first-child)").click(function () {
         var selected = $(this).hasClass("highlight");
         $("#usersTable tr").removeClass("highlight");
-        if(!selected)
+        if (!selected)
             $(this).addClass("highlight");
     });
 
-    $(document).ready(function() {
+    $(document).ready(function () {
 
         $(document).ready(function () {
             var date_input = $('input[id="inputDateOfBirth"]'); //our date input has the name "date"
@@ -568,22 +537,19 @@
                 todayHighlight: true,
                 autoclose: true,
             });
-
-
         });
 
         $.ajax({
             method: 'post',
             url: '/healthFacilities/getHealthFacilities',
-                       dataType: 'json',
+            dataType: 'json',
             success: function (result) {
                 for (var i = 0; i < result.length; i++) {
-                    $('#inputHealthFacility').append('<option>'+result[i].name+'</option>');
-
+                    $('#inputHealthFacility').append('<option>' + result[i].name + '</option>');
                 }
             },
             error: function (xhr, status, error) {
-                alert(status.message);
+                showError(status.message);
             }
         });
     });

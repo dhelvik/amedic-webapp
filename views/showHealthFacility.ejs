@@ -6,10 +6,12 @@
     tr:not(:first-child):hover {
         background-color: #ddd;
     }
+
     .panel-body {
         min-height: 550px;
     }
-    .highlight{
+
+    .highlight {
         background-color: #aaa;
     }
 </style>
@@ -40,7 +42,7 @@
                                     <td><%= result[i].name %></td>
                                     <td><%= result[i].village_name %></td>
                                 </tr>
-                                <% } %>
+                            <% } %>
                         </table>
                     </div>
                 </div>
@@ -136,10 +138,10 @@
 </div>
 
 <script>
-    $("#healthFacilitiesTable tr:not(:first-child)").click(function() {
+    $("#healthFacilitiesTable tr:not(:first-child)").click(function () {
         var selected = $(this).hasClass("highlight");
         $("#healthFacilitiesTable tr").removeClass("highlight");
-        if(!selected)
+        if (!selected)
             $(this).addClass("highlight");
     });
 
@@ -154,18 +156,19 @@
             success: function (result) {
                 if (!$.trim(result)) {
                 } else {
-                    $('#healthFacilitiesTable tbody').empty();
-                    $('#healthFacilitiesTable tbody').append('<tr>\n' +
+                    var hfTable = $('#healthFacilitiesTable tbody');
+                    hfTable.empty();
+                    hfTable.append('<tr>\n' +
                         '            <th>Name</th>\n' +
                         '            <th>Village</th>\n' +
                         '</tr>')
                     for (var i = 0; i < result.length; i++) {
-
-                        $('#healthFacilitiesTable tbody').append('<tr><td>' + result[i].name + '<td>' + result[i].village_name + '</td></tr>');
+                        hfTable.append('<tr><td>' + result[i].name + '<td>' + result[i].village_name + '</td></tr>');
                     }
                 }
             },
-            error: function (result) {
+            error: function (xhr, status, error) {
+                showError(status.message);
             }
         });
     }
@@ -185,16 +188,13 @@
                 id: id
             },
             success: function (result) {
-
                 $('#healthFacilityName').val(result.name);
                 $('#healthFacilityVillageName').val(result.village_name);
-
             },
-            error: function (result) {
-
+            error: function (xhr, status, error) {
+                showError(status.message);
             }
         });
-
     });
 
     function removeHealthFacility() {
@@ -210,20 +210,16 @@
             success: function (result) {
                 if (result.status === 200) {
                     $('#textChange').text("Health Facility deleted");
-                    alert("Health Facility deleted successfully");
+                    showSuccess(result.message);
                     $('#healthFacilityName').val("");
                     $('#healthFacilityVillageName').val("");
                     fetchHealthFacilities();
                 } else {
-                    alert("Could not delete Health Facility");
+                    showError(result.message);
                 }
-
-
             },
-            error: function (err) {
-                console.log(err);
-                throw err();
-
+            error: function (xhr, status, error) {
+                showError(status.message);
             }
         });
 
@@ -237,17 +233,15 @@
             success: function (result) {
                 for (var i = 0; i < result.length; i++) {
                     $('#inputVillageName').append('<option>' + result[i].name + '</option>');
-
                 }
             },
             error: function (xhr, status, error) {
-                alert(status.message);
+                showError(status.message);
             }
         });
     });
     $('#registerHealthFacility').submit(function (e) {
         e.preventDefault();
-
         $.ajax({
             method: 'post',
             url: '/healthFacilities/registerHealthFacility',
@@ -260,15 +254,13 @@
                     $("#registerHealthFacility")[0].reset();
                     $('#addHealthFacility').modal('hide');
                     fetchHealthFacilities();
-
                 } else {
                     alert('Could not add Health Facility');
                 }
             },
             error: function (xhr, status, error) {
-                alert(status.message);
-            },
-
+                showError(status.message);
+            }
         });
     });
 </script>
