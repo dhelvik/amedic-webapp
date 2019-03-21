@@ -10,19 +10,18 @@
     tr:not(:first-child):hover {
         background-color: #ddd;
     }
+    .highlight{
+        background-color: #ddd;
+    }
 </style>
 <body>
 <div class="container">
     <% include adminNav.ejs %>
-
     <div class="col-md-5 ">
-
         <div class="panel panel-default">
             <div class="panel-heading"><h4>Districts</h4></div>
             <div class="panel-body">
-
                 <div class="box box-info">
-
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="District Name" id="searchText"
                                onkeyup="fetchUsers()"/>
@@ -38,13 +37,9 @@
                             <tr>
                                 <th>Name</th>
                             </tr>
-                            <tr>
-                            </tr>
                         </table>
                     </div>
                 </div>
-
-
             </div>
             <div class="panel-footer">
                 <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#addDistrict">
@@ -75,8 +70,6 @@
                             <tr>
                                 <th>Name</th>
                             </tr>
-                            <tr>
-                            </tr>
                         </table>
                     </div>
                 </div>
@@ -91,12 +84,10 @@
             </div>
         </div>
     </div>
-
     <!-- Dialog Deletion Modal --->
     <!-- Modal delete -->
     <div id="deleteVillageModal" class="modal fade" role="dialog">
         <div class="modal-dialog">
-
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
@@ -113,15 +104,11 @@
                     <button type="button" class="btn btn-info" data-dismiss="modal">No</button>
                 </div>
             </div>
-
         </div>
     </div>
-
-
     <!-- Modal -->
     <div id="addVillage" class="modal fade" role="dialog">
         <div class="modal-dialog">
-
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
@@ -141,21 +128,12 @@
                         </div>
                         <input id="registerVillageFormSubmit" type="submit" class="btn btn-primary" value="Add">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-
                     </form>
                 </div>
-
-                <div class="modal-footer">
-
-
-                </div>
-
             </div>
-
         </div>
     </div>
 </div>
-
 <!-- Modal -->
 <div id="addDistrict" class="modal fade" role="dialog">
     <div class="modal-dialog">
@@ -174,7 +152,6 @@
                     </div>
                     <input id="registerDistrictFormSubmit" type="submit" class="btn btn-primary" value="Add">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-
                 </form>
             </div>
             <div class="modal-footer">
@@ -209,13 +186,16 @@
         var $this = $(this);
         var row = $this.closest("tr");
         var name = row.find('td:first').text();
+        var selected = $(this).hasClass("highlight");
+        $("#districtsTable tr").removeClass("highlight");
+        if(!selected)
+            $(this).addClass("highlight");
         $("#selectedDistrict").text(name);
         tableReload(name);
     });
 
     $('#registerVillageFormSubmit').on('click', function (e) {
         var districtName = $("#selectedDistrict").text();
-        console.log(districtName);
         e.preventDefault();
         $.ajax({
             method: 'post',
@@ -237,7 +217,6 @@
         });
     });
 
-
     $(document).ready(function () {
         districtsTableLoad();
     });
@@ -246,9 +225,12 @@
         var $this = $(this);
         var row = $this.closest("tr");
         var name = row.find('td:first').text();
+        var selected = $(this).hasClass("highlight");
+        $("#villagesTable tr").removeClass("highlight");
+        if(!selected)
+            $(this).addClass("highlight");
         $(".btn-danger").prop('disabled', false);
         $("#villageName").text(name);
-
     });
 
     function removeVillage() {
@@ -270,8 +252,7 @@
                 showError(status.message);
             }
         });
-    }
-
+    };
 
     function tableReload(districtName) {
         $("#villagesTable td").remove();
@@ -288,16 +269,13 @@
                 });
                 $('#inputDistrictName').text(districtName);
                 $('#inputDistrictName').val(districtName);
-
             },
             error: function (err) {
                 console.log(err);
                 throw err;
             }
-
         });
-
-    }
+    };
 
     function districtsTableLoad() {
         $.ajax({
@@ -314,11 +292,8 @@
                 console.log(err);
                 throw err;
             }
-
         });
-
-    }
-
+    };
 
     // Search Village Jquery Script
     $(document).ready(function () {
@@ -349,7 +324,6 @@
             });
         });
     });
-
 </script>
 </body>
 </html>
