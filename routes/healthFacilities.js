@@ -2,7 +2,7 @@ const express = require ('express');
 const router = express.Router();
 const HealthFacility = require('../models/HealthFacility');
 const sessionCheckerAdmin = require('../scripts/sessionCheckerAdmin.js');
-
+const Sequelize = require('sequelize');
 /*
     Default route for health facilities admin page
  */

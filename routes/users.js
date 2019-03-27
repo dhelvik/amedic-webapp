@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const AMEDUser = require('../models/AMEDUser');
 const sessionCheckerAdmin = require('../scripts/sessionCheckerAdmin.js');
+const Sequelize = require('sequelize');
 
 /*
     Default route for the edit user page, renders it with all users prefetched
@@ -102,25 +103,32 @@ router.post('/findUser', sessionCheckerAdmin, function (req, res) {
     Updates a user with a specific login_id
 */
 router.post('/updateUser', sessionCheckerAdmin, function (req, res) {
-    console.log(req.body.userName + req.body.userRole);
-    AMEDUser.update({
-            name: req.body.userName,
-            role: req.body.userRole,
-            hsa_flag: req.body.hsaFlag,
-            health_expert_flag: req.body.heFlag,
-            admin_flag: req.body.adminFlag
-        },
-        {
-            where: {
-                login_id: req.body.userLoginID
-            }
-        })
-        .then(function () {
-            res.json({
-                status: 200,
-                message: "User successfully updated"
-            });
-        }).catch(function (err) {
+    AMEDUser.findOne({
+        where: {
+            ID: req.body.ID
+        }
+    }).then((user) => {
+        user.name = req.body.userName;
+        user.role = req.body.userRole;
+        user.hsa_flag = req.body.hsaFlag;
+        user.health_expert_flag = req.body.heFlag;
+        user.admin_flag = req.body.adminFlag;
+        user.login_id = req.body.userLoginID;
+        if(req.body.password !== ""){
+            user.password = req.body.password;
+            user.hashPassword();
+        }
+        user.save();
+        res.send({
+            status: 200,
+            message: "User updated"
+        });
+    }).catch(Sequelize.UniqueConstraintError, function(err){
+        res.json({
+            message : "A user with the same login name already exists",
+            status : 400
+        });
+    }).catch((err) => {
         console.log(err);
         res.json({
             error: err,

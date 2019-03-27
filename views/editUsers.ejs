@@ -23,7 +23,7 @@
     }
 
     .highlight {
-        background-color: #aaa;
+        background-color: #ddd;
     }
 
 </style>
@@ -54,8 +54,6 @@
                                 <th>ID</th>
                                 <th>Name</th>
                                 <th>LoginID</th>
-
-
                             </tr>
                             <% for (var i = 0; i < result.length;i++){ %>
                                 <tr>
@@ -63,28 +61,21 @@
                                     <td><%= result[i].name %></td>
                                     <td><%= result[i].login_id %></td>
                                 </tr>
-
                             <% } %>
                         </table>
                     </div>
                 </div>
             </div>
             <div class="panel-footer">
-
-                <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#addUser"><span
-                            class="glyphicon glyphicon-plus"></span>
+                <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#addUser">
+                    <span class="glyphicon glyphicon-plus"></span>
                 </button>
-
-
             </div>
-
         </div>
     </div>
-
     <!-- Modal -->
     <div id="addUser" class="modal fade" role="dialog">
         <div class="modal-dialog">
-
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
@@ -133,8 +124,6 @@
                             <input type="password" name="passwordAgain" class="form-control" id="inputPasswordAgain"
                                    placeholder="*********" required>
                         </div>
-
-
                         <div class="form-group">
                             <label for="role">Role</label>
                             <div class="checkbox">
@@ -154,28 +143,18 @@
                                 </select>
                             </div>
                         </div>
-
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
                 </div>
-
                 <div class="modal-footer">
-
-
                 </div>
-
             </div>
-
         </div>
     </div>
-
-
     <div class="col-md-7 ">
-
         <div class="panel panel-default">
             <div class="panel-heading"><h4>User</h4></div>
             <div class="panel-body">
-
                 <div class="box box-info">
                     <form id="userForm">
                         <div class="form-group">
@@ -184,30 +163,22 @@
                         </div>
                         <div class="form-group">
                             <label for="userName">Name</label>
-
                             <input id="userName" name="userName" class="form-control user" type="text" disabled="true">
                         </div>
                         <div class="form-group">
-
                             <label for="userEmail">Email</label>
-
-                            <input id="userEmail" class="form-control" type="text" disabled="true">
+                            <input id="userEmail" class="form-control user" type="text" disabled="true">
                         </div>
                         <div class="form-group">
                             <label for="userLoginID">Login ID</label>
-
                             <input id="userLoginID" name="userLoginID" class="form-control user" type="text"
                                    disabled="true">
                         </div>
-
                         <div class="form-group">
-
                             <label for="userPassword">Password</label>
-
-                            <input id="userPassword" class="form-control" type="password" disabled="true">
+                            <input id="userPassword" class="form-control user" type="password" disabled="true">
                         </div>
                         <label>Roles</label>
-
                         <div class="checkbox">
                             <label><input id="checkboxAdmin" type="checkbox" value="Sysadmin" class="user" disabled>Sysadmin</label>
                         </div>
@@ -217,7 +188,6 @@
                         <div class="checkbox">
                             <label><input id="checkboxHSA" type="checkbox" value="HSA" class="user" disabled>HSA</label>
                         </div>
-
                     </form>
                 </div>
             </div>
@@ -226,28 +196,18 @@
                             class="glyphicon glyphicon-pencil"></span></button>
                 <button class="btn btn-space btn-success btn-edit btn-lg" onclick="saveUser()" disabled="true"><span
                             class="glyphicon glyphicon-ok"></span></button>
-
-
                 <!-- Trigger the modal with a button -->
                 <button type="button" class="btn btn-space btn-danger btn-lg" data-toggle="modal"
                         data-target="#removeUser"
                         disabled="true"><span class="glyphicon glyphicon-trash"></span>
-
                 </button>
-
-
             </div>
-
-
         </div>
-
-
     </div>
     <!-- Dialog Modal --->
     <!-- Modal -->
     <div id="removeUser" class="modal fade" role="dialog">
         <div class="modal-dialog">
-
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
@@ -266,14 +226,8 @@
                     <button type="button" class="btn btn-info" data-dismiss="modal">No</button>
                 </div>
             </div>
-
         </div>
-
     </div>
-
-</div>
-</div>
-
 </div>
 <script>
     function fetchUsers() {
@@ -323,7 +277,7 @@
                 $('#userName').val(result.name);
                 $('#userEmail').val(result.email);
                 $('#userLoginID').val(result.login_id);
-                $('#userPassword').val(result.password);
+                $('#userPassword').val("");
 
                 if (result.hsa_flag === 1) {
                     $("#checkboxHSA").prop("checked", true);
@@ -347,7 +301,6 @@
                 showError(status.message);
             }
         });
-
     });
     $(document).on("click", "#usersTable tr:not(:first-child)", function () {
         var $this = $(this);
@@ -368,7 +321,7 @@
                 $('#userName').val(result.name);
                 $('#userEmail').val(result.email);
                 $('#userLoginID').val(result.login_id);
-                $('#userPassword').val(result.password);
+                $('#userPassword').val("");
 
                 if (result.hsa_flag === 1) {
                     $("#checkboxHSA").prop("checked", true);
@@ -391,7 +344,6 @@
                 showError(status.message);
             }
         });
-
     });
 
     function unlockFields() {
@@ -426,9 +378,11 @@
             type: "POST",
             url: "/users/updateUser",
             data: {
+                ID: $('#userId').val(),
                 userName: $('#userName').val(),
                 userRole: $('#userRole').val(),
                 userLoginID: $('#userLoginID').val(),
+                password: $('#userPassword').val(),
                 heFlag: heFlag,
                 hsaFlag: hsaFlag,
                 adminFlag: adminFlag,
@@ -440,13 +394,11 @@
                 } else {
                     showError(result.message);
                 }
-
             },
             error: function (xhr, status, error) {
                 showError(status.message);
             }
         });
-
     }
 
     function removeUser() {
@@ -472,7 +424,6 @@
                 showError(status.message);
             }
         });
-
     }
 
     $('#registerUserForm').submit(function (e) {
@@ -518,6 +469,7 @@
             showError("Passwords doesn't match");
         }
     });
+
     $("#usersTable tr:not(:first-child)").click(function () {
         var selected = $(this).hasClass("highlight");
         $("#usersTable tr").removeClass("highlight");
@@ -526,7 +478,6 @@
     });
 
     $(document).ready(function () {
-
         $(document).ready(function () {
             var date_input = $('input[id="inputDateOfBirth"]'); //our date input has the name "date"
             var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
@@ -537,7 +488,6 @@
                 autoclose: true,
             });
         });
-
         $.ajax({
             method: 'post',
             url: '/healthFacilities/getHealthFacilities',
@@ -552,7 +502,6 @@
             }
         });
     });
-
 </script>
 </body>
 </html>

@@ -9,7 +9,6 @@ const Patient = require('../models/Patient');
 const AMEDUser = require('../models/AMEDUser.js');
 const sessionChecker = require('../scripts/sessionChecker.js');
 
-
 /*
     Fetches all data for a visit and renders the visit view with that data
 */
@@ -84,8 +83,6 @@ router.post("/addVisit", sessionChecker, function (req, res) {
             user_id: req.session.user.ID,
             timestamp: Date.now()
         }).then(function (visit) {
-            console.log(req.body);
-            console.log(req.body.diagnoses + "hejsan");
             var diagnoses = JSON.parse(req.body.diagnoses)
             console.log(diagnoses);
             for (i = 0; i < diagnoses.length; i++) {
