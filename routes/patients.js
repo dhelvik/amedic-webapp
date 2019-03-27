@@ -140,7 +140,7 @@ router.get('/:id', sessionChecker, function (req, res) {
             {
                 where: {patient_id: patient.ID}, include: [{model: AMEDUser}, {model: Diagnosis}]
             }).then(visits => {
-            res.render('records', {
+            res.render('patient', {
                 patient: patient,
                 visits: visits
             });
