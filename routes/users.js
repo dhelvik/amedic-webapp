@@ -114,6 +114,7 @@ router.post('/updateUser', sessionCheckerAdmin, function (req, res) {
         user.health_expert_flag = req.body.heFlag;
         user.admin_flag = req.body.adminFlag;
         user.login_id = req.body.userLoginID;
+        user.email = req.body.email;
         if(req.body.password !== ""){
             user.password = req.body.password;
             user.hashPassword();

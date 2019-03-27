@@ -243,12 +243,15 @@
                 } else {
                     $('#usersTable tbody').empty();
                     $('#usersTable tbody').append('<tr>\n' +
-                        '   <th>ID</th> ' +
+                        '            <th>ID</th> ' +
                         '            <th>Name</th>\n' +
                         '            <th>LoginID</th>\n' +
                         '</tr>')
                     for (var i = 0; i < result.length; i++) {
-                        $('#usersTable tbody').append('<tr><td>' + result[i].ID + '<td>' + result[i].name + '</td><td>' + result[i].login_id + '</td></tr>');
+                        $('#usersTable tbody').append('<tr><td>' +
+                            result[i].ID + '<td>' +
+                            result[i].name + '</td><td>' +
+                            result[i].login_id + '</td></tr>');
                     }
                 }
             },
@@ -380,6 +383,7 @@
             data: {
                 ID: $('#userId').val(),
                 userName: $('#userName').val(),
+                email: $('#userEmail').val(),
                 userRole: $('#userRole').val(),
                 userLoginID: $('#userLoginID').val(),
                 password: $('#userPassword').val(),
