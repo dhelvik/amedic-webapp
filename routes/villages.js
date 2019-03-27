@@ -5,6 +5,9 @@ const sessionCheckerAdmin = require('../scripts/sessionCheckerAdmin.js');
 const sessionChecker = require('../scripts/sessionChecker.js');
 const Sequelize = require('sequelize');
 
+/*
+    Returns all villages for a specific district
+*/
 router.post('/findVillages',sessionChecker, function(req, res) {
     Village.findAll({
         where: {district_name: req.body.districtName},
@@ -18,12 +21,13 @@ router.post('/findVillages',sessionChecker, function(req, res) {
         });
     });
 });
-
+/*
+    Adds a new village for a specific district, returns an error if the village already exists
+*/
 router.post('/addVillage',sessionCheckerAdmin, function(req, res) {
     const newVillage = Village.create({
         name: req.body.villageName,
         district_name: req.body.districtName
-
     }).then(function(item){
         console.log(newVillage);
         res.json({
@@ -45,7 +49,9 @@ router.post('/addVillage',sessionCheckerAdmin, function(req, res) {
         });
     });
 });
-
+/*
+    Removes a village with a specific name, returns an error if there still are connections to that village
+*/
 router.post('/removeVillage',sessionCheckerAdmin, function(req,res){
     const name = req.body.name;
     Village.destroy({
@@ -69,7 +75,9 @@ router.post('/removeVillage',sessionCheckerAdmin, function(req,res){
         });
     });
 });
-
+/*
+    Returns all villages
+*/
 router.post('/getVillages',sessionCheckerAdmin, function(req, res){
     Village.findAll().then(result=>{
         res.send(result);

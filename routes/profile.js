@@ -4,9 +4,9 @@ const AMEDUser = require('../models/AMEDUser');
 const sessionChecker = require('../scripts/sessionChecker.js');
 const bcrypt = require('bcryptjs');
 
-
-//Gets all users and routes to /user
-
+/*
+    Default route for user profile, redirects to login if no user is logged in
+*/
 router.get('/', sessionChecker, function (req, res) {
     if (req.session.user) {
         res.render('userProfile')
@@ -15,8 +15,10 @@ router.get('/', sessionChecker, function (req, res) {
     )
 
 });
-//Ajax request update user
 
+/*
+    Updates the logged in user
+*/
 router.post('/updateUser', sessionChecker, function (req, res) {
     AMEDUser.update({
             name: req.body.name,
@@ -42,7 +44,9 @@ router.post('/updateUser', sessionChecker, function (req, res) {
 
     });
 });
-
+/*
+    Updates the logged in users password
+*/
 router.post('/updateUserPassword', sessionChecker, function (req, res) {
     if (bcrypt.compareSync(req.body.oldPassword, req.session.user.password)) {
         AMEDUser.findOne({

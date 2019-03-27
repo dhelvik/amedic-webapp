@@ -5,12 +5,16 @@ const Village = require('../models/Village');
 const sessionChecker = require('../scripts/sessionChecker.js');
 const sessionCheckerAdmin = require('../scripts/sessionCheckerAdmin.js');
 const Sequelize = require('sequelize');
-
+/*
+    Default route for districts
+ */
 router.get('/', sessionCheckerAdmin, (req, res) =>
-        res.render('districts')
+        res.render('editDistricts')
     );
-
-router.get('/getDistricts', sessionChecker, (req, res) =>
+/*
+    Returns all districts
+ */
+router.post('/getDistricts', sessionChecker, (req, res) =>
     District.findAll().then(result => {
         res.send(result);
     }).catch(function(err){
@@ -21,7 +25,9 @@ router.get('/getDistricts', sessionChecker, (req, res) =>
         });
     })
 );
-
+/*
+    Adds a new district
+ */
 router.post('/addDistrict', sessionCheckerAdmin, function(req, res) {
     const newDistrict = District.create({
         name: req.body.name

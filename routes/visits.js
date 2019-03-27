@@ -10,7 +10,9 @@ const AMEDUser = require('../models/AMEDUser.js');
 const sessionChecker = require('../scripts/sessionChecker.js');
 
 
-//TEST AV NY SIDA
+/*
+    Fetches all data for a visit and renders the visit view with that data
+*/
 router.get('/:id', sessionChecker, function (req, res) {
     Visit.findOne(
         {
@@ -30,7 +32,9 @@ router.get('/:id', sessionChecker, function (req, res) {
 
 
 });
-
+/*
+    Adds a note to a visit
+*/
 router.post('/addNote', sessionChecker, function (req, res) {
     if (req.session.user) {
         console.log(req.body);
@@ -62,13 +66,17 @@ router.post('/addNote', sessionChecker, function (req, res) {
         });
     }
 });
-//get all Diagnoses
+/*
+    Returns all diagnoses
+*/
 router.post('/getDiagnoses', sessionChecker, (req, res) =>
     Diagnosis.findAll().then(result => {
         res.send(result);
     })
 );
-//addVisit
+/*
+    Adds a new visit
+*/
 router.post("/addVisit", sessionChecker, function (req, res) {
     if (req.session.user) {
         const visit = Visit.create({

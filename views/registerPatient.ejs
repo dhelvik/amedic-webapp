@@ -104,7 +104,7 @@
 <script>
     $(document).ready(function () {
         $.ajax({
-            type: "GET",
+            type: "POST",
             url: "/districts/getDistricts",
             success: function (result) {
                 const districtsDropDown = $("#districtsDropdown");

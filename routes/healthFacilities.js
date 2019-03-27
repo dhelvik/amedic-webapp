@@ -1,19 +1,21 @@
 const express = require ('express');
 const router = express.Router();
 const HealthFacility = require('../models/HealthFacility');
-const Village = require('../models/Village');
 const sessionCheckerAdmin = require('../scripts/sessionCheckerAdmin.js');
-const Sequelize = require('sequelize');
 
-
+/*
+    Default route for health facilities admin page
+ */
 router.get('/',sessionCheckerAdmin, function(req, res){
     HealthFacility.findAll().then(result=>{
-        res.render('showHealthFacility', {
+        res.render('editHealthFacilities', {
             result: result
         });
     })
 });
-
+/*
+    Registers a new Health Facility
+ */
 router.post('/registerHealthFacility',sessionCheckerAdmin, function(req, res){
     console.log(req.body.villageName);
     const healthFacility = HealthFacility.create({
@@ -37,12 +39,12 @@ router.post('/registerHealthFacility',sessionCheckerAdmin, function(req, res){
             message: "Database error",
             error : err,
             status : 500
-
         });
     });
-
-
 });
+/*
+    Returns all Health Facilities
+ */
 router.post('/getHealthFacilities',sessionCheckerAdmin, function(req, res){
     HealthFacility.findAll().then(result=>{
         res.send(result);
@@ -57,7 +59,9 @@ router.post('/getHealthFacilities',sessionCheckerAdmin, function(req, res){
 
 });
 
-//Ajax request to find HealthFacility like
+/*
+    Returns Health Facilities that matches the searchText
+ */
 router.post('/findHFSLike', function (req, res) {
     HealthFacility.findAll({
         where: {
@@ -80,8 +84,9 @@ router.post('/findHFSLike', function (req, res) {
         });
     });
 });
-
-//Ajax request to find Health Facility
+/*
+    Returns a Health Facility that matches a specific ID
+ */
 router.post('/findHealthFacility', function (req, res) {
     HealthFacility.findOne({
         where: {
@@ -97,8 +102,9 @@ router.post('/findHealthFacility', function (req, res) {
         });
     });
 });
-
-//Ajax request to delete user
+/*
+    Removes a Health Facility with a specific ID
+ */
 router.post('/removeHealthFacility', function(req, res){
     HealthFacility.destroy({
         where: {name: req.body.id}

@@ -2,8 +2,10 @@ const express = require('express');
 const router = express.Router();
 const sessionChecker = require('../scripts/sessionChecker.js');
 
-//Index
+/*
+    Routes the default page to searchPatient
+ */
 router.get('/', sessionChecker, function(req, res){
-    res.render('showPatient');
+    res.render('searchPatient');
 });
 module.exports=router;

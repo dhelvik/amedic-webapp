@@ -1,17 +1,21 @@
+/*
+    Work in progress for users to reset password through mail, needs a proper smtp server etc.
+ */
 const express = require('express');
 const router = express.Router();
 const AMEDUser = require('../models/AMEDUser');
-var bcrypt = require('bcryptjs');
-var cookieParser = require('cookie-parser');
-var session = require('express-session');
 var jwt = require('jwt-simple');
 const nodemailer = require("nodemailer");
 
-
+/*
+    Default route for forgot password
+ */
 router.get('/', (req, res) => {
     res.render('forgot');
-})
-
+});
+/*
+    Sends an email with a reset link, needs a working smtp server to work
+ */
 router.post('/', (req, res) => {
     AMEDUser.findOne({
         where: {
@@ -19,11 +23,9 @@ router.post('/', (req, res) => {
         }
     }).then(user => {
         if (!user) {
-
             res.render('forgot', {
                 message: 'No user with that email exists'
             });
-
             return;
         }
         var payload = {
@@ -36,12 +38,8 @@ router.post('/', (req, res) => {
 
         console.log(token);
         console.log(jwt.decode(token, secret));
-
-
         async function main() {
-
             let account = await nodemailer.createTestAccount();
-
             // create reusable transporter object using the default SMTP transport
             let transporter = nodemailer.createTransport({
                 host: "smtp.ethereal.email",
@@ -72,23 +70,20 @@ router.post('/', (req, res) => {
             // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
             // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
         }
-
         main();
         res.render('forgot', {
             message: 'Password reset mail sent'
         })
-
     }).catch(err => {
         res.send({
             error: err,
-
         });
     });
 });
-
+/*
+    Reset password page based on the reset link sent in the email.
+ */
 router.get('/:id/:token', (req, res) => {
-
-
     AMEDUser.findOne({
         where: {
             ID: req.params.id,
@@ -104,24 +99,18 @@ router.get('/:id/:token', (req, res) => {
             {
                 id: payload.userId,
                 token: req.params.token
-
             });
-
     }).catch((err) => {
         res.send({
             error: err,
             message: 'Reset link expired'
-
-
         });
     });
-
-    });
-
-
-
+});
+/*
+    Resets the password
+ */
 router.post('/resetPassword', (req, res) => {
-
     AMEDUser.findOne({
         where: {
             ID: req.body.id
@@ -140,8 +129,6 @@ router.post('/resetPassword', (req, res) => {
             error: err,
             status: 500
         });
-
-
     });
 });
 

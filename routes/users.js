@@ -2,25 +2,21 @@ const express = require('express');
 const router = express.Router();
 const AMEDUser = require('../models/AMEDUser');
 const sessionCheckerAdmin = require('../scripts/sessionCheckerAdmin.js');
-const Sequelize = require('sequelize');
 
-//Gets all users and routes to /user
-
+/*
+    Default route for the edit user page, renders it with all users prefetched
+*/
 router.get('/', sessionCheckerAdmin, (req, res) =>
-
     AMEDUser.findAll().then(result => {
-        res.render('showUsers', {
+        res.render('editUsers', {
             result
         })
     })
-)
-//Routes to users/register
-router.get('/register', sessionCheckerAdmin, function (req, res) {
-    res.render('registerUser');
-});
+);
 
-
-//Ajax Request to register AMEDUser
+/*
+    Registers a new AMED user, returns an error if the user already exists
+*/
 router.post('/register', sessionCheckerAdmin, function (req, res) {
     var user = AMEDUser.create({
         name: req.body.name,
@@ -47,7 +43,7 @@ router.post('/register', sessionCheckerAdmin, function (req, res) {
             status: 400
         });
     }).catch(function (err) {
-        console.log(err)
+        console.log(err);
         res.json({
             error: err,
             status: 500,
@@ -56,7 +52,9 @@ router.post('/register', sessionCheckerAdmin, function (req, res) {
     });
 });
 
-//Ajax request to find AMEDUser like
+/*
+    Returns users that matches the searchtext
+*/
 router.post('/findUserLike', sessionCheckerAdmin, function (req, res) {
     AMEDUser.findAll({
         where: {
@@ -81,7 +79,9 @@ router.post('/findUserLike', sessionCheckerAdmin, function (req, res) {
     });
 });
 
-//Ajax request to find User Profile
+/*
+    Returns a user with a specific ID
+*/
 router.post('/findUser', sessionCheckerAdmin, function (req, res) {
     AMEDUser.findOne({
         where: {
@@ -98,8 +98,9 @@ router.post('/findUser', sessionCheckerAdmin, function (req, res) {
     });
 });
 
-//Ajax request update user
-
+/*
+    Updates a user with a specific login_id
+*/
 router.post('/updateUser', sessionCheckerAdmin, function (req, res) {
     console.log(req.body.userName + req.body.userRole);
     AMEDUser.update({
@@ -129,8 +130,9 @@ router.post('/updateUser', sessionCheckerAdmin, function (req, res) {
     });
 });
 
-//Ajax request to delete user
-
+/*
+    Removes a user with a specific id
+*/
 router.post('/removeUser', sessionCheckerAdmin, function (req, res) {
     AMEDUser.destroy({
         where: {id: req.body.id}

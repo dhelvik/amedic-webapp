@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<% include head.ejs %>
+<style>
+    tr:hover {
+        background-color: #ddd;
+    }
+</style>
+<body>
+<div class="container">
+    <% include nav.ejs %>
+        <div id="main-content">
+        <div class="input-group">
+            <input type="number" class="form-control" placeholder="National ID" id="searchText"/>
+            <div class="input-group-btn">
+                <button class="btn btn-primary" type="submit" id="searchButton">
+                    <span class="glyphicon glyphicon-search"></span>
+                </button>
+            </div>
+        </div>
+        <table id='patientTable' class="table table-striped">
+            <tr>
+
+            </tr>
+
+        </table>
+    </div>
+</div>
+</div>
+
+<script>
+    $(document).on("dblclick", "#patientTable tr:not(:first-child)", function () {
+        var $this = $(this);
+        var row = $this.closest("tr");
+        var id = row.find('td:nth(2)').text();
+        var requestSite = '/patients/' + id;
+        window.location.href = requestSite;
+    });
+
+    function findPatient(id) {
+        $.ajax({
+            type: "POST",
+            url: "/patients",
+            data: {
+                id: id
+            },
+            success: function (patient) {
+                var patientTable = $('#patientTable tbody');
+                if (!patient) {
+                    patientTable.empty();
+                    showError("No patient found with given National ID");
+                } else {
+                    patientTable.empty();
+                    patientTable.append('<tr>' +
+                        '            <th>ID</th>' +
+                        '            <th>Name</th>' +
+                        '            <th>National ID</th>' +
+                        '            <th>Mobile No</th>' +
+                        '            <th>Sex</th>' +
+                        '            <th>Village Name</th>' +
+                        '            <th>Date Of Birth</th>' +
+                        '            </tr>')
+                    var string = '<tr><td>' + patient.ID + '</td>' +
+                        '<td class="editable">' + patient.name + '</td>' +
+                        '<td class="editable">' + patient.national_id + '</td>' +
+                        '<td class="editable">' + patient.mobile_no + '</td>' +
+                        '<td class="editable">' + patient.sex + '</td>' +
+                        '<td class="editable">' + patient.village_name + '</td>' +
+                        '</td><td class="editable">' + patient.date_of_birth + '</td></tr>';
+                    patientTable.append(string);
+                }
+
+            },
+            error: function (xhr, status, error) {
+                showError(status.message);
+            }
+        });
+
+    }
+
+    $(document).on('click', '#searchButton', function () {
+        var id = $('#searchText').val();
+        if (id !== '') {
+            findPatient(id);
+        }
+    });
+
+    $(document).keypress(function (e) {
+        if (e.which === 13) {
+            var id = $('#searchText').val();
+            if (id !== '') {
+                findPatient(id);
+            }
+        }
+    });
+
+</script>
+</body>
+</html>

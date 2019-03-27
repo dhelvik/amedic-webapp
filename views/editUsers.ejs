@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<% include head.ejs %>
+<body>
+<style>
+    tr:not(:first-child):hover {
+        background-color: #ddd;
+    }
+
+    .table-wrapper-scroll-y {
+        display: block;
+        max-height: 500px;
+        overflow-y: auto;
+        -ms-overflow-style: -ms-autohiding-scrollbar;
+    }
+
+    .btn-space {
+        margin-right: 1em;
+    }
+
+    .panel-body {
+        min-height: 550px;
+    }
+
+    .highlight {
+        background-color: #aaa;
+    }
+
+</style>
+<div class="container">
+    <% include adminNav.ejs %>
+
+    <div class="col-md-5">
+
+        <div class="panel panel-default">
+            <div class="panel-heading"><h4>Search</h4></div>
+            <div class="panel-body">
+
+                <div class="box box-info">
+
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Name or LoginID" id="searchText"
+                               onkeyup="fetchUsers()"/>
+                        <div class="input-group-btn">
+                            <button class="btn btn-primary" type="submit" id="searchButton">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="table-wrapper-scroll-y">
+
+                        <table id="usersTable" class="table">
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>LoginID</th>
+
+
+                            </tr>
+                            <% for (var i = 0; i < result.length;i++){ %>
+                                <tr>
+                                    <td><%= result[i].ID %></td>
+                                    <td><%= result[i].name %></td>
+                                    <td><%= result[i].login_id %></td>
+                                </tr>
+
+                            <% } %>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+
+                <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#addUser"><span
+                            class="glyphicon glyphicon-plus"></span>
+                </button>
+
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="addUser" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Add User</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="registerUserForm">
+                        <div class="form-group">
+                            <label for="inputName">Name <span class="colorChange">*</span> </label>
+                            <input class="form-control" name="name" id="inputName" placeholder="Name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputNationalID">National ID <span class="colorChange">*</span></label>
+                            <input class="form-control" name="nationalID" id="inputNationalID" placeholder="National ID"
+                                   required>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputDateOfBirth">Date of Birth <span class="colorChange">*</span></label>
+                            <input class="form-control" name="dateOfBirth" id="inputDateOfBirth"
+                                   placeholder="Date of birth"
+                                   required>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputMobileNo">Mobile No <span class="colorChange">*</span></label>
+                            <input class="form-control" name="mobileNo" id="inputMobileNo" placeholder="Mobile No"
+                                   required>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputUsername">Login ID <span class="colorChange">*</span></label>
+                            <input class="form-control" name="loginID" id="inputLoginID" placeholder="Login ID"
+                                   required>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputEmail">Email <span class="colorChange">*</span></label>
+                            <input type="email" name="email" class="form-control" id="inputEmail"
+                                   placeholder="test@gmail.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPassword">Password <span class="colorChange">*</span></label>
+                            <input type="password" name="password" class="form-control" id="inputPassword"
+                                   placeholder="*********" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPassword">Password again <span class="colorChange">*</span></label>
+                            <input type="password" name="passwordAgain" class="form-control" id="inputPasswordAgain"
+                                   placeholder="*********" required>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="role">Role</label>
+                            <div class="checkbox">
+                                <label><input id="checkboxRegisterAdmin" type="checkbox"
+                                              value="Sysadmin">Sysadmin</label>
+                            </div>
+                            <div class="checkbox">
+                                <label><input id="checkboxRegisterHE" type="checkbox" value="HE">HE</label>
+                            </div>
+                            <div class="checkbox">
+                                <label><input id="checkboxRegisterHSA" type="checkbox" value="HSA">HSA</label>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputPassword">Health Facility <span class="colorChange">*</span></label>
+                                <select name="healthFacility" class="form-control" id="inputHealthFacility"
+                                        required>
+                                </select>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="col-md-7 ">
+
+        <div class="panel panel-default">
+            <div class="panel-heading"><h4>User</h4></div>
+            <div class="panel-body">
+
+                <div class="box box-info">
+                    <form id="userForm">
+                        <div class="form-group">
+                            <label for="userId">ID</label>
+                            <input id="userId" class="form-control" type="text" disabled="true">
+                        </div>
+                        <div class="form-group">
+                            <label for="userName">Name</label>
+
+                            <input id="userName" name="userName" class="form-control user" type="text" disabled="true">
+                        </div>
+                        <div class="form-group">
+
+                            <label for="userEmail">Email</label>
+
+                            <input id="userEmail" class="form-control" type="text" disabled="true">
+                        </div>
+                        <div class="form-group">
+                            <label for="userLoginID">Login ID</label>
+
+                            <input id="userLoginID" name="userLoginID" class="form-control user" type="text"
+                                   disabled="true">
+                        </div>
+
+                        <div class="form-group">
+
+                            <label for="userPassword">Password</label>
+
+                            <input id="userPassword" class="form-control" type="password" disabled="true">
+                        </div>
+                        <label>Roles</label>
+
+                        <div class="checkbox">
+                            <label><input id="checkboxAdmin" type="checkbox" value="Sysadmin" class="user" disabled>Sysadmin</label>
+                        </div>
+                        <div class="checkbox">
+                            <label><input id="checkboxHE" type="checkbox" value="HE" class="user" disabled>HE</label>
+                        </div>
+                        <div class="checkbox">
+                            <label><input id="checkboxHSA" type="checkbox" value="HSA" class="user" disabled>HSA</label>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <button class="btn btn-space btn-info btn-lg" onclick="unlockFields()" disabled="true"><span
+                            class="glyphicon glyphicon-pencil"></span></button>
+                <button class="btn btn-space btn-success btn-edit btn-lg" onclick="saveUser()" disabled="true"><span
+                            class="glyphicon glyphicon-ok"></span></button>
+
+
+                <!-- Trigger the modal with a button -->
+                <button type="button" class="btn btn-space btn-danger btn-lg" data-toggle="modal"
+                        data-target="#removeUser"
+                        disabled="true"><span class="glyphicon glyphicon-trash"></span>
+
+                </button>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+    <!-- Dialog Modal --->
+    <!-- Modal -->
+    <div id="removeUser" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Delete User!</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        <span id="textChange"> <b>Are you sure you want to delete the selected user? </b></span>
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" onclick="removeUser()" class="btn btn-danger"
+                            data-dismiss="modal">Yes
+                    </button>
+                    <button type="button" class="btn btn-info" data-dismiss="modal">No</button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+</div>
+
+</div>
+<script>
+    function fetchUsers() {
+        var searchText = $('#searchText').val();
+        $.ajax({
+            type: "POST",
+            url: "/users/findUserLike",
+            data: {
+                searchText: searchText
+            },
+            success: function (result) {
+                if (!$.trim(result)) {
+                } else {
+                    $('#usersTable tbody').empty();
+                    $('#usersTable tbody').append('<tr>\n' +
+                        '   <th>ID</th> ' +
+                        '            <th>Name</th>\n' +
+                        '            <th>LoginID</th>\n' +
+                        '</tr>')
+                    for (var i = 0; i < result.length; i++) {
+                        $('#usersTable tbody').append('<tr><td>' + result[i].ID + '<td>' + result[i].name + '</td><td>' + result[i].login_id + '</td></tr>');
+                    }
+                }
+            },
+            error: function (xhr, status, error) {
+                showError(status.message);
+            }
+        });
+    }
+
+    $(document).on("click", "#usersTable tr:not(:first)", function () {
+        var $this = $(this);
+        var row = $this.closest("tr");
+        var id = row.find('td:first').text();
+
+        $(".user").prop('disabled', true);
+        $(".btn-info").prop('disabled', false);
+        $(".btn-danger").prop('disabled', false);
+        $.ajax({
+            type: "POST",
+            url: "/users/findUser",
+            data: {
+                id: id
+            },
+            success: function (result) {
+                $('#userId').val(result.ID);
+                $('#userName').val(result.name);
+                $('#userEmail').val(result.email);
+                $('#userLoginID').val(result.login_id);
+                $('#userPassword').val(result.password);
+
+                if (result.hsa_flag === 1) {
+                    $("#checkboxHSA").prop("checked", true);
+                } else {
+                    $("#checkboxHSA").prop("checked", false);
+                }
+                if (result.health_expert_flag === 1) {
+                    $("#checkboxHE").prop("checked", true);
+                } else {
+                    $("#checkboxHE").prop("checked", false);
+                }
+                if (result.admin_flag === 1) {
+                    $("#checkboxAdmin").prop("checked", true);
+                } else {
+                    $("#checkboxAdmin").prop("checked", false);
+                }
+
+                $('#userLastLogin').val(result.lastLogin);
+            },
+            error: function (xhr, status, error) {
+                showError(status.message);
+            }
+        });
+
+    });
+    $(document).on("click", "#usersTable tr:not(:first-child)", function () {
+        var $this = $(this);
+        var row = $this.closest("tr");
+        var id = row.find('td:first').text();
+
+        $(".user").prop('disabled', true);
+        $(".btn-info").prop('disabled', false);
+        $(".btn-danger").prop('disabled', false);
+        $.ajax({
+            type: "POST",
+            url: "/users/findUser",
+            data: {
+                id: id
+            },
+            success: function (result) {
+                $('#userId').val(result.ID);
+                $('#userName').val(result.name);
+                $('#userEmail').val(result.email);
+                $('#userLoginID').val(result.login_id);
+                $('#userPassword').val(result.password);
+
+                if (result.hsa_flag === 1) {
+                    $("#checkboxHSA").prop("checked", true);
+                } else {
+                    $("#checkboxHSA").prop("checked", false);
+                }
+                if (result.health_expert_flag === 1) {
+                    $("#checkboxHE").prop("checked", true);
+                } else {
+                    $("#checkboxHE").prop("checked", false);
+                }
+                if (result.admin_flag === 1) {
+                    $("#checkboxAdmin").prop("checked", true);
+                } else {
+                    $("#checkboxAdmin").prop("checked", false);
+                }
+                $('#userLastLogin').val(result.lastLogin);
+            },
+            error: function (xhr, status, error) {
+                showError(status.message);
+            }
+        });
+
+    });
+
+    function unlockFields() {
+        if ($('#userLoginID').val() !== "") {
+            $(".user").prop('disabled', false);
+            $(".btn-edit").prop('disabled', false);
+            $(".btn-info").prop('disabled', true);
+        }
+    }
+
+    function saveUser() {
+        $(".user").prop('disabled', true);
+        $(".btn-edit").prop('disabled', true);
+        $(".btn-info").prop('disabled', false);
+
+        if ($('#checkboxHE').is(':checked')) {
+            var heFlag = 1;
+        } else {
+            heFlag = 0;
+        }
+        if ($('#checkboxHSA').is(':checked')) {
+            var hsaFlag = 1;
+        } else {
+            hsaFlag = 0;
+        }
+        if ($('#checkboxAdmin').is(':checked')) {
+            var adminFlag = 1;
+        } else {
+            adminFlag = 0;
+        }
+        $.ajax({
+            type: "POST",
+            url: "/users/updateUser",
+            data: {
+                userName: $('#userName').val(),
+                userRole: $('#userRole').val(),
+                userLoginID: $('#userLoginID').val(),
+                heFlag: heFlag,
+                hsaFlag: hsaFlag,
+                adminFlag: adminFlag,
+            },
+            success: function (result) {
+                if (result.status === 200) {
+                    showSuccess(result.message);
+                    fetchUsers();
+                } else {
+                    showError(result.message);
+                }
+
+            },
+            error: function (xhr, status, error) {
+                showError(status.message);
+            }
+        });
+
+    }
+
+    function removeUser() {
+        var id = $('#userId').val();
+
+        $('.btn-danger').prop('disabled', false);
+        $.ajax({
+            method: "POST",
+            url: "/users/removeUser",
+            data: {
+                id: id
+            },
+            success: function (result) {
+                if (result.status === 200) {
+                    $('#textChange').text("User deleted");
+                    showSuccess(result.message);
+                    fetchUsers();
+                } else {
+                    showError(result.message);
+                }
+            },
+            error: function (xhr, status, error) {
+                showError(status.message);
+            }
+        });
+
+    }
+
+    $('#registerUserForm').submit(function (e) {
+        e.preventDefault();
+        if ($('#inputPassword').val() === $('#inputPasswordAgain').val()) {
+            if ($('#checkboxRegisterHE').is(':checked')) {
+                var heFlag = 1;
+            } else {
+                heFlag = 0;
+            }
+            if ($('#checkboxRegisterHSA').is(':checked')) {
+                var hsaFlag = 1;
+            } else {
+                hsaFlag = 0;
+            }
+            if ($('#checkboxRegisterAdmin').is(':checked')) {
+                var adminFlag = 1;
+            } else {
+                adminFlag = 0;
+            }
+            $.ajax({
+                method: 'post',
+                url: '/users/register',
+                data:
+                    $('#registerUserForm').serialize() + "&hsaFlag=" + hsaFlag + "&heFlag=" + heFlag + "&adminFlag=" + adminFlag,
+                dataType: 'json',
+                success: function (result) {
+                    if (result.status === 200) {
+                        showSuccess(result.message);
+                        $("#registerUserForm")[0].reset();
+                        $('#addUser').modal('hide');
+                        fetchUsers();
+
+                    } else {
+                        showError(result.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    showError(status.message);
+                }
+            });
+        } else {
+            showError("Passwords doesn't match");
+        }
+    });
+    $("#usersTable tr:not(:first-child)").click(function () {
+        var selected = $(this).hasClass("highlight");
+        $("#usersTable tr").removeClass("highlight");
+        if (!selected)
+            $(this).addClass("highlight");
+    });
+
+    $(document).ready(function () {
+
+        $(document).ready(function () {
+            var date_input = $('input[id="inputDateOfBirth"]'); //our date input has the name "date"
+            var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
+            date_input.datepicker({
+                format: 'mm/dd/yyyy',
+                container: container,
+                todayHighlight: true,
+                autoclose: true,
+            });
+        });
+
+        $.ajax({
+            method: 'post',
+            url: '/healthFacilities/getHealthFacilities',
+            dataType: 'json',
+            success: function (result) {
+                for (var i = 0; i < result.length; i++) {
+                    $('#inputHealthFacility').append('<option>' + result[i].name + '</option>');
+                }
+            },
+            error: function (xhr, status, error) {
+                showError(status.message);
+            }
+        });
+    });
+
+</script>
+</body>
+</html>

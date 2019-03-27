@@ -9,16 +9,21 @@ const Caregiver = require('../models/CareGiver');
 const Caregiver_Patient = require('../models/CareGiver_Patient');
 const sessionChecker = require('../scripts/sessionChecker.js');
 const Sequelize = require('sequelize');
-
+/*
+    Default route for patient, renders the search patient view
+*/
 router.get('/', sessionChecker, (req, res) =>
-    res.render('showPatient')
+    res.render('searchPatient')
 );
-
+/*
+    Routes the register patient view
+*/
 router.get('/register', sessionChecker, (req, res) =>
     res.render('registerPatient')
 );
-
-//register patient
+/*
+    Registers a new patient from the serialized form, returns error if the patient already exists
+*/
 router.post('/register', sessionChecker, function (req, res) {
     Patient.create({
         name: req.body.name + " " + req.body.lastName,
@@ -70,13 +75,13 @@ router.post('/register', sessionChecker, function (req, res) {
     });
 });
 
-//Find specific patient
+/*
+    Finds and returns one patient based on a national ID
+*/
 router.post('/', sessionChecker, function (req, res) {
-    var result = [];
-    Patient.findOne({where: {national_id: req.body.id}}).then(Patient => {
-        if (Patient != null) {
-            result.push(Patient);
-            res.send(result);
+    Patient.findOne({where: {national_id: req.body.id}}).then(patient => {
+        if (patient != null) {
+            res.send(patient);
             res.end();
         } else {
             res.end();
@@ -90,14 +95,18 @@ router.post('/', sessionChecker, function (req, res) {
         });
     });
 });
-//Delete Patient
+/*
+    Removes a patient with a specific id
+*/
 router.post('/deletePatient', sessionChecker, function (req, res) {
     Patient.destroy({
         where: {id: req.body.id}
     })
 });
 
-//Update Patient
+/*
+    Updates a patient with a specific id
+*/
 router.post('/updatePatient', sessionChecker, function (req, res) {
     Patient.update({
             name: req.body.name,
@@ -128,7 +137,9 @@ router.post('/updatePatient', sessionChecker, function (req, res) {
     });
 });
 
-//get records
+/*
+    Fetches all data for a specific patient and renders the patient view with that data
+*/
 router.get('/:id', sessionChecker, function (req, res) {
     Patient.findOne(
         {where: {national_id: req.params.id}, include: {model: Caregiver}}).then(patient => {
@@ -156,8 +167,9 @@ router.get('/:id', sessionChecker, function (req, res) {
 });
 
 
-//Register caregiver
-
+/*
+    Registers a new caregiver for a specific patient
+*/
 router.post("/registerCaregiver", sessionChecker, function (req, res) {
     Caregiver.create({
         name: req.body.caregiverName,
@@ -182,7 +194,6 @@ router.post("/registerCaregiver", sessionChecker, function (req, res) {
             status: 500
         });
     });
-
 });
 
 module.exports = router;
