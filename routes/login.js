@@ -27,7 +27,13 @@ router.post('/', (req, res, next) => {
                 error: "Username and password does not match.",
                 status: 500
             });
-        } else {
+        } else if(!(user.health_expert_flag || user.admin_flag)){
+            console.log("Failed login from username: " + username);
+            res.json({
+                error: "User does not meet the required roles to access the system.",
+                status: 500
+            });
+        }else {
             req.session.user = user.dataValues;
             console.log(username + " logged in successfully.");
             user.update({
